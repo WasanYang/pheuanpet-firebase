@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PawPrint, User, PlayCircle, Grid, Image as ImageIcon } from 'lucide-react';
+import { PawPrint, User, PlayCircle, Grid, Image as ImageIcon, Heart, MessageCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function PetProfilePage({ params }: { params: { petId: string } }) {
@@ -81,21 +81,21 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
           </TabsList>
 
           <TabsContent value="posts">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex flex-col gap-8">
               {posts.map(post => {
                 const firstMedia = post.media[0];
                 if (!firstMedia) return null;
 
                 return (
-                  <Link href={`/posts/${post.id}`} key={post.id} className="group block h-full">
-                    <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                  <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
+                    <Link href={`/posts/${post.id}`} className="block group">
                       <div className="relative aspect-video w-full bg-muted">
                         {firstMedia.type === 'image' ? (
                           <Image
                             src={firstMedia.url}
                             alt={post.caption || `A photo of ${pet.name}`}
                             fill
-                            className="object-cover"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
                             data-ai-hint={`${pet.breed} playing`}
                           />
                         ) : (
@@ -104,15 +104,28 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                           </div>
                         )}
                       </div>
-                      <CardContent className="p-4 flex-grow">
-                        {post.caption ? (
-                          <p className="text-sm text-foreground line-clamp-2 font-medium group-hover:underline">{post.caption.split('\n')[0]}</p>
-                        ) : (
-                           <p className="text-sm text-muted-foreground italic group-hover:underline">View Post</p>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Link>
+                    </Link>
+                    <CardContent className="p-4 md:p-6">
+                      {post.caption && (
+                          <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption}</p>
+                      )}
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <div className="flex items-center gap-4 text-sm">
+                            <div className="flex items-center gap-1.5">
+                                <Heart className="h-5 w-5" />
+                                <span>{post.likes}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <MessageCircle className="h-5 w-5" />
+                                <span>{post.comments}</span>
+                            </div>
+                        </div>
+                        <Button variant="secondary" size="sm" asChild>
+                            <Link href={`/posts/${post.id}`}>View Post</Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
                 )
               })}
               {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
@@ -120,10 +133,10 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
           </TabsContent>
 
           <TabsContent value="media">
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1 sm:gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5">
               {allMedia.map((media, index) => (
                 <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
-                  <div className="relative aspect-square w-full bg-muted rounded-md overflow-hidden">
+                  <div className="relative aspect-square w-full bg-muted overflow-hidden">
                     {media.type === 'image' ? (
                       <Image
                         src={media.url}
