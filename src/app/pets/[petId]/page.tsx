@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PawPrint, User } from 'lucide-react';
+import { PawPrint, User, PlayCircle } from 'lucide-react';
 
 export default function PetProfilePage({ params }: { params: { petId: string } }) {
   const pet = getPetById(Number(params.petId));
@@ -48,26 +48,38 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
         </Card>
 
         <div className="mt-10 md:mt-12">
-          <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Photo Gallery</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4">
+          <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Gallery</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {posts.map(post => {
-              const firstImage = post.media.find(m => m.type === 'image');
-              if (!firstImage) return null;
+              const firstMedia = post.media[0];
+              if (!firstMedia) return null;
 
               return (
-                <Link href={`/posts/${post.id}`} key={post.id}>
-                  <div className="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-                    <Image
-                      src={firstImage.url}
-                      alt={post.caption || `A photo of ${pet.name}`}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={`${pet.breed} playing`}
-                    />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
-                      <p className="text-white text-center text-sm line-clamp-3">{post.caption}</p>
+                <Link href={`/posts/${post.id}`} key={post.id} className="group block h-full">
+                  <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                    <div className="relative aspect-square w-full bg-muted">
+                      {firstMedia.type === 'image' ? (
+                        <Image
+                          src={firstMedia.url}
+                          alt={post.caption || `A photo of ${pet.name}`}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={`${pet.breed} playing`}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <PlayCircle className="h-12 w-12 text-muted-foreground" />
+                        </div>
+                      )}
                     </div>
-                  </div>
+                    <CardContent className="p-3 flex-grow">
+                      {post.caption ? (
+                        <p className="text-sm text-foreground line-clamp-2 font-medium group-hover:underline">{post.caption.split('\n')[0]}</p>
+                      ) : (
+                         <p className="text-sm text-muted-foreground italic group-hover:underline">View Post</p>
+                      )}
+                    </CardContent>
+                  </Card>
                 </Link>
               )
             })}
