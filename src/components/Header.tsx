@@ -34,7 +34,7 @@ const Header = () => {
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="#" aria-label="Create Post">
+            <Link href="/create" aria-label="Create Post">
               <PlusSquare className="h-5 w-5" />
             </Link>
           </Button>
