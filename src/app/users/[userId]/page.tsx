@@ -20,18 +20,18 @@ export default function UserProfilePage({ params }: { params: { userId: string }
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-4xl py-8 px-4 animate-in fade-in duration-500">
-        <Card className="overflow-hidden shadow-lg mb-12">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <Avatar className="w-32 h-32 border-4 border-primary">
+      <main className="container mx-auto max-w-4xl py-6 sm:py-8 px-4 animate-in fade-in duration-500">
+        <Card className="overflow-hidden shadow-lg mb-8 md:mb-12">
+          <CardContent className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+              <Avatar className="w-24 h-24 md:w-32 md:h-32 border-4 border-primary">
                 <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                 <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex-grow text-center md:text-left">
-                <h1 className="font-headline text-4xl font-bold">{user.name}</h1>
+                <h1 className="font-headline text-3xl md:text-4xl font-bold">{user.name}</h1>
                 <p className="text-muted-foreground text-lg">Pet Enthusiast</p>
-                <div className="mt-4 flex justify-center md:justify-start items-center space-x-6">
+                <div className="mt-4 flex justify-center md:justify-start items-center gap-4 sm:gap-6">
                     <div className="text-center">
                         <p className="font-bold text-xl">{pets.length}</p>
                         <p className="text-sm text-muted-foreground">Pets</p>
@@ -54,8 +54,8 @@ export default function UserProfilePage({ params }: { params: { userId: string }
         </Card>
 
         <div>
-          <h2 className="font-headline text-3xl font-bold mb-6 text-center">{user.name}'s Pets</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">{user.name}'s Pets</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {pets.map(pet => (
               <Link href={`/pets/${pet.id}`} key={pet.id}>
                 <Card className="text-center overflow-hidden h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
@@ -71,7 +71,7 @@ export default function UserProfilePage({ params }: { params: { userId: string }
                     </div>
                   </CardHeader>
                   <CardContent className="p-4">
-                    <CardTitle className="font-headline text-2xl">{pet.name}</CardTitle>
+                    <CardTitle className="font-headline text-xl sm:text-2xl">{pet.name}</CardTitle>
                     <p className="text-muted-foreground">{pet.breed}</p>
                   </CardContent>
                 </Card>
