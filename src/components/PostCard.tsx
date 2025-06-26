@@ -87,7 +87,7 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
                     </Avatar>
                 </Link>
                 <div>
-                    <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">
+                     <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">
                         {pet.name}
                     </Link>
                     <p className="text-xs text-muted-foreground">by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link></p>
@@ -117,7 +117,7 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
              {post.caption && (
                 <p className="text-sm text-foreground/90">
                     <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">{pet.name}</Link>
-                    <span className="ml-1.5 line-clamp-2">{post.caption.replace(/\\n/g, ' ')}</span>
+                    <span className="ml-1.5 line-clamp-2">{post.caption.replace(/<[^>]+>/g, '')}</span>
                 </p>
             )}
 

@@ -137,129 +137,131 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
       <Header />
       <main className="container mx-auto max-w-4xl py-6 sm:py-8 px-4 animate-in fade-in duration-500">
         <Card className="overflow-hidden shadow-lg border-none bg-card/80">
-          <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <Avatar className="w-28 h-28 sm:w-36 sm:h-36 border-4 border-primary shadow-md">
-                <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                <AvatarFallback className="text-4xl">{pet.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="flex-grow text-center sm:text-left">
-                <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tight">{pet.name}</h1>
-                <p className="text-muted-foreground text-lg mt-1">{pet.breed}</p>
-                
-                <div className="mt-4 flex justify-center sm:justify-start gap-6 text-center">
-                    <div>
-                        <p className="font-bold text-xl">{posts.length}</p>
-                        <p className="text-sm text-muted-foreground">Posts</p>
+          <CardContent className="p-0">
+             <div className="p-6">
+                <div className="flex flex-col sm:flex-row items-center gap-6">
+                <Avatar className="w-28 h-28 sm:w-36 sm:h-36 border-4 border-primary shadow-md">
+                    <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                    <AvatarFallback className="text-4xl">{pet.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-grow text-center sm:text-left">
+                    <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tight">{pet.name}</h1>
+                    <p className="text-muted-foreground text-lg mt-1">{pet.breed}</p>
+                    
+                    <div className="mt-4 flex justify-center sm:justify-start gap-6 text-center">
+                        <div>
+                            <p className="font-bold text-xl">{posts.length}</p>
+                            <p className="text-sm text-muted-foreground">Posts</p>
+                        </div>
+                        <div>
+                            <p className="font-bold text-xl">4,218</p>
+                            <p className="text-sm text-muted-foreground">Followers</p>
+                        </div>
+                        <div>
+                            <p className="font-bold text-xl">102</p>
+                            <p className="text-sm text-muted-foreground">Following</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="font-bold text-xl">4,218</p>
-                        <p className="text-sm text-muted-foreground">Followers</p>
-                    </div>
-                    <div>
-                        <p className="font-bold text-xl">102</p>
-                        <p className="text-sm text-muted-foreground">Following</p>
-                    </div>
-                </div>
 
-                <p className="mt-4 text-sm max-w-prose">{pet.personality}</p>
-                
-                <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-3">
-                  <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <PawPrint className="mr-2 h-4 w-4" /> Follow
-                  </Button>
-                  <Button size="sm" variant="outline" asChild>
-                    <Link href={`/users/${pet.ownerId}`}>
-                      <User className="mr-2 h-4 w-4" /> View Owner
-                    </Link>
-                  </Button>
+                    <p className="mt-4 text-sm max-w-prose">{pet.personality}</p>
+                    
+                    <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-3">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                        <PawPrint className="mr-2 h-4 w-4" /> Follow
+                    </Button>
+                    <Button size="sm" variant="outline" asChild>
+                        <Link href={`/users/${pet.ownerId}`}>
+                        <User className="mr-2 h-4 w-4" /> View Owner
+                        </Link>
+                    </Button>
+                    </div>
                 </div>
-              </div>
+                </div>
             </div>
-          </CardContent>
-          <Tabs defaultValue="posts" className="w-full">
-            <TabsList className="w-full justify-start rounded-none border-t bg-card p-0">
-              <TabsTrigger value="posts" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
-                <Grid className="mr-2 h-4 w-4" />Posts
-              </TabsTrigger>
-              <TabsTrigger value="media" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
-                <ImageIcon className="mr-2 h-4 w-4" />Media
-              </TabsTrigger>
-            </TabsList>
-            <div className="p-6 bg-background">
-              <TabsContent value="posts" className="mt-0">
-                <div className="flex flex-col gap-8">
-                  {posts.map(post => (
-                      <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
-                        <CardContent className="p-4 md:p-6 flex flex-col sm:flex-row gap-6">
-                            <div className="w-full sm:w-1/3 md:w-1/4 flex-shrink-0">
-                                <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />
-                            </div>
-                            <div className="flex-grow">
-                              {post.caption && (
-                                  <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption}</p>
-                              )}
-                              <div className="flex items-center justify-between text-muted-foreground">
-                                <div className="flex items-center gap-4 text-sm">
-                                    <div className="flex items-center gap-1.5">
-                                        <Heart className="h-5 w-5" />
-                                        <span>{post.likes}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <MessageCircle className="h-5 w-5" />
-                                        <span>{post.comments}</span>
-                                    </div>
+            <Tabs defaultValue="posts" className="w-full">
+                <TabsList className="w-full justify-start rounded-none border-t bg-card p-0">
+                <TabsTrigger value="posts" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+                    <Grid className="mr-2 h-4 w-4" />Posts
+                </TabsTrigger>
+                <TabsTrigger value="media" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+                    <ImageIcon className="mr-2 h-4 w-4" />Media
+                </TabsTrigger>
+                </TabsList>
+                <div className="p-6 bg-background">
+                <TabsContent value="posts" className="mt-0">
+                    <div className="flex flex-col gap-8">
+                    {posts.map(post => (
+                        <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
+                            <CardContent className="p-4 md:p-6 flex flex-col sm:flex-row gap-6">
+                                <div className="w-full sm:w-1/3 md:w-1/4 flex-shrink-0">
+                                    <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />
                                 </div>
-                                <Button variant="secondary" size="sm" asChild>
-                                    <Link href={`/posts/${post.id}`}>View Post</Link>
-                                </Button>
-                              </div>
-                            </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
-                </div>
-              </TabsContent>
+                                <div className="flex-grow">
+                                {post.caption && (
+                                    <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption.replace(/<[^>]+>/g, '')}</p>
+                                )}
+                                <div className="flex items-center justify-between text-muted-foreground">
+                                    <div className="flex items-center gap-4 text-sm">
+                                        <div className="flex items-center gap-1.5">
+                                            <Heart className="h-5 w-5" />
+                                            <span>{post.likes}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5">
+                                            <MessageCircle className="h-5 w-5" />
+                                            <span>{post.comments}</span>
+                                        </div>
+                                    </div>
+                                    <Button variant="secondary" size="sm" asChild>
+                                        <Link href={`/posts/${post.id}`}>View Post</Link>
+                                    </Button>
+                                </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        ))}
+                    {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
+                    </div>
+                </TabsContent>
 
-              <TabsContent value="media" className="mt-0">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
-                  {allMedia.map((media, index) => (
-                    <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
-                      <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
-                        {media.type === 'image' ? (
-                          <Image
-                            src={media.url}
-                            alt={`A photo from a post by ${media.petName}`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            data-ai-hint={`${pet.breed} photo`}
-                          />
-                        ) : (
-                           <div className="w-full h-full flex items-center justify-center bg-black">
-                            <div className="relative w-full h-full">
-                                <Image
-                                src={posts.find(p => p.id === media.postId)?.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x400.png'}
-                                alt={`Video thumbnail`}
+                <TabsContent value="media" className="mt-0">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                    {allMedia.map((media, index) => (
+                        <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
+                        <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
+                            {media.type === 'image' ? (
+                            <Image
+                                src={media.url}
+                                alt={`A photo from a post by ${media.petName}`}
                                 fill
-                                className="object-cover opacity-50"
-                                data-ai-hint={`${pet.breed} playing`}
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <PlayCircle className="h-1/3 w-1/3 text-white/70" />
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                data-ai-hint={`${pet.breed} photo`}
+                            />
+                            ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-black">
+                                <div className="relative w-full h-full">
+                                    <Image
+                                    src={posts.find(p => p.id === media.postId)?.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x400.png'}
+                                    alt={`Video thumbnail`}
+                                    fill
+                                    className="object-cover opacity-50"
+                                    data-ai-hint={`${pet.breed} playing`}
+                                    />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <PlayCircle className="h-1/3 w-1/3 text-white/70" />
+                                    </div>
                                 </div>
                             </div>
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
-                      </div>
-                    </Link>
-                  ))}
+                            )}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
+                        </div>
+                        </Link>
+                    ))}
+                    </div>
+                    {allMedia.length === 0 && <p className="text-center text-muted-foreground py-10">No media found.</p>}
+                </TabsContent>
                 </div>
-                 {allMedia.length === 0 && <p className="text-center text-muted-foreground py-10">No media found.</p>}
-              </TabsContent>
-            </div>
-          </Tabs>
+            </Tabs>
+          </CardContent>
         </Card>
       </main>
     </div>

@@ -57,3 +57,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Tiptap Rich Text Editor styles */
+@layer components {
+  .prose-styles {
+    @apply max-w-full;
+  }
+  .prose-styles > * + * {
+    @apply mt-4;
+  }
+  .prose-styles ul,
+  .prose-styles ol {
+    @apply pl-6 list-disc;
+  }
+  .prose-styles h1,
+  .prose-styles h2,
+  .prose-styles h3 {
+    @apply font-headline font-bold tracking-tight;
+  }
+  .prose-styles h1 { @apply text-2xl md:text-3xl; }
+  .prose-styles h2 { @apply text-xl md:text-2xl; }
+  .prose-styles h3 { @apply text-lg md:text-xl; }
+  .prose-styles code { @apply rounded-md bg-muted px-1.5 py-1 font-code text-sm; }
+  .prose-styles pre { @apply rounded-md bg-muted p-4 font-code text-sm; }
+  .prose-styles blockquote { @apply border-l-4 border-border pl-4 italic text-muted-foreground; }
+  .prose-styles hr { @apply my-4 border-t border-border; }
+  .prose-styles img { @apply max-w-full h-auto rounded-md my-4; }
+  .prose-styles a { @apply text-primary underline; }
+}
+
+.ProseMirror {
+  @apply prose-styles;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-muted-foreground float-left h-0 pointer-events-none;
+  content: attr(data-placeholder);
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  @apply ring-2 ring-ring ring-offset-2;
+}

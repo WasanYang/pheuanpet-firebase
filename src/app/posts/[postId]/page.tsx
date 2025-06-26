@@ -108,7 +108,10 @@ export default function PostPage({ params }: { params: { postId: string } }) {
                     </div>
 
                     {post.caption && (
-                        <p className="whitespace-pre-wrap mb-4">{post.caption}</p>
+                        <div
+                           className="prose-styles mb-4"
+                           dangerouslySetInnerHTML={{ __html: post.caption }}
+                        />
                     )}
                 
                     <div className="flex items-center gap-4 text-muted-foreground">

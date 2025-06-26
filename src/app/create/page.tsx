@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
+import RichTextEditor from '@/components/RichTextEditor';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -62,6 +62,11 @@ export default function CreatePostPage() {
     
     setIsSubmitting(true);
     // Mock submission
+    console.log('Submitting post:', {
+      petId: selectedPetId,
+      media: files.map(f => f.name),
+      caption,
+    });
     setTimeout(() => {
       setIsSubmitting(false);
       toast({
@@ -76,7 +81,7 @@ export default function CreatePostPage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-2xl py-8 px-4 animate-in fade-in duration-500">
+      <main className="container mx-auto max-w-4xl py-8 px-4 animate-in fade-in duration-500">
         <Card className="shadow-lg border-none bg-card/80">
           <CardHeader>
             <CardTitle className="font-headline text-2xl md:text-3xl">Create a New Post</CardTitle>
@@ -139,13 +144,10 @@ export default function CreatePostPage() {
               </div>
               
               <div>
-                <Label htmlFor="caption" className="text-base font-semibold">Add a caption (Editor)</Label>
-                <Textarea
-                  id="caption"
-                  placeholder="What's on your pet's mind?"
-                  className="mt-2 min-h-[120px] text-base"
-                  value={caption}
-                  onChange={e => setCaption(e.target.value)}
+                <Label htmlFor="caption" className="text-base font-semibold">Content</Label>
+                <RichTextEditor
+                  content={caption}
+                  onChange={setCaption}
                 />
               </div>
 
