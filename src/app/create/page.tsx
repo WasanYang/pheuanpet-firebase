@@ -106,41 +106,46 @@ export default function CreatePostPage() {
               </div>
 
               <div>
-                <Label htmlFor="media" className="text-base font-semibold">Upload Photos or Videos</Label>
-                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-input px-6 py-10">
-                  <div className="text-center">
-                    <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <div className="mt-4 flex text-sm leading-6 text-muted-foreground">
-                      <Label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary/90"
-                      >
-                        <span>Upload a file</span>
-                        <Input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileChange} multiple accept="image/*,video/*" />
-                      </Label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs leading-5 text-muted-foreground">PNG, JPG, GIF up to 10MB. MP4, MOV up to 100MB.</p>
-                  </div>
-                </div>
-                 {previews.length > 0 && (
-                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <Label className="text-base font-semibold">Upload Photos or Videos</Label>
+                 <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {previews.map((src, index) => (
-                      <div key={src} className="relative group">
-                        <Image src={src} alt={`Preview ${index + 1}`} width={150} height={150} className="rounded-md object-cover aspect-square" />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="icon"
-                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={() => removeFile(index)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
+                      <div key={src} className="relative group aspect-square">
+                        <Image 
+                          src={src} 
+                          alt={`Preview ${index + 1}`} 
+                          fill
+                          className="rounded-md object-cover" 
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="icon"
+                                className="h-8 w-8 rounded-full"
+                                onClick={() => removeFile(index)}
+                            >
+                                <X className="h-4 w-4" />
+                                <span className="sr-only">Remove file</span>
+                            </Button>
+                        </div>
                       </div>
                     ))}
+                    <Label
+                      htmlFor="file-upload"
+                      className="relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-input hover:border-primary transition-colors cursor-pointer aspect-square"
+                    >
+                      <div className="text-center">
+                        <UploadCloud className="mx-auto h-10 w-10 text-muted-foreground" />
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {previews.length > 0 ? "Add more" : "Upload media"}
+                        </p>
+                      </div>
+                      <Input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileChange} multiple accept="image/*,video/*" />
+                    </Label>
                   </div>
-                )}
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    You can add multiple images or one video. PNG, JPG, GIF up to 10MB. MP4, MOV up to 100MB.
+                  </p>
               </div>
               
               <div>
