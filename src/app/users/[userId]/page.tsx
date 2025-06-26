@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserPlus } from 'lucide-react';
 
@@ -63,12 +63,12 @@ export default function UserProfilePage({ params }: { params: { userId: string }
 
         <div>
           <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6">{user.name}'s Pets</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="flex flex-col gap-6">
             {pets.map(pet => (
-              <Link href={`/pets/${pet.id}`} key={pet.id} className="group">
-                <Card className="text-center overflow-hidden h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                  <CardHeader className="p-0">
-                    <div className="aspect-square relative w-full">
+              <Link href={`/pets/${pet.id}`} key={pet.id} className="group block">
+                <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/20">
+                  <div className="flex flex-col sm:flex-row">
+                    <div className="relative w-full sm:w-48 sm:h-48 aspect-video sm:aspect-square flex-shrink-0 bg-muted">
                        <Image
                         src={pet.avatarUrl}
                         alt={pet.name}
@@ -77,15 +77,16 @@ export default function UserProfilePage({ params }: { params: { userId: string }
                         data-ai-hint={pet.breed}
                       />
                     </div>
-                  </CardHeader>
-                  <CardContent className="p-4">
-                    <CardTitle className="font-headline text-xl sm:text-2xl">{pet.name}</CardTitle>
-                    <p className="text-muted-foreground">{pet.breed}</p>
-                  </CardContent>
+                    <div className="p-4 sm:p-5 flex flex-col justify-center">
+                      <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{pet.name}</CardTitle>
+                      <p className="font-semibold text-muted-foreground">{pet.breed}</p>
+                      <p className="text-sm text-foreground/80 mt-2 line-clamp-2">{pet.personality}</p>
+                    </div>
+                  </div>
                 </Card>
               </Link>
             ))}
-             {pets.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">{user.name} hasn't added any pets yet.</p>}
+             {pets.length === 0 && <p className="text-center text-muted-foreground py-10">{user.name} hasn't added any pets yet.</p>}
           </div>
         </div>
       </main>
