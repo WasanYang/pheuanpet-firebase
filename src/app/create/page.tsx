@@ -7,13 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import RichTextEditor from '@/components/RichTextEditor';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getPetsByOwnerId } from '@/lib/data';
-import { UploadCloud, X } from 'lucide-react';
+import { UploadCloud, X, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
 
 export default function CreatePostPage() {
   const router = useRouter();
@@ -26,7 +26,6 @@ export default function CreatePostPage() {
 
   // Mocking user ID 1
   const userPets = getPetsByOwnerId(1);
-  const selectedPet = userPets.find(p => String(p.id) === selectedPetId);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -83,7 +82,7 @@ export default function CreatePostPage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-2xl py-8 px-4 animate-in fade-in duration-500">
+      <main className="container mx-auto max-w-lg py-8 px-4 animate-in fade-in duration-500">
         <Card className="shadow-lg border-none bg-card/80">
           <CardHeader>
             <CardTitle className="font-headline text-2xl md:text-3xl">Create a New Post</CardTitle>
@@ -91,42 +90,36 @@ export default function CreatePostPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Label htmlFor="pet" className="text-base font-semibold">Post as...</Label>
-                <Select onValueChange={setSelectedPetId} value={selectedPetId} required>
-                  <SelectTrigger id="pet" className="mt-2 h-auto py-2">
-                     {selectedPet ? (
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-9 w-9">
-                          <AvatarImage src={selectedPet.avatarUrl} alt={selectedPet.name} data-ai-hint={selectedPet.breed} />
-                          <AvatarFallback>{selectedPet.name.charAt(0)}</AvatarFallback>
+               <div>
+                <Label className="text-base font-semibold">Post as...</Label>
+                <div className="mt-2 flex flex-wrap gap-4">
+                  {userPets.map(pet => (
+                    <button
+                      type="button"
+                      key={pet.id}
+                      onClick={() => setSelectedPetId(String(pet.id))}
+                      className={cn(
+                        "flex flex-col items-center gap-2 text-center rounded-lg p-2 transition-all duration-200 w-24",
+                        selectedPetId === String(pet.id)
+                          ? 'bg-primary/10'
+                          : 'hover:bg-muted'
+                      )}
+                    >
+                      <div className="relative">
+                        <Avatar className="h-16 w-16 border-2 border-transparent">
+                          <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                          <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="font-semibold text-left">{selectedPet.name}</p>
-                          <p className="text-sm text-muted-foreground">{selectedPet.breed}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <SelectValue placeholder="Select a pet" />
-                    )}
-                  </SelectTrigger>
-                  <SelectContent>
-                    {userPets.map(pet => (
-                      <SelectItem key={pet.id} value={String(pet.id)}>
-                        <div className="flex items-center gap-3 py-1">
-                           <Avatar className="h-9 w-9">
-                            <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                            <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold">{pet.name}</p>
-                            <p className="text-sm text-muted-foreground">{pet.breed}</p>
+                        {selectedPetId === String(pet.id) && (
+                          <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full p-0.5 shadow-md">
+                            <CheckCircle2 className="h-5 w-5" />
                           </div>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        )}
+                      </div>
+                      <p className="text-sm font-medium truncate w-full">{pet.name}</p>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
