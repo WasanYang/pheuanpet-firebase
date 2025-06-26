@@ -15,7 +15,7 @@ const MessageSchema = z.object({
     content: z.string().describe("The content of the message.")
 });
 
-export const ExpertChatInputSchema = z.object({
+const ExpertChatInputSchema = z.object({
   history: z.array(MessageSchema).describe("The history of the conversation so far.")
 });
 export type ExpertChatInput = z.infer<typeof ExpertChatInputSchema>;
