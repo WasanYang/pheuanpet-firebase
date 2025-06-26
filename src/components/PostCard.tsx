@@ -79,16 +79,20 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
   return (
     <Card className="rounded-2xl shadow-lg border-none overflow-hidden bg-card/80">
         <div className="p-3 sm:p-4 flex items-center justify-between">
-            <Link href={`/pets/${pet.id}`} className="flex items-center gap-3 group">
-                <Avatar className="h-10 w-10 border-2 border-transparent group-hover:border-primary transition-colors">
-                    <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                    <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+            <div className="flex items-center gap-3">
+                <Link href={`/pets/${pet.id}`}>
+                    <Avatar className="h-10 w-10 border-2 border-transparent hover:border-primary transition-colors">
+                        <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                        <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                </Link>
                 <div>
-                    <p className="font-bold text-foreground group-hover:underline">{pet.name}</p>
+                    <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">
+                        {pet.name}
+                    </Link>
                     <p className="text-xs text-muted-foreground">by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link></p>
                 </div>
-            </Link>
+            </div>
             <Button variant="ghost" size="icon" className="h-8 w-8">
                 <MoreHorizontal className="h-5 w-5" />
                 <span className="sr-only">More options</span>
