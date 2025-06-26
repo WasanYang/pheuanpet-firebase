@@ -16,6 +16,14 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
   }
 
   const posts = getPostsByPetId(pet.id);
+  const allMedia = posts.flatMap(post =>
+    post.media.map(mediaItem => ({
+      ...mediaItem,
+      postId: post.id,
+      petName: pet.name,
+    }))
+  );
+
 
   return (
     <div className="bg-background min-h-screen text-foreground">
@@ -47,9 +55,36 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
           </CardContent>
         </Card>
 
+        {allMedia.length > 0 && (
+          <div className="mt-10 md:mt-12">
+            <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Gallery</h2>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1 sm:gap-2">
+              {allMedia.map((media, index) => (
+                <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
+                  <div className="relative aspect-square w-full bg-muted rounded-md overflow-hidden">
+                    {media.type === 'image' ? (
+                      <Image
+                        src={media.url}
+                        alt={`A photo from a post by ${media.petName}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} photo`}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-black/50">
+                        <PlayCircle className="h-1/3 w-1/3 text-white/70" />
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-10 md:mt-12">
-          <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Gallery</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Posts</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {posts.map(post => {
               const firstMedia = post.media[0];
               if (!firstMedia) return null;
@@ -57,7 +92,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
               return (
                 <Link href={`/posts/${post.id}`} key={post.id} className="group block h-full">
                   <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
-                    <div className="relative aspect-square w-full bg-muted">
+                    <div className="relative aspect-video w-full bg-muted">
                       {firstMedia.type === 'image' ? (
                         <Image
                           src={firstMedia.url}
