@@ -13,12 +13,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const PostMediaDisplay = ({ media, pet, postId }: { media: Media[], pet: Pet, postId: number }) => {
     const video = media.find(m => m.type === 'video');
     const images = media.filter(m => m.type === 'image');
-    const imagesToShow = images.slice(0, 3);
     
     if (video) {
         return (
             <Link href={`/posts/${postId}`} className="block group">
-                <div className="relative aspect-video w-full bg-muted overflow-hidden">
+                <div className="relative aspect-video w-full bg-muted overflow-hidden rounded-md">
                      <Image
                         src={images.length > 0 ? images[0].url : 'https://placehold.co/600x400.png'}
                         alt={`Post by ${pet.name}`}
@@ -34,12 +33,14 @@ const PostMediaDisplay = ({ media, pet, postId }: { media: Media[], pet: Pet, po
         )
     }
 
+    const imagesToShow = images.slice(0, 3);
+
     if (imagesToShow.length === 0) return null;
 
     if (imagesToShow.length === 1) {
         return (
             <Link href={`/posts/${postId}`} className="block group">
-                <div className="relative aspect-video w-full bg-muted overflow-hidden">
+                <div className="relative aspect-video w-full bg-muted overflow-hidden rounded-md">
                     <Image
                         src={imagesToShow[0].url}
                         alt={`A photo from a post by ${pet.name}`}
@@ -55,7 +56,7 @@ const PostMediaDisplay = ({ media, pet, postId }: { media: Media[], pet: Pet, po
     if (imagesToShow.length === 2) {
         return (
              <Link href={`/posts/${postId}`} className="block group">
-                <div className="grid grid-cols-2 gap-1 aspect-video bg-muted">
+                <div className="grid grid-cols-2 gap-1 aspect-video bg-muted rounded-md overflow-hidden">
                     {imagesToShow.map((image, index) => (
                         <div key={index} className="relative w-full h-full overflow-hidden">
                             <Image
@@ -75,7 +76,7 @@ const PostMediaDisplay = ({ media, pet, postId }: { media: Media[], pet: Pet, po
     // 3 or more images
     return (
         <Link href={`/posts/${postId}`} className="block group">
-            <div className="grid grid-cols-2 grid-rows-2 gap-1 aspect-video bg-muted">
+            <div className="grid grid-cols-2 grid-rows-2 gap-1 aspect-video bg-muted rounded-md overflow-hidden">
                 <div className="relative row-span-2">
                     <Image
                         src={imagesToShow[0].url}
@@ -176,75 +177,90 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
               </div>
             </div>
           </CardContent>
+          <Tabs defaultValue="posts" className="w-full">
+            <TabsList className="w-full justify-start rounded-none border-t bg-card p-0">
+              <TabsTrigger value="posts" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+                <Grid className="mr-2 h-4 w-4" />Posts
+              </TabsTrigger>
+              <TabsTrigger value="media" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+                <ImageIcon className="mr-2 h-4 w-4" />Media
+              </TabsTrigger>
+            </TabsList>
+            <div className="p-6 bg-background">
+              <TabsContent value="posts" className="mt-0">
+                <div className="flex flex-col gap-8">
+                  {posts.map(post => (
+                      <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
+                        <CardContent className="p-4 md:p-6 flex flex-col sm:flex-row gap-6">
+                            <div className="w-full sm:w-1/3 md:w-1/4 flex-shrink-0">
+                                <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />
+                            </div>
+                            <div className="flex-grow">
+                              {post.caption && (
+                                  <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption}</p>
+                              )}
+                              <div className="flex items-center justify-between text-muted-foreground">
+                                <div className="flex items-center gap-4 text-sm">
+                                    <div className="flex items-center gap-1.5">
+                                        <Heart className="h-5 w-5" />
+                                        <span>{post.likes}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <MessageCircle className="h-5 w-5" />
+                                        <span>{post.comments}</span>
+                                    </div>
+                                </div>
+                                <Button variant="secondary" size="sm" asChild>
+                                    <Link href={`/posts/${post.id}`}>View Post</Link>
+                                </Button>
+                              </div>
+                            </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="media" className="mt-0">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                  {allMedia.map((media, index) => (
+                    <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
+                      <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
+                        {media.type === 'image' ? (
+                          <Image
+                            src={media.url}
+                            alt={`A photo from a post by ${media.petName}`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            data-ai-hint={`${pet.breed} photo`}
+                          />
+                        ) : (
+                           <div className="w-full h-full flex items-center justify-center bg-black">
+                            <div className="relative w-full h-full">
+                                <Image
+                                src={posts.find(p => p.id === media.postId)?.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x400.png'}
+                                alt={`Video thumbnail`}
+                                fill
+                                className="object-cover opacity-50"
+                                data-ai-hint={`${pet.breed} playing`}
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <PlayCircle className="h-1/3 w-1/3 text-white/70" />
+                                </div>
+                            </div>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                 {allMedia.length === 0 && <p className="text-center text-muted-foreground py-10">No media found.</p>}
+              </TabsContent>
+            </div>
+          </Tabs>
         </Card>
-
-        <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
-            <TabsTrigger value="posts" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
-              <Grid className="mr-2 h-4 w-4" />Posts
-            </TabsTrigger>
-            <TabsTrigger value="media" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
-              <ImageIcon className="mr-2 h-4 w-4" />Media
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="posts" className="mt-6">
-            <div className="flex flex-col gap-8">
-              {posts.map(post => (
-                  <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
-                    <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />
-                    <CardContent className="p-4 md:p-6">
-                      {post.caption && (
-                          <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption}</p>
-                      )}
-                      <div className="flex items-center justify-between text-muted-foreground">
-                        <div className="flex items-center gap-4 text-sm">
-                            <div className="flex items-center gap-1.5">
-                                <Heart className="h-5 w-5" />
-                                <span>{post.likes}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <MessageCircle className="h-5 w-5" />
-                                <span>{post.comments}</span>
-                            </div>
-                        </div>
-                        <Button variant="secondary" size="sm" asChild>
-                            <Link href={`/posts/${post.id}`}>View Post</Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="media" className="mt-6">
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-1">
-              {allMedia.map((media, index) => (
-                <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
-                  <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
-                    {media.type === 'image' ? (
-                      <Image
-                        src={media.url}
-                        alt={`A photo from a post by ${media.petName}`}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        data-ai-hint={`${pet.breed} photo`}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-black/50">
-                        <PlayCircle className="h-1/3 w-1/3 text-white/70" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-             {allMedia.length === 0 && <p className="text-center text-muted-foreground py-10">No media found.</p>}
-          </TabsContent>
-        </Tabs>
       </main>
     </div>
   );
