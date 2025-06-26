@@ -1,4 +1,4 @@
-import { PawPrint, Home, PlusSquare, Search } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -31,6 +31,11 @@ const Header = () => {
           <Button variant="ghost" size="icon" asChild>
             <Link href="/" aria-label="Home">
               <Home className="h-5 w-5" />
+            </Link>
+          </Button>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/experts" aria-label="Ask an Expert">
+              <Stethoscope className="h-5 w-5" />
             </Link>
           </Button>
           <Button variant="ghost" size="icon" asChild>

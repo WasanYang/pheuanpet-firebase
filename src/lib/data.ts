@@ -28,6 +28,15 @@ export interface Post {
   comments: number;
 }
 
+export interface Expert {
+  id: number;
+  name: string;
+  avatarUrl: string;
+  specialty: string;
+  bio: string;
+  isAi: boolean;
+}
+
 const users: User[] = [
   { id: 1, name: 'Malee', avatarUrl: 'https://placehold.co/100x100.png' },
   { id: 2, name: 'Somsak', avatarUrl: 'https://placehold.co/100x100.png' },
@@ -122,6 +131,34 @@ const posts: Post[] = [
   },
 ];
 
+const experts: Expert[] = [
+  {
+    id: 1,
+    name: 'Dr. Anya Sharma',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'Feline Veterinarian',
+    bio: 'Specializing in cat health and wellness for over 10 years. Passionate about preventative care and nutrition.',
+    isAi: false,
+  },
+  {
+    id: 2,
+    name: 'Dr. Ben Carter',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'Canine Behaviorist',
+    bio: 'Certified behavior consultant helping dogs and their owners build stronger bonds through positive reinforcement training.',
+    isAi: false,
+  },
+  {
+    id: 100,
+    name: 'PheuanPet AI Assistant',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'General Pet Care Advisor',
+    bio: 'Your 24/7 AI-powered assistant for general pet care questions. For medical emergencies, please consult a veterinarian.',
+    isAi: true,
+  },
+];
+
+
 export const getUsers = (): User[] => users;
 export const getUserById = (id: number): User | undefined => users.find(u => u.id === id);
 
@@ -132,3 +169,6 @@ export const getPetsByOwnerId = (ownerId: number): Pet[] => pets.filter(p => p.o
 export const getPosts = (): Post[] => posts;
 export const getPostById = (id: number): Post | undefined => posts.find(p => p.id === id);
 export const getPostsByPetId = (petId: number): Post[] => posts.filter(p => p.petId === petId);
+
+export const getExperts = (): Expert[] => experts;
+export const getExpertById = (id: number): Expert | undefined => experts.find(e => e.id === id);
