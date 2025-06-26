@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-2xl py-8 px-4 animate-in fade-in duration-500">
+      <main className="container mx-auto max-w-4xl py-8 px-4 animate-in fade-in duration-500">
         <div className="flex flex-col gap-8">
           {posts.map(post => {
             const pet = getPetById(post.petId);

@@ -50,20 +50,25 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
         <div className="mt-10 md:mt-12">
           <h2 className="font-headline text-2xl md:text-3xl font-bold mb-6 text-center">Photo Gallery</h2>
           <div className="grid grid-cols-3 gap-2 md:gap-4">
-            {posts.map(post => (
-              <div key={post.id} className="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-                <Image
-                  src={post.imageUrl}
-                  alt={post.caption || `A photo of ${pet.name}`}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={`${pet.breed} playing`}
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
-                  <p className="text-white text-center text-sm">{post.caption}</p>
+            {posts.map(post => {
+              const firstImage = post.media.find(m => m.type === 'image');
+              if (!firstImage) return null;
+
+              return (
+                <div key={post.id} className="group relative aspect-square overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
+                  <Image
+                    src={firstImage.url}
+                    alt={post.caption || `A photo of ${pet.name}`}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={`${pet.breed} playing`}
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2">
+                    <p className="text-white text-center text-sm">{post.caption}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </main>

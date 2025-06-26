@@ -14,10 +14,15 @@ export interface Pet {
   ownerId: number;
 }
 
+export interface Media {
+  type: 'image' | 'video';
+  url: string;
+}
+
 export interface Post {
   id: number;
   petId: number;
-  imageUrl: string;
+  media: Media[];
   caption: string | null;
   likes: number;
   comments: number;
@@ -62,40 +67,56 @@ const posts: Post[] = [
   {
     id: 1,
     petId: 1,
-    imageUrl: 'https://placehold.co/600x600.png',
-    caption: 'Enjoying the afternoon sun. ☀️',
+    media: [
+      { type: 'image', url: 'https://placehold.co/800x600.png' },
+    ],
+    caption: 'Enjoying the afternoon sun. ☀️\nI love naps and this is my favorite spot. It gets the perfect amount of warmth without being too hot. My human sometimes joins me, but mostly it\'s just me and my thoughts.',
     likes: 124,
     comments: 12,
   },
   {
     id: 2,
     petId: 2,
-    imageUrl: 'https://placehold.co/600x600.png',
-    caption: 'Ready for our evening walk!',
+    media: [
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+    ],
+    caption: 'Ready for our evening walk! This is my favorite part of the day. We always go to the big park where I can see all my friends.',
     likes: 256,
     comments: 34,
   },
   {
     id: 3,
     petId: 3,
-    imageUrl: 'https://placehold.co/600x600.png',
-    caption: 'My favorite toy!',
+    media: [
+      { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+    ],
+    caption: 'My favorite toy! I could chase this for hours. My human says I\'m obsessed, but I call it dedication. #doglife #playtime',
     likes: 431,
     comments: 55,
   },
   {
     id: 4,
     petId: 1,
-    imageUrl: 'https://placehold.co/600x600.png',
-    caption: 'Napping is a serious business.',
+    media: [
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://placehold.co/400x300.png' },
+    ],
+    caption: 'A collection of my best napping poses. Which one is your favorite? I\'m personally a fan of the "pretzel" and the "classic loaf".',
     likes: 302,
     comments: 21,
   },
    {
     id: 5,
     petId: 2,
-    imageUrl: 'https://placehold.co/600x600.png',
-    caption: 'Met a new friend today!',
+    media: [
+      { type: 'image', url: 'https://placehold.co/600x400.png' },
+      { type: 'image', url: 'https://placehold.co/300x400.png' },
+      { type: 'image', url: 'https://placehold.co/300x400.png' },
+    ],
+    caption: 'Met a new friend today! We sniffed, we ran, we conquered the dog park. Can\'t wait for our next adventure.',
     likes: 189,
     comments: 17,
   },
