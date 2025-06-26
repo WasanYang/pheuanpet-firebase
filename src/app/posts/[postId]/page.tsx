@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Heart, MessageCircle } from 'lucide-react';
 import {
   Carousel,
@@ -19,7 +19,7 @@ const MediaDisplay = ({ media, petName, caption }: { media: Media[], petName: st
     const video = media.find(m => m.type === 'video');
     if (video) {
         return (
-            <div className="w-full rounded-lg overflow-hidden bg-black relative group">
+            <div className="w-full bg-black relative group">
                 <video src={video.url} controls className="w-full h-auto max-h-[70vh] object-contain" />
             </div>
         );
@@ -30,7 +30,7 @@ const MediaDisplay = ({ media, petName, caption }: { media: Media[], petName: st
     
     if (allImages.length === 1) {
         return (
-             <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden">
+             <div className="relative aspect-[4/3] w-full">
                 <Image
                     src={allImages[0].url}
                     alt={caption || `A photo of ${petName}`}
@@ -43,7 +43,7 @@ const MediaDisplay = ({ media, petName, caption }: { media: Media[], petName: st
     }
     
     return (
-        <Carousel className="w-full rounded-lg overflow-hidden bg-muted relative group">
+        <Carousel className="w-full bg-muted relative group">
             <CarouselContent>
                 {allImages.map((image, index) => (
                     <CarouselItem key={index}>
@@ -88,32 +88,30 @@ export default function PostPage({ params }: { params: { postId: string } }) {
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="container mx-auto max-w-3xl py-8 px-4 animate-in fade-in duration-500">
-        <Card className="shadow-lg">
-            <CardHeader className="p-4">
-                 <div className="flex items-center gap-3">
-                    <Link href={`/pets/${pet.id}`}>
-                        <Avatar className="h-12 w-12 border-2 border-primary">
-                            <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                            <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                    </Link>
-                    <div className="flex-grow">
-                        <Link href={`/pets/${pet.id}`} className="font-bold text-lg hover:underline">{pet.name}</Link>
-                        <p className="text-sm text-muted-foreground">
-                            Posted by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link>
-                        </p>
-                    </div>
-                </div>
-            </CardHeader>
+        <Card className="shadow-lg overflow-hidden">
             <CardContent className="p-0">
-                <div className="p-4 pt-0">
+                <MediaDisplay media={post.media} petName={pet.name} caption={post.caption} />
+                <div className="p-4 md:p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                        <Link href={`/pets/${pet.id}`}>
+                            <Avatar className="h-12 w-12 border-2 border-primary">
+                                <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                                <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                        </Link>
+                        <div className="flex-grow">
+                            <Link href={`/pets/${pet.id}`} className="font-bold text-lg hover:underline">{pet.name}</Link>
+                            <p className="text-sm text-muted-foreground">
+                                Posted by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link>
+                            </p>
+                        </div>
+                    </div>
+
                     {post.caption && (
                         <p className="whitespace-pre-wrap mb-4">{post.caption}</p>
                     )}
-                </div>
-                <MediaDisplay media={post.media} petName={pet.name} caption={post.caption} />
-                <div className="p-4">
-                     <div className="flex items-center gap-4 text-muted-foreground">
+                
+                    <div className="flex items-center gap-4 text-muted-foreground">
                         <div className="flex items-center gap-1.5">
                             <Heart className="h-5 w-5" />
                             <span>{post.likes}</span>
