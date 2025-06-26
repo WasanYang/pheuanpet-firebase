@@ -1,6 +1,6 @@
 
 import Header from '@/components/Header';
-import { getPetById, getPostsByPetId } from '@/lib/data';
+import { getPetById, getPostsByPetId, type Pet, type Media } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,110 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PawPrint, User, PlayCircle, Grid, Image as ImageIcon, Heart, MessageCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+const PostMediaDisplay = ({ media, pet, postId }: { media: Media[], pet: Pet, postId: number }) => {
+    const video = media.find(m => m.type === 'video');
+    const images = media.filter(m => m.type === 'image');
+    const imagesToShow = images.slice(0, 3);
+    
+    if (video) {
+        return (
+            <Link href={`/posts/${postId}`} className="block group">
+                <div className="relative aspect-video w-full bg-muted overflow-hidden">
+                     <Image
+                        src={images.length > 0 ? images[0].url : 'https://placehold.co/600x400.png'}
+                        alt={`Post by ${pet.name}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} playing`}
+                    />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <PlayCircle className="h-12 w-12 text-white/80" />
+                    </div>
+                </div>
+            </Link>
+        )
+    }
+
+    if (imagesToShow.length === 0) return null;
+
+    if (imagesToShow.length === 1) {
+        return (
+            <Link href={`/posts/${postId}`} className="block group">
+                <div className="relative aspect-video w-full bg-muted overflow-hidden">
+                    <Image
+                        src={imagesToShow[0].url}
+                        alt={`A photo from a post by ${pet.name}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} playing`}
+                    />
+                </div>
+            </Link>
+        )
+    }
+
+    if (imagesToShow.length === 2) {
+        return (
+             <Link href={`/posts/${postId}`} className="block group">
+                <div className="grid grid-cols-2 gap-1 aspect-video bg-muted">
+                    {imagesToShow.map((image, index) => (
+                        <div key={index} className="relative w-full h-full overflow-hidden">
+                            <Image
+                                src={image.url}
+                                alt={`A photo from a post by ${pet.name} (${index+1})`}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                data-ai-hint={`${pet.breed} photo`}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </Link>
+        );
+    }
+    
+    // 3 or more images
+    return (
+        <Link href={`/posts/${postId}`} className="block group">
+            <div className="grid grid-cols-2 grid-rows-2 gap-1 aspect-video bg-muted">
+                <div className="relative row-span-2">
+                    <Image
+                        src={imagesToShow[0].url}
+                        alt={`A photo from a post by ${pet.name} (1)`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} photo`}
+                    />
+                </div>
+                <div className="relative">
+                    <Image
+                        src={imagesToShow[1].url}
+                        alt={`A photo from a post by ${pet.name} (2)`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} photo`}
+                    />
+                </div>
+                <div className="relative">
+                    <Image
+                        src={imagesToShow[2].url}
+                        alt={`A photo from a post by ${pet.name} (3)`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={`${pet.breed} photo`}
+                    />
+                    {images.length > 3 && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white font-bold text-2xl">
+                           +{images.length - 3}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </Link>
+    );
+};
+
 
 export default function PetProfilePage({ params }: { params: { petId: string } }) {
   const pet = getPetById(Number(params.petId));
@@ -82,29 +186,9 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
 
           <TabsContent value="posts">
             <div className="flex flex-col gap-8">
-              {posts.map(post => {
-                const firstMedia = post.media[0];
-                if (!firstMedia) return null;
-
-                return (
+              {posts.map(post => (
                   <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
-                    <Link href={`/posts/${post.id}`} className="block group">
-                      <div className="relative aspect-video w-full bg-muted">
-                        {firstMedia.type === 'image' ? (
-                          <Image
-                            src={firstMedia.url}
-                            alt={post.caption || `A photo of ${pet.name}`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            data-ai-hint={`${pet.breed} playing`}
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-black/10">
-                            <PlayCircle className="h-12 w-12 text-muted-foreground" />
-                          </div>
-                        )}
-                      </div>
-                    </Link>
+                    <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />
                     <CardContent className="p-4 md:p-6">
                       {post.caption && (
                           <p className="text-sm text-foreground mb-4 whitespace-pre-wrap line-clamp-4">{post.caption}</p>
@@ -126,14 +210,13 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                       </div>
                     </CardContent>
                   </Card>
-                )
-              })}
+                ))}
               {posts.length === 0 && <p className="col-span-full text-center text-muted-foreground py-10">This pet hasn't posted anything yet.</p>}
             </div>
           </TabsContent>
 
           <TabsContent value="media">
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-1">
               {allMedia.map((media, index) => (
                 <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
                   <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
