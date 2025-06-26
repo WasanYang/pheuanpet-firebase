@@ -1,8 +1,9 @@
-import { PawPrint, Home, PlusSquare } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserById } from '@/lib/data';
+import { Input } from './ui/input';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
@@ -15,8 +16,15 @@ const Header = () => {
           <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
         </Link>
         
-        <div className="flex-1">
-          {/* Future search bar can go here */}
+        <div className="flex-1 flex justify-center px-4 lg:px-8">
+            <div className="relative w-full max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                    type="search"
+                    placeholder="Search pets, users..."
+                    className="w-full pl-9"
+                />
+            </div>
         </div>
 
         <div className="flex items-center justify-end space-x-2 sm:space-x-4">
