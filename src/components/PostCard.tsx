@@ -62,26 +62,33 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 export default function PostCard({ post, pet, user }: PostCardProps) {
   return (
     <div className="mb-4 break-inside-avoid">
-        <Card className="overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg">
-            <Link href={`/pets/${pet.id}`} className="cursor-pointer">
+        <Card className="overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+            <Link href={`/posts/${post.id}`} className="cursor-pointer group">
               <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
             </Link>
-            <div className="p-3">
-              <Link href={`/pets/${pet.id}`} className="cursor-pointer">
-                {post.caption && <p className="text-sm font-semibold text-foreground mb-2 line-clamp-2 hover:underline">{post.caption.split('\n')[0]}</p>}
-              </Link>
-              <div className="flex items-center gap-2">
-                  <Link href={`/users/${user.id}`} className="flex items-center gap-2 flex-grow truncate">
-                      <Avatar className="h-6 w-6">
-                          <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
-                          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <span className="text-xs text-muted-foreground hover:underline">{user.name}</span>
+            <div className="p-3 flex flex-col flex-grow">
+              {post.caption && (
+                <Link href={`/posts/${post.id}`} className="cursor-pointer group">
+                  <p className="text-sm font-semibold text-foreground mb-2 line-clamp-2 group-hover:underline">{post.caption.split('\n')[0]}</p>
+                </Link>
+              )}
+              <div className="mt-auto pt-2 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 flex-grow truncate">
+                  <Link href={`/pets/${pet.id}`} className="flex-shrink-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                      <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
                   </Link>
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Heart className="h-3.5 w-3.5" />
-                      <span>{post.likes}</span>
+                  <div className="text-xs truncate">
+                    <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline block truncate">{pet.name}</Link>
+                    <Link href={`/users/${user.id}`} className="text-muted-foreground hover:underline block truncate">by {user.name}</Link>
                   </div>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground flex-shrink-0">
+                  <Heart className="h-3.5 w-3.5" />
+                  <span>{post.likes}</span>
+                </div>
               </div>
             </div>
         </Card>
