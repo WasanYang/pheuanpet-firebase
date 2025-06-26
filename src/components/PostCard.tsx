@@ -5,7 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Heart } from 'lucide-react';
+import { Heart, MessageCircle, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -20,12 +21,12 @@ interface PostCardProps {
   user: User;
 }
 
-const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, caption:string | null }) => {
+const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, caption: string | null }) => {
     const video = media.find(m => m.type === 'video');
     if (video) {
         return (
-            <div className="w-full rounded-t-lg overflow-hidden bg-black relative group">
-                <video src={video.url} controls className="w-full h-auto" />
+            <div className="w-full bg-black relative group aspect-video">
+                <video src={video.url} controls className="w-full h-full object-contain" />
             </div>
         );
     }
@@ -33,19 +34,34 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
     const allImages = media.filter(m => m.type === 'image');
     if (allImages.length === 0) return null;
     
+    if (allImages.length === 1) {
+        return (
+             <div className="relative aspect-[4/3] w-full bg-muted">
+                <Image
+                    src={allImages[0].url}
+                    alt={caption || `A photo of ${pet.name}`}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={`${pet.breed} playing`}
+                />
+            </div>
+        )
+    }
+    
     return (
-        <Carousel className="w-full rounded-t-lg overflow-hidden bg-muted relative group">
+        <Carousel className="w-full bg-muted relative group">
             <CarouselContent>
                 {allImages.map((image, index) => (
                     <CarouselItem key={index}>
-                        <Image
+                       <div className="relative aspect-[4/3] w-full">
+                         <Image
                             src={image.url}
                             alt={`${caption || `A photo of ${pet.name}`} (${index + 1})`}
-                            width={500}
-                            height={400}
-                            className="object-cover w-full h-auto"
+                            fill
+                            className="object-cover"
                             data-ai-hint={`${pet.breed} playing`}
                         />
+                       </div>
                     </CarouselItem>
                 ))}
             </CarouselContent>
@@ -61,37 +77,52 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 
 export default function PostCard({ post, pet, user }: PostCardProps) {
   return (
-    <div className="mb-4 break-inside-avoid">
-        <Card className="overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-lg flex flex-col h-full">
-            <Link href={`/posts/${post.id}`} className="cursor-pointer group">
-              <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
+    <Card className="rounded-2xl shadow-lg border-none overflow-hidden bg-card/80">
+        <div className="p-3 sm:p-4 flex items-center justify-between">
+            <Link href={`/pets/${pet.id}`} className="flex items-center gap-3 group">
+                <Avatar className="h-10 w-10 border-2 border-transparent group-hover:border-primary transition-colors">
+                    <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                    <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="font-bold text-foreground group-hover:underline">{pet.name}</p>
+                    <p className="text-xs text-muted-foreground">by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link></p>
+                </div>
             </Link>
-            <div className="p-3 flex flex-col flex-grow">
-              {post.caption && (
-                <Link href={`/posts/${post.id}`} className="cursor-pointer group">
-                  <p className="text-sm font-semibold text-foreground mb-2 line-clamp-2 group-hover:underline">{post.caption.split('\n')[0]}</p>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+                <MoreHorizontal className="h-5 w-5" />
+                <span className="sr-only">More options</span>
+            </Button>
+        </div>
+        
+        <Link href={`/posts/${post.id}`} className="block">
+            <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
+        </Link>
+        
+        <div className="p-3 sm:p-4">
+             <div className="flex items-center gap-4 mb-2">
+                <button className="flex items-center gap-1.5 text-muted-foreground hover:text-red-500 transition-colors group/heart">
+                    <Heart className="h-6 w-6 group-hover/heart:fill-current" />
+                </button>
+                <Link href={`/posts/${post.id}#comments`} className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
+                    <MessageCircle className="h-6 w-6" />
                 </Link>
-              )}
-              <div className="mt-auto pt-2 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 flex-grow truncate">
-                  <Link href={`/pets/${pet.id}`} className="flex-shrink-0">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                      <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Link>
-                  <div className="text-xs truncate">
-                    <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline block truncate">{pet.name}</Link>
-                    <Link href={`/users/${user.id}`} className="text-muted-foreground hover:underline block truncate">by {user.name}</Link>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground flex-shrink-0">
-                  <Heart className="h-3.5 w-3.5" />
-                  <span>{post.likes}</span>
-                </div>
-              </div>
             </div>
-        </Card>
-    </div>
+            <p className="font-bold text-sm mb-1">{post.likes.toLocaleString()} likes</p>
+
+             {post.caption && (
+                <p className="text-sm text-foreground/90">
+                    <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">{pet.name}</Link>
+                    <span className="ml-1.5 line-clamp-2">{post.caption.replace(/\\n/g, ' ')}</span>
+                </p>
+            )}
+
+            {post.comments > 0 && (
+                <Link href={`/posts/${post.id}#comments`} className="text-sm text-muted-foreground hover:underline mt-1 block">
+                    View all {post.comments} comments
+                </Link>
+            )}
+        </div>
+    </Card>
   );
 }
