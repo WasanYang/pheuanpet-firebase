@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { getExpertById } from '@/lib/data';
 import Header from '@/components/Header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,7 +19,8 @@ type Message = {
   content: string;
 };
 
-export default function ExpertChatPage({ params }: { params: { expertId: string } }) {
+export default function ExpertChatPage() {
+  const params = useParams<{ expertId: string }>();
   const expert = getExpertById(Number(params.expertId));
   const { toast } = useToast();
   // Initialize with a welcome message
