@@ -133,10 +133,10 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
           </TabsContent>
 
           <TabsContent value="media">
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1">
               {allMedia.map((media, index) => (
                 <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
-                  <div className="relative aspect-square w-full bg-muted overflow-hidden">
+                  <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
                     {media.type === 'image' ? (
                       <Image
                         src={media.url}
