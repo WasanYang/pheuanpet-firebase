@@ -135,7 +135,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="container mx-auto max-w-4xl py-6 sm:py-8 px-4 animate-in fade-in duration-500">
-        <Card className="overflow-hidden shadow-lg border-none bg-card/80 mb-8">
+        <Card className="overflow-hidden shadow-lg border-none bg-card/80">
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <Avatar className="w-28 h-28 sm:w-36 sm:h-36 border-4 border-primary shadow-md">
@@ -179,12 +179,16 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
         </Card>
 
         <Tabs defaultValue="posts" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="posts"><Grid className="mr-2 h-4 w-4" />Posts</TabsTrigger>
-            <TabsTrigger value="media"><ImageIcon className="mr-2 h-4 w-4" />Media</TabsTrigger>
+          <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
+            <TabsTrigger value="posts" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+              <Grid className="mr-2 h-4 w-4" />Posts
+            </TabsTrigger>
+            <TabsTrigger value="media" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-primary data-[state=active]:text-foreground">
+              <ImageIcon className="mr-2 h-4 w-4" />Media
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="posts">
+          <TabsContent value="posts" className="mt-6">
             <div className="flex flex-col gap-8">
               {posts.map(post => (
                   <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
@@ -215,7 +219,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
             </div>
           </TabsContent>
 
-          <TabsContent value="media">
+          <TabsContent value="media" className="mt-6">
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-1">
               {allMedia.map((media, index) => (
                 <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
