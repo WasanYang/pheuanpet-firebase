@@ -21,7 +21,7 @@ export default function ExpertsPage() {
   }
 
   return (
-    <div className="bg-background min-h-screen text-foreground">
+    <div className="bg-card min-h-screen text-foreground">
       <Header />
       <main className="container mx-auto max-w-5xl py-6 px-4 animate-in fade-in duration-500">
         <div className="mb-8 text-center">
@@ -34,7 +34,7 @@ export default function ExpertsPage() {
           {experts.map(expert => (
             <Card 
               key={expert.id} 
-              className="shadow-md border bg-card/80 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary hover:-translate-y-1 cursor-pointer group relative"
+              className="shadow-lg border bg-card transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary hover:-translate-y-1 cursor-pointer group relative"
               onClick={() => handleStartChat(expert)}
             >
               {isChatOpen(expert.id) && (
