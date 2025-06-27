@@ -6,7 +6,7 @@ export interface User {
 
 export interface Pet {
   id: number;
-  name: string;
+  name:string;
   breed: string;
   age: number;
   personality: string;
@@ -133,6 +133,14 @@ const posts: Post[] = [
 
 const experts: Expert[] = [
   {
+    id: 100,
+    name: 'PheuanPet AI',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: '24/7 AI Assistant',
+    bio: 'Your AI-powered assistant for general pet care questions. For medical emergencies, please consult a veterinarian.',
+    isAi: true,
+  },
+  {
     id: 1,
     name: 'Dr. Anya Sharma',
     avatarUrl: 'https://placehold.co/100x100.png',
@@ -149,13 +157,13 @@ const experts: Expert[] = [
     isAi: false,
   },
   {
-    id: 100,
-    name: 'PheuanPet AI Assistant',
+    id: 3,
+    name: 'Dr. Chloe Davis',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'General Pet Care Advisor',
-    bio: 'Your 24/7 AI-powered assistant for general pet care questions. For medical emergencies, please consult a veterinarian.',
-    isAi: true,
-  },
+    specialty: 'Exotic Pets Specialist',
+    bio: 'Expert in the care of reptiles, birds, and small mammals. Providing compassionate and knowledgeable advice.',
+    isAi: false,
+  }
 ];
 
 

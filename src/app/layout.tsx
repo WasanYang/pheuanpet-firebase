@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
+import { ChatProvider } from '@/context/ChatProvider';
+import ChatContainer from '@/components/ChatContainer';
 
 export const metadata: Metadata = {
   title: "PheuanPet: Your Pet's Social Universe",
@@ -20,7 +22,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        {children}
+        <ChatProvider>
+          {children}
+          <ChatContainer />
+        </ChatProvider>
         <Toaster />
       </body>
     </html>
