@@ -10,7 +10,15 @@ import { Input } from '@/components/ui/input';
 import { useChat } from '@/context/ChatProvider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 const Header = () => {
@@ -142,6 +150,12 @@ const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[280px] p-0 bg-card">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Menu</SheetTitle>
+                  <SheetDescription>
+                    Main navigation menu for the PheuanPet application.
+                  </SheetDescription>
+                </SheetHeader>
                 <SheetClose asChild>
                   <Link href="/" className="p-4 flex items-center gap-3">
                     <Avatar className="h-10 w-10 border-2 border-primary">
