@@ -135,7 +135,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-4xl mx-auto py-4 sm:py-6 px-0 sm:px-4 animate-in fade-in duration-500">
+      <main className="max-w-4xl mx-auto py-2 px-0 sm:px-4 animate-in fade-in duration-500">
         <Card className="overflow-hidden shadow-lg border-none bg-card/80 rounded-none sm:rounded-lg">
           <CardContent className="p-0">
              <div className="p-4">
@@ -189,7 +189,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                 </TabsList>
                 <div className="p-0 sm:p-4 bg-background">
                 <TabsContent value="posts" className="mt-0">
-                    <div className="flex flex-col gap-0 sm:gap-8">
+                    <div className="flex flex-col gap-0.5">
                     {posts.map(post => (
                         <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg rounded-none sm:rounded-lg">
                             <CardContent className="p-4 flex flex-col sm:flex-row gap-6">
