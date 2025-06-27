@@ -23,8 +23,8 @@ export default function ExpertsPage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-5xl py-8 px-4 animate-in fade-in duration-500">
-        <div className="bg-card p-8 rounded-none md:rounded-lg shadow-md mb-8 text-center -mx-4 md:mx-0">
+      <main className="max-w-5xl mx-auto py-8 px-0 sm:px-4 animate-in fade-in duration-500">
+        <div className="bg-card p-8 md:rounded-lg shadow-md mb-8 text-center">
           <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">Ask an Expert</h1>
           <p className="mt-3 text-lg text-muted-foreground max-w-xl mx-auto">
             Connect with our trusted veterinarians, behaviorists, and our 24/7 AI assistant for pet care advice.
@@ -34,7 +34,7 @@ export default function ExpertsPage() {
           {experts.map(expert => (
             <Card 
               key={expert.id} 
-              className="shadow-lg border bg-card transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary hover:-translate-y-1 cursor-pointer group relative"
+              className="shadow-lg border bg-card transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary hover:-translate-y-1 cursor-pointer group relative rounded-none sm:rounded-lg"
               onClick={() => handleStartChat(expert)}
             >
               {isChatOpen(expert.id) && (

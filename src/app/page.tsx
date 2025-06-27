@@ -14,7 +14,7 @@ const ColorPalette = () => {
   ];
 
   return (
-    <Card className="my-8 bg-card/80 shadow-lg border-none">
+    <Card className="my-8 bg-card/80 shadow-lg border-none rounded-none sm:rounded-lg">
       <CardHeader>
         <CardTitle className="font-headline text-2xl">ชุดสีของแอปพลิเคชัน</CardTitle>
         <CardDescription>นี่คือสีหลักที่สร้างบรรยากาศและความรู้สึกให้กับแอปของเราครับ</CardDescription>
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="container mx-auto max-w-2xl py-8 px-4 animate-in fade-in duration-500">
+      <main className="max-w-2xl mx-auto py-8 px-0 sm:px-4 animate-in fade-in duration-500">
         <ColorPalette />
         <div className="flex flex-col gap-4">
           {posts.map(post => {

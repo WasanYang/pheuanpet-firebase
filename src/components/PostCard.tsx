@@ -77,7 +77,7 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 
 export default function PostCard({ post, pet, user }: PostCardProps) {
   return (
-    <Card className="rounded-2xl shadow-lg border-none overflow-hidden bg-card/80">
+    <Card className="rounded-none sm:rounded-2xl shadow-lg border-none overflow-hidden bg-card/80">
         <div className="p-3 sm:p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <Link href={`/pets/${pet.id}`}>
