@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { useChat } from '@/context/ChatProvider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 const Header = () => {
@@ -62,6 +62,8 @@ const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[280px] p-4">
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+                <SheetDescription className="sr-only">Navigate through the application sections.</SheetDescription>
                 <div className="mb-6">
                     <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMenuOpen(false)}>
                         <PawPrint className="h-8 w-8 text-primary" />
