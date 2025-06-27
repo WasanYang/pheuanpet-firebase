@@ -46,7 +46,7 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="container relative flex h-16 max-w-4xl items-center mx-auto px-4 overflow-hidden sm:overflow-visible">
+      <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4 overflow-hidden sm:overflow-visible">
         
         {/* Logo and Mobile Menu */}
         <div className={cn(
