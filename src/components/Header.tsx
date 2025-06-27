@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { useChat } from '@/context/ChatProvider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 const Header = () => {
@@ -65,10 +65,13 @@ const Header = () => {
         <div className={cn(
             "flex-1 flex justify-center items-center transition-all duration-300 ease-in-out",
             isSearchActive 
-              ? "absolute inset-x-0 px-4" 
+              ? "absolute inset-x-0" 
               : "relative sm:px-4 lg:px-8"
         )}>
-            <div className="relative w-full max-w-md flex items-center gap-2">
+            <div className={cn(
+              "relative w-full max-w-md flex items-center gap-2",
+              isSearchActive && "px-4"
+            )}>
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                   <Input
@@ -90,7 +93,7 @@ const Header = () => {
 
         {/* Action Buttons */}
         <div className={cn(
-            "flex items-center justify-end space-x-2 sm:space-x-4 ml-auto pl-2",
+            "flex items-center justify-end space-x-2 sm:space-x-4 ml-auto",
             isSearchActive ? "opacity-0 translate-x-full pointer-events-none" : "opacity-100 translate-x-0",
             "transition-all duration-300"
         )}>
@@ -139,21 +142,30 @@ const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[280px] p-0 bg-card">
-                <SheetTitle className="sr-only">Main Menu</SheetTitle>
-                <SheetDescription className="sr-only">Navigate through the application sections.</SheetDescription>
+                <SheetClose asChild>
+                  <Link href="/" className="p-4 flex items-center gap-3">
+                    <Avatar className="h-10 w-10 border-2 border-primary">
+                      <AvatarImage src={user?.avatarUrl} alt={user?.name} data-ai-hint="person portrait" />
+                      <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <p className="font-bold">{user?.name}</p>
+                        <p className="text-xs text-muted-foreground">Go to Homepage</p>
+                    </div>
+                  </Link>
+                </SheetClose>
                 
+                <Separator className="bg-border/50" />
+
                 <div className="p-4">
                   {user && (
                     <SheetClose asChild>
-                      <Link href={`/users/${user.id}`} className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10 border-2 border-primary">
+                      <Link href={`/users/${user.id}`} className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                        <Avatar className="h-6 w-6">
                             <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                            <p className="font-bold">{user.name}</p>
-                            <p className="text-xs text-muted-foreground">View Profile</p>
-                        </div>
+                        <span>View Profile</span>
                       </Link>
                     </SheetClose>
                   )}
