@@ -29,19 +29,18 @@ const Header = () => {
     }
   };
   
-  // A small delay allows clicking the cancel button before the UI collapses
+  // This will only be called when the user clicks *outside* the input and cancel button.
   const handleBlur = () => {
-    setTimeout(() => {
-        setIsSearchActive(false);
-    }, 200);
+    setIsSearchActive(false);
   };
 
-  const handleCancel = () => {
-    // We manually blur the input, which will trigger handleBlur and collapse the UI.
+  // Using onMouseDown and preventDefault to avoid a conflict with the input's onBlur event.
+  const handleCancel = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (inputRef.current) {
         inputRef.current.value = '';
-        inputRef.current.blur();
     }
+    setIsSearchActive(false);
   };
 
   return (
@@ -124,10 +123,11 @@ const Header = () => {
                       className="w-full pl-9"
                       onFocus={handleFocus}
                       onBlur={handleBlur}
+                      placeholder=""
                   />
                 </div>
                 {isSearchActive && (
-                    <button onClick={handleCancel} className="text-sm text-primary font-medium">
+                    <button onMouseDown={handleCancel} className="text-sm text-primary font-medium">
                         Cancel
                     </button>
                 )}
