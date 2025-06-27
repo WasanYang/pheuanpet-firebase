@@ -11,6 +11,7 @@ import { useChat } from '@/context/ChatProvider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
@@ -49,7 +50,7 @@ const Header = () => {
         {/* Logo */}
         <div className={cn(
           "flex items-center space-x-2 mr-4 transition-all duration-300 ease-in-out",
-          isSearchActive ? "-translate-x-[200%]" : "translate-x-0"
+          isSearchActive ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 translate-x-0"
         )}>
           {/* Logo for All Screens */}
           <Link href="/" className="flex items-center space-x-2">
@@ -87,8 +88,9 @@ const Header = () => {
 
         {/* Action Buttons */}
         <div className={cn(
-            "flex items-center justify-end space-x-2 sm:space-x-4 transition-all duration-300 ease-in-out",
-            isSearchActive ? "translate-x-[200%]" : "translate-x-0"
+            "flex items-center justify-end space-x-2 sm:space-x-4",
+            isSearchActive ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 translate-x-0",
+            "transition-all duration-300"
         )}>
           {/* Desktop nav actions */}
           <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
@@ -130,39 +132,42 @@ const Header = () => {
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6 text-primary" />
+                  <Menu className="h-6 w-6 text-foreground" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[280px] p-0">
+              <SheetContent side="right" className="w-[280px] p-0 bg-card">
                 <SheetTitle className="sr-only">Main Menu</SheetTitle>
                 <SheetDescription className="sr-only">Navigate through the application sections.</SheetDescription>
-                <div className="p-4 border-b">
+                
+                <div className="p-4">
                   {user && (
                     <SheetClose asChild>
-                      <Link href="/" className="flex items-center gap-3">
+                      <Link href={`/users/${user.id}`} className="flex items-center gap-3">
                         <Avatar className="h-10 w-10 border-2 border-primary">
                             <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="font-bold">{user.name}</p>
-                            <p className="text-xs text-muted-foreground">Go to Homepage</p>
+                            <p className="text-xs text-muted-foreground">View Profile</p>
                         </div>
                       </Link>
                     </SheetClose>
                   )}
                 </div>
 
+                <Separator className="bg-border/50" />
+
                 <nav className="p-4 flex flex-col gap-2">
                   <SheetClose asChild>
-                    <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
+                    <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                       <Home className="h-5 w-5 text-muted-foreground" />
                       <span>Home</span>
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
-                     <Link href="/experts" className="flex items-center justify-between rounded-md p-3 text-base font-medium hover:bg-accent">
+                     <Link href="/experts" className="flex items-center justify-between rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                         <div className="flex items-center gap-3">
                             <Stethoscope className="h-5 w-5 text-muted-foreground" />
                             <span>Ask an Expert</span>
@@ -175,7 +180,7 @@ const Header = () => {
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
+                    <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                       <PlusSquare className="h-5 w-5 text-muted-foreground" />
                       <span>Create Post</span>
                     </Link>
