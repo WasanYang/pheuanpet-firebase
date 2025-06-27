@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-2xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
+      <main className="max-w-2xl mx-auto py-2 px-0 sm:px-2 animate-in fade-in duration-500">
         <ColorPalette />
         <div className="flex flex-col gap-4">
           {posts.map(post => {

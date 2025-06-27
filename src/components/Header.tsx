@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { PawPrint, Home, PlusSquare, Search, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -7,31 +8,86 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserById } from '@/lib/data';
 import { Input } from './ui/input';
 import { useChat } from '@/context/ChatProvider';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
   const { openChats } = useChat();
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const isMobile = useIsMobile();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+
+  // This should only trigger the expanding UI on mobile.
+  const handleFocus = () => {
+    if (isMobile) {
+      setIsSearchActive(true);
+    }
+  };
+  
+  // A small delay allows clicking the cancel button before the UI collapses
+  const handleBlur = () => {
+    setTimeout(() => {
+        setIsSearchActive(false);
+    }, 200);
+  };
+
+  const handleCancel = () => {
+    // We manually blur the input, which will trigger handleBlur and collapse the UI.
+    if (inputRef.current) {
+        inputRef.current.value = '';
+        inputRef.current.blur();
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="container flex h-16 max-w-4xl items-center mx-auto px-4">
-        <Link href="/" className="flex items-center space-x-2 mr-6">
-          <PawPrint className="h-8 w-8 text-primary" />
-          <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
-        </Link>
+      <div className="container relative flex h-16 max-w-4xl items-center mx-auto px-4 overflow-hidden sm:overflow-visible">
         
-        <div className="flex-1 flex justify-center px-4 lg:px-8">
-            <div className="relative w-full max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                    type="search"
-                    placeholder="Search pets, users..."
-                    className="w-full pl-9"
-                />
+        {/* Logo and App Name */}
+        <div className={cn(
+          "flex items-center space-x-2 mr-6 transition-all duration-300 ease-in-out",
+          isSearchActive ? "-translate-x-[200%]" : "translate-x-0"
+        )}>
+          <Link href="/" className="flex items-center space-x-2">
+            <PawPrint className="h-8 w-8 text-primary" />
+            <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
+          </Link>
+        </div>
+        
+        {/* Search Bar and its wrapper */}
+        <div className={cn(
+            "flex-1 flex justify-center items-center transition-all duration-300 ease-in-out",
+            isSearchActive 
+              ? "absolute inset-x-0 px-4" 
+              : "relative sm:px-4 lg:px-8"
+        )}>
+            <div className="relative w-full max-w-md flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                  <Input
+                      ref={inputRef}
+                      type="search"
+                      placeholder="Search pets, users..."
+                      className="w-full pl-9"
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                  />
+                </div>
+                {isSearchActive && (
+                    <button onClick={handleCancel} className="text-sm text-primary font-medium">
+                        Cancel
+                    </button>
+                )}
             </div>
         </div>
 
-        <div className="flex items-center justify-end space-x-2 sm:space-x-4">
+        {/* Action Buttons */}
+        <div className={cn(
+            "flex items-center justify-end space-x-2 sm:space-x-4 transition-all duration-300 ease-in-out",
+            isSearchActive ? "translate-x-[200%]" : "translate-x-0"
+        )}>
           <Button variant="ghost" size="icon" asChild>
             <Link href="/" aria-label="Home">
               <Home className="h-5 w-5" />
