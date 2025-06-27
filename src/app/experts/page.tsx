@@ -43,7 +43,7 @@ export default function ExpertsPage() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
                 </div>
               )}
-              <CardContent className="p-6 flex items-center gap-6">
+              <CardContent className="p-4 flex items-center gap-6">
                 <Avatar className="h-20 w-20 flex-shrink-0">
                   <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
                   <AvatarFallback className="text-3xl">{expert.name.charAt(0)}</AvatarFallback>

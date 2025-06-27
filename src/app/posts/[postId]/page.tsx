@@ -91,7 +91,7 @@ export default function PostPage({ params }: { params: { postId: string } }) {
         <Card className="shadow-lg overflow-hidden rounded-none sm:rounded-lg">
             <CardContent className="p-0">
                 <MediaDisplay media={post.media} petName={pet.name} caption={post.caption} />
-                <div className="p-4 md:p-6">
+                <div className="p-4">
                     <div className="flex items-center gap-3 mb-4">
                         <Link href={`/pets/${pet.id}`}>
                             <Avatar className="h-12 w-12 border-2 border-primary">
