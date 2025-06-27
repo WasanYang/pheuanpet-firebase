@@ -15,11 +15,11 @@ const ColorPalette = () => {
 
   return (
     <Card className="my-8 bg-card/80 shadow-lg border-none rounded-none sm:rounded-lg">
-      <CardHeader>
+      <CardHeader className="p-4">
         <CardTitle className="font-headline text-2xl">ชุดสีของแอปพลิเคชัน</CardTitle>
         <CardDescription>นี่คือสีหลักที่สร้างบรรยากาศและความรู้สึกให้กับแอปของเราครับ</CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4">
         {colors.map(color => (
           <div key={color.name} className="flex items-center gap-4">
             <div className={`h-16 w-16 rounded-lg flex-shrink-0 ${color.class}`}></div>
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-2xl mx-auto py-8 px-0 sm:px-4 animate-in fade-in duration-500">
+      <main className="max-w-2xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
         <ColorPalette />
         <div className="flex flex-col gap-4">
           {posts.map(post => {

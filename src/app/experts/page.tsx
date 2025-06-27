@@ -23,8 +23,8 @@ export default function ExpertsPage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-5xl mx-auto py-8 px-0 sm:px-4 animate-in fade-in duration-500">
-        <div className="bg-card p-8 md:rounded-lg shadow-md mb-8 text-center">
+      <main className="max-w-5xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
+        <div className="bg-card p-6 md:p-8 md:rounded-lg shadow-md mb-8 text-center">
           <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">Ask an Expert</h1>
           <p className="mt-3 text-lg text-muted-foreground max-w-xl mx-auto">
             Connect with our trusted veterinarians, behaviorists, and our 24/7 AI assistant for pet care advice.

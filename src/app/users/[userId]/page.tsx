@@ -21,7 +21,7 @@ export default function UserProfilePage({ params }: { params: { userId: string }
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-4xl mx-auto py-6 sm:py-8 px-0 sm:px-4 animate-in fade-in duration-500">
+      <main className="max-w-4xl mx-auto py-4 sm:py-6 px-0 sm:px-4 animate-in fade-in duration-500">
         <Card className="overflow-hidden shadow-lg border-none bg-card/80 mb-8 rounded-none sm:rounded-lg">
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row items-center gap-6">
