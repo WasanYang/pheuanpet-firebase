@@ -30,7 +30,7 @@ export default function ExpertsPage() {
             Connect with our trusted veterinarians, behaviorists, and our 24/7 AI assistant for pet care advice.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
           {experts.map(expert => (
             <Card 
               key={expert.id} 
