@@ -44,7 +44,7 @@ export default function Home() {
       <Header />
       <main className="max-w-2xl mx-auto py-2 px-0 sm:px-2 animate-in fade-in duration-500">
         <ColorPalette />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           {posts.map(post => {
             const pet = getPetById(post.petId);
             const user = pet ? getUserById(pet.ownerId) : null;
