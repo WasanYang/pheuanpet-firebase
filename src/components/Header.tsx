@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -39,6 +39,8 @@ const Header = () => {
     e.preventDefault();
     if (inputRef.current) {
         inputRef.current.value = '';
+        // Manually trigger blur to hide the cancel button and collapse the search bar
+        inputRef.current.blur();
     }
     setIsSearchActive(false);
   };
@@ -88,8 +90,8 @@ const Header = () => {
 
         {/* Action Buttons */}
         <div className={cn(
-            "flex items-center justify-end space-x-2 sm:space-x-4",
-            isSearchActive ? "opacity-0 -translate-x-full pointer-events-none" : "opacity-100 translate-x-0",
+            "flex items-center justify-end space-x-2 sm:space-x-4 ml-auto pl-2",
+            isSearchActive ? "opacity-0 translate-x-full pointer-events-none" : "opacity-100 translate-x-0",
             "transition-all duration-300"
         )}>
           {/* Desktop nav actions */}
@@ -186,6 +188,16 @@ const Header = () => {
                     </Link>
                   </SheetClose>
                 </nav>
+
+                <Separator className="bg-border/50" />
+                <div className="p-4">
+                  <SheetClose asChild>
+                    <Link href="/signup" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                      <UserPlus className="h-5 w-5 text-muted-foreground" />
+                      <span>Sign Up</span>
+                    </Link>
+                  </SheetClose>
+                </div>
               </SheetContent>
             </Sheet>
           </div>
