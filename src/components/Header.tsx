@@ -11,7 +11,6 @@ import { useChat } from '@/context/ChatProvider';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
@@ -47,63 +46,13 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4 overflow-hidden sm:overflow-visible">
         
-        {/* Logo and Mobile Menu */}
+        {/* Logo */}
         <div className={cn(
           "flex items-center space-x-2 mr-4 transition-all duration-300 ease-in-out",
           isSearchActive ? "-translate-x-[200%]" : "translate-x-0"
         )}>
-           {/* Hamburger Menu Trigger for mobile */}
-          <div className="md:hidden">
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6 text-primary" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[280px] p-4">
-                <SheetTitle className="sr-only">Main Menu</SheetTitle>
-                <SheetDescription className="sr-only">Navigate through the application sections.</SheetDescription>
-                <div className="mb-6">
-                    <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMenuOpen(false)}>
-                        <PawPrint className="h-8 w-8 text-primary" />
-                        <span className="font-headline text-2xl font-bold">PheuanPet</span>
-                    </Link>
-                </div>
-                <Separator className="bg-border" />
-                <nav className="mt-6 flex flex-col gap-2">
-                  <SheetClose asChild>
-                    <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
-                      <Home className="h-5 w-5 text-muted-foreground" />
-                      <span>Home</span>
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                     <Link href="/experts" className="flex items-center justify-between rounded-md p-3 text-base font-medium hover:bg-accent">
-                        <div className="flex items-center gap-3">
-                            <Stethoscope className="h-5 w-5 text-muted-foreground" />
-                            <span>Ask an Expert</span>
-                        </div>
-                        {openChats.length > 0 && (
-                          <div className="flex h-2.5 w-2.5">
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
-                          </div>
-                        )}
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
-                      <PlusSquare className="h-5 w-5 text-muted-foreground" />
-                      <span>Create Post</span>
-                    </Link>
-                  </SheetClose>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          {/* Logo for Desktop */}
-          <Link href="/" className="hidden md:flex items-center space-x-2">
+          {/* Logo for All Screens */}
+          <Link href="/" className="flex items-center space-x-2">
             <PawPrint className="h-8 w-8 text-primary" />
             <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
           </Link>
@@ -167,15 +116,74 @@ const Header = () => {
               </Link>
             </Button>
           </div>
-          {/* User profile avatar */}
+          {/* User profile avatar for Desktop */}
           {user && (
-            <Link href={`/users/${user.id}`} aria-label="User Profile">
+            <Link href="/" aria-label="Home Page" className="hidden md:block">
               <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
                 <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                 <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
               </Avatar>
             </Link>
           )}
+           {/* Hamburger Menu Trigger for mobile */}
+          <div className="md:hidden">
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6 text-primary" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px] p-0">
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+                <SheetDescription className="sr-only">Navigate through the application sections.</SheetDescription>
+                <div className="p-4 border-b">
+                  {user && (
+                    <SheetClose asChild>
+                      <Link href="/" className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10 border-2 border-primary">
+                            <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
+                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <p className="font-bold">{user.name}</p>
+                            <p className="text-xs text-muted-foreground">Go to Homepage</p>
+                        </div>
+                      </Link>
+                    </SheetClose>
+                  )}
+                </div>
+
+                <nav className="p-4 flex flex-col gap-2">
+                  <SheetClose asChild>
+                    <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
+                      <Home className="h-5 w-5 text-muted-foreground" />
+                      <span>Home</span>
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                     <Link href="/experts" className="flex items-center justify-between rounded-md p-3 text-base font-medium hover:bg-accent">
+                        <div className="flex items-center gap-3">
+                            <Stethoscope className="h-5 w-5 text-muted-foreground" />
+                            <span>Ask an Expert</span>
+                        </div>
+                        {openChats.length > 0 && (
+                          <div className="flex h-2.5 w-2.5">
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
+                          </div>
+                        )}
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent">
+                      <PlusSquare className="h-5 w-5 text-muted-foreground" />
+                      <span>Create Post</span>
+                    </Link>
+                  </SheetClose>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
