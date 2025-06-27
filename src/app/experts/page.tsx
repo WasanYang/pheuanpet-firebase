@@ -34,7 +34,7 @@ export default function ExpertsPage() {
           {experts.map(expert => (
             <Card 
               key={expert.id} 
-              className="shadow-md border-transparent border-2 bg-card/80 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 cursor-pointer group relative"
+              className="shadow-md border bg-card/80 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary hover:-translate-y-1 cursor-pointer group relative"
               onClick={() => handleStartChat(expert)}
             >
               {isChatOpen(expert.id) && (
@@ -44,7 +44,7 @@ export default function ExpertsPage() {
                 </div>
               )}
               <CardContent className="p-6 flex items-center gap-6">
-                <Avatar className="h-20 w-20 border-4 border-primary/20 group-hover:border-primary transition-colors flex-shrink-0">
+                <Avatar className="h-20 w-20 flex-shrink-0">
                   <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
                   <AvatarFallback className="text-3xl">{expert.name.charAt(0)}</AvatarFallback>
                 </Avatar>
@@ -53,7 +53,7 @@ export default function ExpertsPage() {
                     <h2 className="font-headline text-xl font-bold">{expert.name}</h2>
                     {expert.isAi && <Badge variant="secondary">AI Assistant</Badge>}
                   </div>
-                  <p className="font-semibold text-primary">{expert.specialty}</p>
+                  <p className="font-semibold text-muted-foreground">{expert.specialty}</p>
                   <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{expert.bio}</p>
                 </div>
                 <MessageSquare className="h-8 w-8 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110 flex-shrink-0" />
