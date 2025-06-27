@@ -33,11 +33,17 @@ const Header = () => {
               <Home className="h-5 w-5" />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/experts" aria-label="Ask an Expert">
-              <Stethoscope className="h-5 w-5" />
-            </Link>
-          </Button>
+          <div className="relative">
+            <Button variant="ghost" size="icon" asChild>
+              <Link href="/experts" aria-label="Ask an Expert">
+                <Stethoscope className="h-5 w-5" />
+              </Link>
+            </Button>
+            <div className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
+            </div>
+          </div>
           <Button variant="ghost" size="icon" asChild>
             <Link href="/create" aria-label="Create Post">
               <PlusSquare className="h-5 w-5" />
