@@ -1,12 +1,16 @@
+'use client';
+
 import { PawPrint, Home, PlusSquare, Search, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserById } from '@/lib/data';
 import { Input } from './ui/input';
+import { useChat } from '@/context/ChatProvider';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
+  const { openChats } = useChat();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,10 +43,12 @@ const Header = () => {
                 <Stethoscope className="h-5 w-5" />
               </Link>
             </Button>
-            <div className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
-            </div>
+            {openChats.length > 0 && (
+              <div className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
+              </div>
+            )}
           </div>
           <Button variant="ghost" size="icon" asChild>
             <Link href="/create" aria-label="Create Post">
