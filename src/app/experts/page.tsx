@@ -10,11 +10,15 @@ import { useChat } from '@/context/ChatProvider';
 
 export default function ExpertsPage() {
   const experts = getExperts();
-  const { openChat } = useChat();
+  const { openChat, openChats } = useChat();
 
   const handleStartChat = (expert: Expert) => {
     openChat(expert);
   };
+
+  const isChatOpen = (expertId: number) => {
+    return openChats.some(chat => chat.id === expertId);
+  }
 
   return (
     <div className="bg-background min-h-screen text-foreground">
@@ -30,9 +34,15 @@ export default function ExpertsPage() {
           {experts.map(expert => (
             <Card 
               key={expert.id} 
-              className="shadow-md border-transparent border-2 bg-card/80 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 cursor-pointer group"
+              className="shadow-md border-transparent border-2 bg-card/80 transition-all duration-300 ease-in-out hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 cursor-pointer group relative"
               onClick={() => handleStartChat(expert)}
             >
+              {isChatOpen(expert.id) && (
+                <div className="absolute top-4 right-4 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                </div>
+              )}
               <CardContent className="p-6 flex items-center gap-6">
                 <Avatar className="h-20 w-20 border-4 border-primary/20 group-hover:border-primary transition-colors flex-shrink-0">
                   <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
