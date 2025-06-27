@@ -28,6 +28,14 @@ export interface Post {
   comments: number;
 }
 
+export interface Comment {
+  id: number;
+  postId: number;
+  userId: number;
+  content: string;
+  timestamp: string;
+}
+
 export interface Expert {
   id: number;
   name: string;
@@ -81,7 +89,7 @@ const posts: Post[] = [
     ],
     caption: '<h2>Enjoying the afternoon sun. ☀️</h2><p>I love naps and this is my favorite spot. It gets the perfect amount of warmth without being too hot. My human sometimes joins me, but mostly it\'s just me and my thoughts.</p>',
     likes: 124,
-    comments: 12,
+    comments: 2,
   },
   {
     id: 2,
@@ -92,7 +100,7 @@ const posts: Post[] = [
     ],
     caption: '<h2>Ready for our evening walk!</h2><p>This is my favorite part of the day. We always go to the big park where I can see all my friends.</p>',
     likes: 256,
-    comments: 34,
+    comments: 1,
   },
   {
     id: 3,
@@ -102,7 +110,7 @@ const posts: Post[] = [
     ],
     caption: '<p>My favorite toy! I could chase this for hours. My human says I\'m obsessed, but I call it dedication. #doglife #playtime</p>',
     likes: 431,
-    comments: 55,
+    comments: 1,
   },
   {
     id: 4,
@@ -115,7 +123,7 @@ const posts: Post[] = [
     ],
     caption: '<h2>A collection of my best napping poses.</h2><p>Which one is your favorite? I\'m personally a fan of the "pretzel" and the "classic loaf".</p>',
     likes: 302,
-    comments: 21,
+    comments: 0,
   },
    {
     id: 5,
@@ -127,9 +135,41 @@ const posts: Post[] = [
     ],
     caption: '<p>Met a new friend today! We sniffed, we ran, we conquered the dog park. Can\'t wait for our next adventure.</p>',
     likes: 189,
-    comments: 17,
+    comments: 0,
   },
 ];
+
+const comments: Comment[] = [
+  {
+    id: 1,
+    postId: 1,
+    userId: 2,
+    content: 'What a beautiful cat! So majestic.',
+    timestamp: '2 hours ago',
+  },
+  {
+    id: 2,
+    postId: 1,
+    userId: 1,
+    content: 'Thank you! She loves the camera.',
+    timestamp: '1 hour ago',
+  },
+  {
+    id: 3,
+    postId: 2,
+    userId: 1,
+    content: 'Such a happy dog!',
+    timestamp: '5 hours ago',
+  },
+  {
+    id: 4,
+    postId: 3,
+    userId: 2,
+    content: 'So much energy! I love it!',
+    timestamp: '1 day ago',
+  },
+];
+
 
 const experts: Expert[] = [
   {
@@ -177,6 +217,8 @@ export const getPetsByOwnerId = (ownerId: number): Pet[] => pets.filter(p => p.o
 export const getPosts = (): Post[] => posts;
 export const getPostById = (id: number): Post | undefined => posts.find(p => p.id === id);
 export const getPostsByPetId = (petId: number): Post[] => posts.filter(p => p.petId === petId);
+
+export const getCommentsByPostId = (postId: number): Comment[] => comments.filter(c => c.postId === postId);
 
 export const getExperts = (): Expert[] => experts;
 export const getExpertById = (id: number): Expert | undefined => experts.find(e => e.id === id);
