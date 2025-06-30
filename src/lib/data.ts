@@ -54,6 +54,9 @@ const users: User[] = [
   { id: 2, name: 'Somsak', avatarUrl: 'https://placehold.co/100x100.png' },
   { id: 3, name: 'น.สพ.ญ. อัญญา ชาร์มา', avatarUrl: 'https://placehold.co/100x100.png' },
   { id: 4, name: 'คุณเบน คาร์เตอร์', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 5, name: 'น.สพ. โคลอี้ เดวิส', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 6, name: 'น.สพ. เคนจิ ทานากะ', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 7, name: 'น.สพ.ญ. อิซาเบลลา รอสซี', avatarUrl: 'https://placehold.co/100x100.png' },
 ];
 
 const pets: Pet[] = [
@@ -143,6 +146,36 @@ const posts: Post[] = [
     likes: 189,
     comments: 0,
   },
+  {
+    id: 6,
+    petId: 3,
+    media: [
+      { type: 'image', url: 'https://placehold.co/800x600.png' },
+    ],
+    caption: '<h3>Just got back from the groomer!</h3><p>Feeling fresh and fabulous. Look at this shiny coat!</p>',
+    likes: 512,
+    comments: 1,
+  },
+  {
+    id: 7,
+    petId: 1,
+    media: [
+      { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+    ],
+    caption: '<h1>My hunting skills are top-notch.</h1><p>This feather didn\'t stand a chance. It\'s important to stay sharp.</p>',
+    likes: 215,
+    comments: 1,
+  },
+  {
+    id: 8,
+    petId: 2,
+    media: [
+       { type: 'image', url: 'https://placehold.co/600x800.png' },
+    ],
+    caption: '<h2>Patiently waiting for dinner.</h2><p>I\'ve been a very good boy today. I think I deserve an extra treat, don\'t you?</p>',
+    likes: 345,
+    comments: 1,
+  },
 ];
 
 const comments: Comment[] = [
@@ -154,6 +187,9 @@ const comments: Comment[] = [
   { id: 6, postId: 3, userId: 1, content: 'She could play with that all day long!', timestamp: '22 hours ago' },
   { id: 7, postId: 5, userId: 1, content: 'New friends are the best!', timestamp: '3 days ago' },
   { id: 8, postId: 5, userId: 2, content: 'Hope they meet again soon!', timestamp: '3 days ago' },
+  { id: 9, postId: 6, userId: 1, content: 'So fluffy! ❤️', timestamp: '1 hour ago' },
+  { id: 10, postId: 7, userId: 2, content: 'Fierce hunter!', timestamp: '3 hours ago' },
+  { id: 11, postId: 8, userId: 1, content: 'Of course you do! Good boy!', timestamp: '30 minutes ago' },
 ];
 
 
@@ -190,6 +226,39 @@ const experts: Expert[] = [
     description: 'แก้ปัญหาพฤติกรรมสุนัข เช่น ความก้าวร้าว, ความวิตกกังวล, และการฝึกเข้าสังคม',
     isAi: false,
     costPerMessage: 0, // For future use
+  },
+  {
+    id: 3,
+    userId: 5,
+    name: 'น.สพ. โคลอี้ เดวิส',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'ผู้เชี่ยวชาญสัตว์เลี้ยงชนิดพิเศษ',
+    bio: 'สัตวแพทย์ผู้มีประสบการณ์ในการรักษาสัตว์เลื้อยคลาน นก และสัตว์เลี้ยงลูกด้วยนมขนาดเล็ก',
+    description: 'ให้คำปรึกษาการดูแล, โภชนาการ, และการป้องกันโรคสำหรับสัตว์เลี้ยงชนิดพิเศษ',
+    isAi: false,
+    costPerMessage: 0,
+  },
+  {
+    id: 4,
+    userId: 6,
+    name: 'น.สพ. เคนจิ ทานากะ',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'นักโภชนาการสัตวแพทย์',
+    bio: 'เชี่ยวชาญในการวางแผนอาหารที่เหมาะกับความต้องการของสัตว์เลี้ยงแต่ละตัว โดยเฉพาะสัตว์เลี้ยงที่มีภาวะป่วย',
+    description: 'วางแผนโภชนาการเพื่อจัดการน้ำหนัก, ภูมิแพ้, และภาวะสุขภาพอื่นๆ',
+    isAi: false,
+    costPerMessage: 0,
+  },
+  {
+    id: 5,
+    userId: 7,
+    name: 'น.สพ.ญ. อิซาเบลลา รอสซี',
+    avatarUrl: 'https://placehold.co/100x100.png',
+    specialty: 'ผู้เชี่ยวชาญการดูแลสัตว์เลี้ยงสูงวัย',
+    bio: 'อุทิศตนเพื่อพัฒนาคุณภาพชีวิตของสัตว์เลี้ยงสูงวัยผ่านการจัดการความเจ็บปวดและการดูแลแบบประคับประคอง',
+    description: 'ปรึกษาเรื่องการดูแลสัตว์เลี้ยงสูงวัย, โรคข้ออักเสบ, และการดูแลในช่วงท้ายของชีวิต',
+    isAi: false,
+    costPerMessage: 0,
   },
 ];
 
