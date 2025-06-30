@@ -132,8 +132,8 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
 
 
   return (
-    <div className="bg-background min-h-screen text-foreground">
-      <main className="max-w-4xl mx-auto py-4 px-4 animate-in fade-in duration-500">
+    <div className="bg-background min-h-screen text-foreground animate-in fade-in duration-500">
+      <main className="w-full">
         <Card className="overflow-hidden shadow-sm border bg-card/80 rounded-lg mb-4">
           <CardContent className="p-0">
              <div className="p-4">

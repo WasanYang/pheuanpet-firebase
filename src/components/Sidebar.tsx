@@ -26,9 +26,9 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-[calc(100vh-4rem)] sticky top-16 bg-card">
-      <div className="flex-1 overflow-y-auto py-4">
-        <nav className="px-4 space-y-1">
+    <aside className="hidden xl:flex flex-col w-64 h-[calc(100vh-5rem)] sticky top-20">
+      <div className="flex-1 overflow-y-auto">
+        <nav className="space-y-1">
           {menuItems.map((item) => (
             <Button
               key={item.href}
@@ -46,7 +46,7 @@ export default function Sidebar() {
 
         <Separator className="my-4" />
 
-        <div className="px-4 space-y-2">
+        <div className="space-y-2">
           <h2 className="px-3 text-sm font-semibold text-muted-foreground tracking-wider uppercase">Your Pets</h2>
           <div className="space-y-1 mt-2">
             {pets.map(pet => (

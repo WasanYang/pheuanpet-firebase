@@ -46,9 +46,9 @@ export default function VetConnectDirectoryPage() {
   const filteredExperts = experts;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground animate-in fade-in duration-500">
       
-      <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500 p-4">
+      <main className="flex-1 w-full">
         <div className="mb-4">
           <div className="flex items-center gap-3">
             <MapPin className="h-5 w-5 text-muted-foreground" />

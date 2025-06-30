@@ -89,9 +89,9 @@ export default function PostPage({ params }: { params: { postId: string } }) {
   const loggedInUser = getUserById(1); // Mock logged-in user
 
   return (
-    <div className="bg-background min-h-screen text-foreground">
-      <main className="max-w-3xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
-        <Card className="shadow-sm overflow-hidden rounded-none sm:rounded-lg border">
+    <div className="bg-background min-h-screen text-foreground animate-in fade-in duration-500">
+      <main className="w-full">
+        <Card className="shadow-sm overflow-hidden rounded-lg border">
             <CardContent className="p-0">
                 <MediaDisplay media={post.media} petName={pet.name} caption={post.caption} />
                 <div className="p-4">

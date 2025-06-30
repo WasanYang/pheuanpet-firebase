@@ -1,7 +1,7 @@
 
 'use client';
 
-import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
+import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,7 +11,6 @@ import {
   SheetContent,
   SheetTrigger,
   SheetClose,
-  SheetHeader,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { usePathname } from 'next/navigation';
@@ -34,25 +33,25 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-card">
-      <div className="container flex h-16 max-w-7xl items-center mx-auto px-4">
-        {/* Mobile Menu & Logo */}
+      <div className="container flex h-16 max-w-screen-xl items-center justify-between mx-auto px-4">
+        {/* Left side */}
         <div className="flex items-center gap-2">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="xl:hidden">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] p-0 bg-card border-r">
-                <SheetHeader className="p-4 border-b">
+                <div className="p-4 border-b">
                     <SheetClose asChild>
                         <Link href="/" className="flex items-center gap-3">
                             <PawPrint className="h-8 w-8 text-primary" />
                             <span className="font-headline text-2xl font-bold">PheuanPet</span>
                         </Link>
                     </SheetClose>
-                </SheetHeader>
+                </div>
                 <div className="flex-1 overflow-y-auto py-4">
                     <nav className="px-4 space-y-1">
                     {menuItems.map((item) => (
@@ -107,8 +106,30 @@ const Header = () => {
 
           <Link href="/" className="flex items-center space-x-3">
             <PawPrint className="h-8 w-8 text-primary" />
-            <span className="font-headline text-2xl font-bold">PheuanPet</span>
+            <span className="hidden sm:block font-headline text-2xl font-bold">PheuanPet</span>
           </Link>
+        </div>
+
+        {/* Right side */}
+        <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon">
+                <Bell className="h-5 w-5" />
+                <span className="sr-only">Notifications</span>
+            </Button>
+            <Button variant="ghost" size="icon">
+                <Sun className="h-5 w-5" />
+                <span className="sr-only">Toggle theme</span>
+            </Button>
+            {user && (
+                <Button variant="ghost" className="p-1 h-auto" asChild>
+                    <Link href={`/users/${user.id}`}>
+                        <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person" />
+                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                    </Link>
+                </Button>
+            )}
         </div>
       </div>
     </header>

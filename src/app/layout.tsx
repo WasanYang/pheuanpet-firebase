@@ -7,6 +7,7 @@ import ChatContainer from '@/components/ChatContainer';
 import { cn } from '@/lib/utils';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
+import RightSidebar from '@/components/RightSidebar';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -31,11 +32,12 @@ export default function RootLayout({
         <ChatProvider>
           <div className="bg-background min-h-screen">
             <Header />
-            <div className="flex">
+            <div className="container max-w-screen-xl mx-auto flex gap-8 px-4">
               <Sidebar />
-              <main className="flex-1 w-full">
+              <main className="flex-1 w-full py-6">
                 {children}
               </main>
+              <RightSidebar />
             </div>
             <ChatContainer />
           </div>
