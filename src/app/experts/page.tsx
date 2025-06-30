@@ -12,7 +12,7 @@ import { MapPin } from 'lucide-react';
 const ExpertCard = ({ expert }: { expert: Expert }) => {
   return (
     <Link href={`/users/${expert.userId}`} className="group block h-full">
-      <Card className="h-full transition-all duration-300 hover:shadow-xl flex flex-col rounded-none border-none">
+      <Card className="h-full transition-shadow duration-300 hover:shadow-lg flex flex-col rounded-lg border shadow-md">
         <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
           <Avatar className="h-24 w-24 mb-4 border-4 border-transparent group-hover:border-primary transition-colors">
               <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint="person doctor" />
@@ -50,8 +50,8 @@ export default function VetConnectDirectoryPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       
-      <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500">
-        <div className="p-4 bg-card border-b">
+      <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500 p-4">
+        <div className="mb-4">
           <div className="flex items-center gap-3">
             <MapPin className="h-5 w-5 text-muted-foreground" />
             <Select value={location} onValueChange={setLocation}>
@@ -69,7 +69,7 @@ export default function VetConnectDirectoryPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-0.5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredExperts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} />
             ))}

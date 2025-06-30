@@ -135,8 +135,8 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-4xl mx-auto py-2 px-0 sm:px-4 animate-in fade-in duration-500">
-        <Card className="overflow-hidden shadow-lg border-none bg-card/80 rounded-none sm:rounded-lg">
+      <main className="max-w-4xl mx-auto py-4 px-4 animate-in fade-in duration-500">
+        <Card className="overflow-hidden shadow-lg border-none bg-card/80 rounded-lg mb-4">
           <CardContent className="p-0">
              <div className="p-4">
                 <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -187,11 +187,11 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                     <ImageIcon className="mr-2 h-4 w-4" />Media
                 </TabsTrigger>
                 </TabsList>
-                <div className="p-0.5 sm:p-4">
+                <div className="p-4">
                 <TabsContent value="posts" className="mt-0">
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-4">
                     {posts.map(post => (
-                        <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg rounded-none sm:rounded-lg">
+                        <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg rounded-lg border">
                             <CardContent className="p-4 flex flex-col sm:flex-row gap-6">
                                 <div className="w-full sm:w-1/3 md:w-1/4 flex-shrink-0">
                                     <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />

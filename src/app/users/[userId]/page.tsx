@@ -48,8 +48,8 @@ export default function UserProfilePage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
       <Header />
-      <main className="max-w-4xl mx-auto py-2 px-0 sm:px-4 animate-in fade-in duration-500">
-        <Card className="overflow-hidden shadow-lg border-none bg-card/80 mb-0.5 rounded-none sm:rounded-lg">
+      <main className="max-w-4xl mx-auto py-4 px-4 animate-in fade-in duration-500">
+        <Card className="overflow-hidden shadow-lg border-none bg-card/80 mb-4 rounded-lg">
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-4 border-primary shadow-md">
@@ -97,10 +97,10 @@ export default function UserProfilePage() {
 
         <div>
           <h2 className="font-headline text-2xl md:text-3xl font-bold my-6">{expertInfo ? "Posts" : `${user.name}'s Pets`}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-0.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {pets.map(pet => (
               <Link href={`/pets/${pet.id}`} key={pet.id} className="group block">
-                <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/20 flex flex-col h-full rounded-none sm:rounded-lg">
+                <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg flex flex-col h-full rounded-lg border shadow-md">
                   <div className="relative w-full aspect-square flex-shrink-0 bg-muted">
                      <Image
                       src={pet.avatarUrl}
