@@ -9,7 +9,7 @@ import Link from 'next/link';
 const ExpertCard = ({ expert }: { expert: Expert }) => {
   return (
     <Link href={`/users/${expert.userId}`} className="group block h-full">
-      <Card className="h-full transition-all duration-300 hover:shadow-xl hover:border-primary/50 flex flex-col">
+      <Card className="h-full transition-all duration-300 hover:shadow-xl hover:border-primary/50 flex flex-col rounded-none">
         <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
           <Avatar className="h-24 w-24 mb-4 border-4 border-transparent group-hover:border-primary transition-colors">
               <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint="person doctor" />
@@ -34,8 +34,8 @@ export default function VetConnectDirectoryPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 animate-in fade-in duration-500">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {experts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} />
             ))}

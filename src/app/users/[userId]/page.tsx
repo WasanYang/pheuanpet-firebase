@@ -97,7 +97,7 @@ export default function UserProfilePage() {
 
         <div>
           <h2 className="font-headline text-2xl md:text-3xl font-bold my-6">{expertInfo ? "Posts" : `${user.name}'s Pets`}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3">
             {pets.map(pet => (
               <Link href={`/pets/${pet.id}`} key={pet.id} className="group block">
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/20 flex flex-col h-full rounded-none sm:rounded-lg">
