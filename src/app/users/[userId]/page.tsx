@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import Header from '@/components/Header';
 import { getUserById, getPetsByOwnerId, getExpertByUserId, type Expert } from '@/lib/data';
 import { notFound } from 'next/navigation';
@@ -11,7 +12,8 @@ import { Button } from '@/components/ui/button';
 import { UserPlus, MessageSquare } from 'lucide-react';
 import { useChat } from '@/context/ChatProvider';
 
-export default function UserProfilePage({ params }: { params: { userId: string } }) {
+export default function UserProfilePage() {
+  const params = useParams<{ userId: string }>();
   const { openChat } = useChat();
   const user = getUserById(Number(params.userId));
 
