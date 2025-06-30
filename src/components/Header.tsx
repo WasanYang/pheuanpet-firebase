@@ -110,7 +110,7 @@ const Header = () => {
           
           {/* Left Section */}
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center space-x-2 mr-2">
+            <Link href="/" className="flex items-center space-x-2 mr-2 md:hidden">
               <PawPrint className="h-8 w-8 text-primary" />
             </Link>
             <Button variant="ghost" size="icon" className="h-10 w-10 bg-muted rounded-full" onClick={() => setIsSearchActive(true)}>
@@ -142,7 +142,7 @@ const Header = () => {
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[280px] p-0 bg-card">
+                <SheetContent side="right" className="w-[280px] p-0 bg-card border-none">
                   <SheetHeader className="p-4 border-b">
                     <SheetTitle className="sr-only">Menu</SheetTitle>
                     <SheetDescription className="sr-only">
