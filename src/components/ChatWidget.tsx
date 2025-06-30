@@ -44,11 +44,17 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
   const cannotAfford = expert.isAi && tokens < expert.costPerMessage;
 
   useEffect(() => {
-    // Welcome message
+    // Welcome message logic
     if (messages.length === 0) {
-        setMessages([
-          { role: 'model', content: `Hello! I'm ${expert.name}. ${expert.bio}\n\nHow can I help you and your pet today?` }
-        ]);
+        let welcomeMessage = '';
+        if (expert.isAi) {
+            welcomeMessage = `Hello! I'm ${expert.name}. ${expert.bio}\n\nHow can I help you and your pet today?`;
+        } else if (expert.specialty && expert.specialty !== 'Pet Lover') {
+            welcomeMessage = `You are now connected with ${expert.name}, a ${expert.specialty.toLowerCase()}.\n\n${expert.bio}`;
+        } else {
+            welcomeMessage = `This is the beginning of your conversation with ${expert.name}.`;
+        }
+        setMessages([{ role: 'model', content: welcomeMessage }]);
     }
   }, [expert, messages.length]);
 
@@ -112,7 +118,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
             >
             <div className="flex items-center gap-2 truncate">
                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
+                    <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person portrait"} />
                     <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="truncate">
@@ -136,7 +142,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
                 <div key={index} className={cn("flex items-start gap-2", message.role === 'user' ? 'justify-end' : 'justify-start')}>
                     {message.role === 'model' && (
                     <Avatar className="h-6 w-6">
-                        <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
+                        <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person portrait"} />
                         <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     )}
@@ -159,7 +165,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
                 {isLoading && (
                     <div className="flex items-start gap-2 justify-start">
                         <Avatar className="h-6 w-6">
-                            <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person doctor"} />
+                            <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? "robot" : "person portrait"} />
                             <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className="p-3 rounded-2xl bg-muted rounded-bl-none flex gap-1 items-center">

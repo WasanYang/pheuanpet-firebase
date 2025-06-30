@@ -1,15 +1,18 @@
+'use client';
 
 import Header from '@/components/Header';
-import { getUserById, getPetsByOwnerId, getExpertByUserId } from '@/lib/data';
+import { getUserById, getPetsByOwnerId, getExpertByUserId, type Expert } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, MessageSquare } from 'lucide-react';
+import { useChat } from '@/context/ChatProvider';
 
 export default function UserProfilePage({ params }: { params: { userId: string } }) {
+  const { openChat } = useChat();
   const user = getUserById(Number(params.userId));
 
   if (!user) {
@@ -18,6 +21,27 @@ export default function UserProfilePage({ params }: { params: { userId: string }
 
   const pets = getPetsByOwnerId(user.id);
   const expertInfo = getExpertByUserId(user.id);
+
+  const handleStartChat = () => {
+    if (expertInfo) {
+      // It's an expert, use their full profile
+      openChat(expertInfo);
+    } else {
+      // It's a regular user, create a temporary Expert object
+      const tempExpertForUser: Expert = {
+        id: user.id + 1000, // Use a unique ID scheme to avoid conflicts with real expert IDs
+        userId: user.id,
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+        specialty: 'Pet Lover', // Generic title for regular users
+        bio: `This is a chat with ${user.name}. Say hello!`,
+        description: '',
+        isAi: false,
+        costPerMessage: 0,
+      };
+      openChat(tempExpertForUser);
+    }
+  };
 
   return (
     <div className="bg-background min-h-screen text-foreground">
@@ -55,9 +79,13 @@ export default function UserProfilePage({ params }: { params: { userId: string }
                   {expertInfo ? expertInfo.bio : "A passionate animal lover and proud parent to some of the most wonderful pets you'll ever meet. Following our adventures!"}
                 </p>
                 
-                <div className="mt-6 flex justify-center sm:justify-start">
+                <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-2">
                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                       <UserPlus className="mr-2 h-4 w-4" /> Follow {user.name}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={handleStartChat}>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        {expertInfo ? 'Consult' : 'Message'}
                     </Button>
                 </div>
               </div>
@@ -67,7 +95,7 @@ export default function UserProfilePage({ params }: { params: { userId: string }
 
         <div>
           <h2 className="font-headline text-2xl md:text-3xl font-bold my-6">{expertInfo ? "Posts" : `${user.name}'s Pets`}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {pets.map(pet => (
               <Link href={`/pets/${pet.id}`} key={pet.id} className="group block">
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/20 flex flex-col h-full rounded-none sm:rounded-lg">
