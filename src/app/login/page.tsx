@@ -9,7 +9,7 @@ export default function LoginPage() {
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="flex items-center justify-center py-12 px-4">
-        <Card className="w-full max-w-sm shadow-lg border-none bg-card/80">
+        <Card className="w-full max-w-sm shadow-sm border bg-card/80">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl">Welcome Back!</CardTitle>
             <CardDescription>Log in to continue to PheuanPet.</CardDescription>

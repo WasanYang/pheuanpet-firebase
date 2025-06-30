@@ -8,7 +8,7 @@ export default function Home() {
   const posts = getPosts();
 
   return (
-    <div className="bg-background min-h-screen text-foreground">
+    <>
       <Header />
       <main className="max-w-2xl mx-auto p-4 animate-in fade-in duration-500">
         <div className="flex flex-col gap-4">
@@ -20,6 +20,6 @@ export default function Home() {
           })}
         </div>
       </main>
-    </div>
+    </>
   );
 }

@@ -93,7 +93,7 @@ export default function PostPage({ params }: { params: { postId: string } }) {
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="max-w-3xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
-        <Card className="shadow-lg overflow-hidden rounded-none sm:rounded-lg">
+        <Card className="shadow-sm overflow-hidden rounded-none sm:rounded-lg border">
             <CardContent className="p-0">
                 <MediaDisplay media={post.media} petName={pet.name} caption={post.caption} />
                 <div className="p-4">

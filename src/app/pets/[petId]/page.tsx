@@ -136,7 +136,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="max-w-4xl mx-auto py-4 px-4 animate-in fade-in duration-500">
-        <Card className="overflow-hidden shadow-lg border-none bg-card/80 rounded-lg mb-4">
+        <Card className="overflow-hidden shadow-sm border bg-card/80 rounded-lg mb-4">
           <CardContent className="p-0">
              <div className="p-4">
                 <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -191,7 +191,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                 <TabsContent value="posts" className="mt-0">
                     <div className="flex flex-col gap-4">
                     {posts.map(post => (
-                        <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg rounded-lg border">
+                        <Card key={post.id} className="overflow-hidden shadow-sm transition-all duration-300 hover:shadow-lg rounded-lg border">
                             <CardContent className="p-4 flex flex-col sm:flex-row gap-6">
                                 <div className="w-full sm:w-1/3 md:w-1/4 flex-shrink-0">
                                     <PostMediaDisplay media={post.media} pet={pet} postId={post.id} />

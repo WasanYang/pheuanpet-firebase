@@ -83,7 +83,7 @@ export default function CreatePostPage() {
     <div className="bg-background min-h-screen text-foreground">
       <Header />
       <main className="max-w-lg mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
-        <Card className="shadow-lg border-none bg-card/80 rounded-none sm:rounded-lg">
+        <Card className="shadow-sm border bg-card/80 rounded-none sm:rounded-lg">
           <CardHeader className="p-4">
             <CardTitle className="font-headline text-2xl md:text-3xl">Create a New Post</CardTitle>
             <CardDescription>Share a moment from your pet's life.</CardDescription>

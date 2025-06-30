@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X, Compass, Bell, MessageCircle, Bookmark, Users, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
@@ -29,6 +30,18 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const pathname = usePathname();
+
+  const menuItems = [
+    { href: '/', label: 'Home', icon: Home },
+    { href: '/explore', label: 'Explore', icon: Compass },
+    { href: '/notifications', label: 'Notifications', icon: Bell },
+    { href: '/messages', label: 'Messages', icon: MessageCircle },
+    { href: '/saved', label: 'Saved', icon: Bookmark },
+    { href: '/my-pets', label: 'My Pets', icon: PawPrint },
+    { href: '/friends', label: 'Pet Friends', icon: Users },
+    { href: '/settings', label: 'Settings', icon: Settings },
+  ];
 
   useEffect(() => {
     if (isSearchActive) {
@@ -106,49 +119,7 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Center Section - Desktop Nav */}
-          <nav className="hidden md:flex items-center justify-center gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
-                    <Link href="/" aria-label="Home">
-                      <Home className="h-6 w-6" />
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent><p>Home</p></TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="relative">
-                    <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
-                      <Link href="/experts" aria-label="Ask an Expert">
-                        <Stethoscope className="h-6 w-6" />
-                      </Link>
-                    </Button>
-                    {openChats.length > 0 && (
-                      <div className="absolute top-2 right-6 flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
-                      </div>
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent><p>Ask an Expert</p></TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
-                    <Link href="/create" aria-label="Create Post">
-                      <PlusSquare className="h-6 w-6" />
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent><p>Create Post</p></TooltipContent>
-              </Tooltip>
-          </nav>
+          {/* Center Section - Desktop Nav (Removed for sidebar) */}
           
           {/* Right Section */}
           <div className="flex items-center justify-end gap-2">
@@ -205,24 +176,17 @@ const Header = () => {
                   <Separator className="bg-border/50" />
 
                   <nav className="p-4 flex flex-col gap-2">
-                    <SheetClose asChild>
-                      <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <Home className="h-5 w-5 text-muted-foreground" />
-                        <span>Home</span>
-                      </Link>
-                    </SheetClose>
-                     <SheetClose asChild>
-                      <Link href="/experts" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <Stethoscope className="h-5 w-5 text-muted-foreground" />
-                        <span>Ask an Expert</span>
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <PlusSquare className="h-5 w-5 text-muted-foreground" />
-                        <span>Create Post</span>
-                      </Link>
-                    </SheetClose>
+                    {menuItems.map((item) => (
+                      <SheetClose asChild key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <item.icon className="h-5 w-5 text-muted-foreground" />
+                          <span>{item.label}</span>
+                        </Link>
+                      </SheetClose>
+                    ))}
                   </nav>
 
                   <Separator className="bg-border/50" />

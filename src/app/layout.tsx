@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 import { ChatProvider } from '@/context/ChatProvider';
 import ChatContainer from '@/components/ChatContainer';
+import Sidebar from '@/components/Sidebar';
 
 export const metadata: Metadata = {
   title: "PheuanPet: Your Pet's Social Universe",
@@ -23,7 +24,12 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ChatProvider>
-          {children}
+          <div className="min-h-screen bg-background">
+            <Sidebar />
+            <div className="md:pl-64">
+                {children}
+            </div>
+          </div>
           <ChatContainer />
         </ChatProvider>
         <Toaster />
