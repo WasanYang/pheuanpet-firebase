@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -36,15 +37,9 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 border-r bg-card h-screen sticky top-0">
-      <div className="p-4 flex items-center h-16 border-b">
-        <Link href="/" className="flex items-center space-x-2">
-            <PawPrint className="h-8 w-8 text-primary" />
-            <span className="font-headline text-2xl font-bold">PheuanPet</span>
-        </Link>
-      </div>
+    <aside className="hidden md:flex flex-col w-64 bg-card h-screen sticky top-0">
       <div className="flex-1 overflow-y-auto">
-        <nav className="px-4 py-4 space-y-1">
+        <nav className="px-4 py-4 space-y-1 mt-4">
           {menuItems.map((item) => (
             <Button
               key={item.href}

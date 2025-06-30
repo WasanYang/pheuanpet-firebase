@@ -110,8 +110,9 @@ const Header = () => {
           
           {/* Left Section */}
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center space-x-2 mr-2 md:hidden">
+            <Link href="/" className="flex items-center space-x-2 mr-2">
               <PawPrint className="h-8 w-8 text-primary" />
+              <span className="font-headline text-2xl font-bold hidden md:inline">PheuanPet</span>
             </Link>
             <Button variant="ghost" size="icon" className="h-10 w-10 bg-muted rounded-full" onClick={() => setIsSearchActive(true)}>
               <Search className="h-5 w-5" />
