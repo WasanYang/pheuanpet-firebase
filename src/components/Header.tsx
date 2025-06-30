@@ -2,11 +2,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X, Compass, Bell, MessageCircle, Bookmark, Users, Settings } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getUserById } from '@/lib/data';
+import { getUserById, getPetsByOwnerId } from '@/lib/data';
 import { Input } from '@/components/ui/input';
 import { useChat } from '@/context/ChatProvider';
 import {
@@ -21,9 +21,11 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
+  const pets = user ? getPetsByOwnerId(user.id) : [];
   const { openChats } = useChat();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -108,22 +110,100 @@ const Header = () => {
       <header className="sticky top-0 z-40 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
         <div className="container flex h-16 max-w-6xl items-center justify-between mx-auto px-4">
           
-          {/* Left Section */}
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center space-x-2 mr-2">
+          <div className="flex items-center gap-1">
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6 text-foreground" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[280px] p-0 bg-card border-r">
+                <SheetHeader className="p-4 border-b">
+                  <SheetClose asChild>
+                    <Link href="/" className="flex items-center gap-3">
+                        <PawPrint className="h-8 w-8 text-primary" />
+                        <span className="font-headline text-2xl font-bold">PheuanPet</span>
+                    </Link>
+                  </SheetClose>
+                </SheetHeader>
+                <div className="flex flex-col h-full">
+                  <div className="flex-1 overflow-y-auto">
+                      <div className="px-2 py-4 space-y-1">
+                      {menuItems.map((item) => (
+                          <SheetClose asChild key={item.href}>
+                              <Button
+                              variant={pathname === item.href ? 'secondary' : 'ghost'}
+                              className="w-full justify-start h-10"
+                              asChild
+                              >
+                              <Link
+                                  href={item.href}
+                                  className="flex items-center gap-3"
+                              >
+                                  <item.icon className="h-5 w-5" />
+                                  {item.label}
+                              </Link>
+                              </Button>
+                          </SheetClose>
+                      ))}
+                      </div>
+                      
+                      <div className="px-2">
+                          <Separator className="my-2" />
+                      </div>
+
+                      <div className="px-2 py-2">
+                          <h2 className="px-2 text-sm font-semibold text-muted-foreground mb-2">Your Pets</h2>
+                          <div className="space-y-1">
+                          {pets.map(pet => (
+                              <SheetClose asChild key={pet.id}>
+                                  <Button variant="ghost" className="w-full justify-start h-10" asChild>
+                                      <Link href={`/pets/${pet.id}`} className="flex items-center gap-3">
+                                          <Avatar className="h-7 w-7">
+                                              <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                                              <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                                          </Avatar>
+                                          <span className="font-medium">{pet.name}</span>
+                                      </Link>
+                                  </Button>
+                              </SheetClose>
+                          ))}
+                          <SheetClose asChild>
+                              <Button variant="ghost" className="w-full justify-start h-10" asChild>
+                                  <Link href="/create" className="flex items-center gap-3">
+                                      <PlusCircle className="h-5 w-5" />
+                                      <span className="font-medium">Add Pet</span>
+                                  </Link>
+                              </Button>
+                          </SheetClose>
+                          </div>
+                      </div>
+                  </div>
+                  {!user && (
+                    <div className="p-2 border-t">
+                      <SheetClose asChild>
+                        <Button variant="outline" className="w-full" asChild>
+                          <Link href="/login">Log In</Link>
+                        </Button>
+                      </SheetClose>
+                    </div>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            <Link href="/" className="flex items-center space-x-2">
               <PawPrint className="h-8 w-8 text-primary" />
-              <span className="font-headline text-2xl font-bold hidden md:inline">PheuanPet</span>
+              <span className="font-headline text-2xl font-bold hidden sm:inline">PheuanPet</span>
             </Link>
+          </div>
+          
+          <div className="flex items-center justify-end gap-2">
             <Button variant="ghost" size="icon" className="h-10 w-10 bg-muted rounded-full" onClick={() => setIsSearchActive(true)}>
               <Search className="h-5 w-5" />
               <span className="sr-only">Open Search</span>
             </Button>
-          </div>
-
-          {/* Center Section - Desktop Nav (Removed for sidebar) */}
-          
-          {/* Right Section */}
-          <div className="flex items-center justify-end gap-2">
             {user ? (
               <Link href={`/users/${user.id}`} aria-label="My Profile">
                 <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
@@ -132,85 +212,8 @@ const Header = () => {
                 </Avatar>
               </Link>
             ) : (
-              <Button asChild><Link href="/login">Log In</Link></Button>
+              <Button asChild className="hidden sm:flex"><Link href="/login">Log In</Link></Button>
             )}
-
-            <div className="md:hidden">
-              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6 text-foreground" />
-                    <span className="sr-only">Open menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[280px] p-0 bg-card border-none">
-                  <SheetHeader className="p-4 border-b">
-                    <SheetTitle className="sr-only">Menu</SheetTitle>
-                    <SheetDescription className="sr-only">
-                      Main navigation menu for the PheuanPet application.
-                    </SheetDescription>
-                    <SheetClose asChild>
-                      <Link href="/" className="flex items-center gap-3">
-                          <PawPrint className="h-8 w-8 text-primary" />
-                          <span className="font-headline text-2xl font-bold">PheuanPet</span>
-                      </Link>
-                    </SheetClose>
-                  </SheetHeader>
-                  
-                  {user && (
-                    <div className="p-4">
-                      <SheetClose asChild>
-                        <Link href={`/users/${user.id}`} className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                          <Avatar className="h-8 w-8 border-2 border-primary">
-                              <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
-                              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                              <p className="font-bold">{user.name}</p>
-                              <p className="text-xs text-muted-foreground">View Profile</p>
-                          </div>
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  )}
-
-                  <Separator className="bg-border/50" />
-
-                  <nav className="p-4 flex flex-col gap-2">
-                    {menuItems.map((item) => (
-                      <SheetClose asChild key={item.href}>
-                        <Link
-                          href={item.href}
-                          className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground"
-                        >
-                          <item.icon className="h-5 w-5 text-muted-foreground" />
-                          <span>{item.label}</span>
-                        </Link>
-                      </SheetClose>
-                    ))}
-                  </nav>
-
-                  <Separator className="bg-border/50" />
-
-                  {!user && (
-                    <div className="p-4">
-                      <SheetClose asChild>
-                        <Link href="/login" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                          <LogIn className="h-5 w-5 text-muted-foreground" />
-                          <span>Log In</span>
-                        </Link>
-                      </SheetClose>
-                      <SheetClose asChild>
-                        <Link href="/signup" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                          <UserPlus className="h-5 w-5 text-muted-foreground" />
-                          <span>Sign Up</span>
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  )}
-                </SheetContent>
-              </Sheet>
-            </div>
           </div>
         </div>
       </header>
