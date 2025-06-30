@@ -6,8 +6,8 @@ import Header from '@/components/Header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription } from '@/components/ui/alert-dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogClose } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Package, Search, Sparkles, MessageSquare, Bot, Star } from 'lucide-react';
 import { useChat } from '@/context/ChatProvider';
@@ -118,7 +118,7 @@ export default function VetConnectDirectoryPage() {
                                 </div>
                                  <DialogClose asChild>
                                     <Button onClick={() => handlePurchase(129, 50)}>ซื้อเลย</Button>
-                                </DialogClose>
+                                 </DialogClose>
                             </CardContent>
                         </Card>
                          <Card className="hover:border-primary transition-colors">
@@ -129,7 +129,7 @@ export default function VetConnectDirectoryPage() {
                                 </div>
                                  <DialogClose asChild>
                                     <Button onClick={() => handlePurchase(249, 100)}>ซื้อเลย</Button>
-                                </DialogClose>
+                                 </DialogClose>
                             </CardContent>
                         </Card>
                     </div>
@@ -147,7 +147,7 @@ export default function VetConnectDirectoryPage() {
         </div>
 
         {/* Vet Listing */}
-        <div className="space-y-4">
+        <div className="flex flex-col gap-0.5">
             {experts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} onConsult={handleConsult} />
             ))}
