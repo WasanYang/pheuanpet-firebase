@@ -1,265 +1,117 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
+import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserById, getPetsByOwnerId } from '@/lib/data';
-import { Input } from '@/components/ui/input';
-import { useChat } from '@/context/ChatProvider';
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetClose,
   SheetHeader,
-  SheetTitle,
-  SheetDescription,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 
 const Header = () => {
-  const user = getUserById(1); // Mock logged-in user
+  const user = getUserById(1);
   const pets = user ? getPetsByOwnerId(user.id) : [];
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const inputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
 
   const menuItems = [
     { href: '/', label: 'Home', icon: Home },
     { href: '/explore', label: 'Explore', icon: Compass },
-    { href: '/experts', label: 'Ask an Expert', icon: Stethoscope },
     { href: '/notifications', label: 'Notifications', icon: Bell },
     { href: '/messages', label: 'Messages', icon: MessageCircle },
-    { href: '/create', label: 'Create Post', icon: PlusSquare },
     { href: '/saved', label: 'Saved', icon: Bookmark },
+    { href: `/users/${user?.id}`, label: 'My Pets', icon: PawPrint },
+    { href: '/experts', label: 'Pet Friends', icon: Users },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
-  useEffect(() => {
-    if (isSearchActive) {
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isSearchActive]);
-
-  useEffect(() => {
-    const storedHistory = localStorage.getItem('pheuanpet_search_history');
-    if (storedHistory) {
-      setSearchHistory(JSON.parse(storedHistory));
-    }
-  }, []);
-
-  const performSearch = (query: string) => {
-    const trimmedQuery = query.trim();
-    if (trimmedQuery) {
-      const newHistory = [trimmedQuery, ...searchHistory.filter(item => item !== trimmedQuery)].slice(0, 10);
-      setSearchHistory(newHistory);
-      localStorage.setItem('pheuanpet_search_history', JSON.stringify(newHistory));
-      // In a real app, you would navigate to the search results page, e.g., router.push(`/search?q=${trimmedQuery}`)
-      console.log(`Searching for: ${trimmedQuery}`);
-      setIsSearchActive(false);
-      setSearchQuery('');
-    }
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    performSearch(searchQuery);
-  };
-
-  const handleHistoryClick = (query: string) => {
-    setSearchQuery(query);
-    performSearch(query);
-  };
-
-  const removeHistoryItem = (e: React.MouseEvent, itemToRemove: string) => {
-    e.stopPropagation();
-    const newHistory = searchHistory.filter(item => item !== itemToRemove);
-    setSearchHistory(newHistory);
-    localStorage.setItem('pheuanpet_search_history', JSON.stringify(newHistory));
-  };
-
-  const clearHistory = () => {
-    setSearchHistory([]);
-    localStorage.removeItem('pheuanpet_search_history');
-  };
-
-  const handleCancel = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    setIsSearchActive(false);
-    setSearchQuery('');
-  };
-
   return (
-    <>
-      <header className="sticky top-0 z-40 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-        <div className="container flex h-16 max-w-7xl items-center justify-between mx-auto px-4">
-          <div className="flex items-center gap-2">
-            {/* Hamburger Menu for Mobile */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[280px] p-0 bg-card border-r">
+    <header className="sticky top-0 z-40 w-full border-b bg-card">
+      <div className="container flex h-16 max-w-7xl items-center mx-auto px-4">
+        {/* Mobile Menu & Logo */}
+        <div className="flex items-center gap-2">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] p-0 bg-card border-r">
                 <SheetHeader className="p-4 border-b">
-                  <SheetClose asChild>
-                    <Link href="/" className="flex items-center gap-3">
-                        <PawPrint className="h-8 w-8 text-primary" />
-                        <span className="font-headline text-2xl font-bold">PheuanPet</span>
-                    </Link>
-                  </SheetClose>
+                    <SheetClose asChild>
+                        <Link href="/" className="flex items-center gap-3">
+                            <PawPrint className="h-8 w-8 text-primary" />
+                            <span className="font-headline text-2xl font-bold">PheuanPet</span>
+                        </Link>
+                    </SheetClose>
                 </SheetHeader>
-                <div className="flex flex-col h-full">
-                  <div className="flex-1 overflow-y-auto p-4">
-                    <nav className="space-y-1">
-                      {menuItems.map((item) => (
+                <div className="flex-1 overflow-y-auto py-4">
+                    <nav className="px-4 space-y-1">
+                    {menuItems.map((item) => (
                         <SheetClose asChild key={item.href}>
-                          <Button
+                            <Button
                             variant={pathname === item.href ? 'secondary' : 'ghost'}
-                            className="w-full justify-start h-10"
+                            className="w-full justify-start h-12 text-base"
                             asChild
-                          >
-                            <Link href={item.href} className="flex items-center gap-3">
-                              <item.icon className="h-5 w-5" />
-                              {item.label}
+                            >
+                            <Link href={item.href} className="flex items-center gap-4">
+                                <item.icon className="h-6 w-6" />
+                                <span className="font-medium">{item.label}</span>
                             </Link>
-                          </Button>
+                            </Button>
                         </SheetClose>
-                      ))}
+                    ))}
                     </nav>
+
                     <Separator className="my-4" />
-                    <div className="space-y-2">
-                      <h2 className="px-2 text-sm font-semibold text-muted-foreground">Your Pets</h2>
-                      {pets.map(pet => (
+
+                    <div className="px-4 space-y-2">
+                    <h2 className="px-3 text-sm font-semibold text-muted-foreground tracking-wider uppercase">Your Pets</h2>
+                    <div className="space-y-1">
+                        {pets.map(pet => (
                         <SheetClose asChild key={pet.id}>
-                          <Button variant="ghost" className="w-full justify-start h-10" asChild>
-                            <Link href={`/pets/${pet.id}`} className="flex items-center gap-3">
-                              <Avatar className="h-7 w-7"><AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} /><AvatarFallback>{pet.name.charAt(0)}</AvatarFallback></Avatar>
-                              <span className="font-medium">{pet.name}</span>
+                            <Button variant="ghost" className="w-full justify-start h-12 text-base" asChild>
+                            <Link href={`/pets/${pet.id}`} className="flex items-center gap-4">
+                                <Avatar className="h-8 w-8">
+                                <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                                <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <span className="font-medium">{pet.name}</span>
                             </Link>
-                          </Button>
+                            </Button>
                         </SheetClose>
-                      ))}
-                       <SheetClose asChild>
-                          <Button variant="ghost" className="w-full justify-start h-10" asChild>
-                              <Link href="/create" className="flex items-center gap-3">
-                                  <PlusCircle className="h-5 w-5" />
-                                  <span className="font-medium">Add Pet</span>
-                              </Link>
-                          </Button>
-                      </SheetClose>
+                        ))}
+                        <SheetClose asChild>
+                            <Button variant="ghost" className="w-full justify-start h-12 text-base" asChild>
+                                <Link href="/create" className="flex items-center gap-4">
+                                    <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
+                                    <PlusCircle className="h-6 w-6" />
+                                    </div>
+                                    <span className="font-medium">Add Pet</span>
+                                </Link>
+                            </Button>
+                        </SheetClose>
                     </div>
-                  </div>
-                  {!user && (
-                    <div className="p-2 border-t">
-                      <SheetClose asChild>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href="/login">Log In</Link>
-                        </Button>
-                      </SheetClose>
                     </div>
-                  )}
                 </div>
-              </SheetContent>
-            </Sheet>
+            </SheetContent>
+          </Sheet>
 
-            {/* Logo for Desktop */}
-            <Link href="/" className="flex items-center space-x-2">
-              <PawPrint className="h-8 w-8 text-primary" />
-              <span className="font-headline text-2xl font-bold hidden sm:inline">PheuanPet</span>
-            </Link>
-          </div>
-          
-          <div className="flex items-center justify-end gap-2">
-            <Button variant="ghost" size="icon" className="h-10 w-10 bg-muted rounded-full" onClick={() => setIsSearchActive(true)}>
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Open Search</span>
-            </Button>
-            {user ? (
-              <Link href={`/users/${user.id}`} aria-label="My Profile">
-                <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
-                  <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
-                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </Link>
-            ) : (
-              <Button asChild className="hidden sm:flex"><Link href="/login">Log In</Link></Button>
-            )}
-          </div>
+          <Link href="/" className="flex items-center space-x-3">
+            <PawPrint className="h-8 w-8 text-primary" />
+            <span className="font-headline text-2xl font-bold">PheuanPet</span>
+          </Link>
         </div>
-      </header>
-
-      {/* Search Overlay */}
-      {isSearchActive && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="container max-w-4xl mx-auto px-4 h-full flex flex-col">
-            <div className="flex items-center h-16 gap-2">
-              <form onSubmit={handleSearchSubmit} className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-                <Input
-                  ref={inputRef}
-                  type="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9"
-                  placeholder="Search PheuanPet..."
-                />
-              </form>
-              <button onClick={handleCancel} className="text-sm text-primary font-medium shrink-0">
-                Cancel
-              </button>
-            </div>
-            
-            <div className="py-4 overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-semibold text-base">Recent</h3>
-                  {searchHistory.length > 0 && (
-                    <Button variant="link" size="sm" className="text-primary p-0 h-auto" onClick={clearHistory}>
-                      Clear
-                    </Button>
-                  )}
-              </div>
-              {searchHistory.length > 0 ? (
-                <ul className="space-y-1">
-                  {searchHistory.map((item, index) => (
-                    <li key={index} className="flex items-center justify-between group rounded-md hover:bg-muted">
-                      <button className="flex items-center gap-4 py-2 px-2 w-full text-left" onClick={() => handleHistoryClick(item)}>
-                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <span className="flex-1">{item}</span>
-                      </button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 mr-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => removeHistoryItem(e, item)}>
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground">No recent searches.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+      </div>
+    </header>
   );
 };
 

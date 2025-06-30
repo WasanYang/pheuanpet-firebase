@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AppleIcon, FacebookIcon, GoogleIcon } from '@/components/icons';
@@ -7,7 +6,6 @@ import Link from 'next/link';
 export default function LoginPage() {
   return (
     <div className="bg-background min-h-screen text-foreground">
-      <Header />
       <main className="flex items-center justify-center py-12 px-4">
         <Card className="w-full max-w-sm shadow-sm border bg-card/80">
           <CardHeader className="text-center">

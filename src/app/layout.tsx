@@ -33,9 +33,9 @@ export default function RootLayout({
             <Header />
             <div className="flex">
               <Sidebar />
-              <div className="flex-1 w-full">
+              <main className="flex-1 w-full">
                 {children}
-              </div>
+              </main>
             </div>
             <ChatContainer />
           </div>

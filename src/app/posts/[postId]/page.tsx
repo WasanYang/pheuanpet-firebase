@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import { getPostById, getPetById, getUserById, getCommentsByPostId } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -91,7 +90,6 @@ export default function PostPage({ params }: { params: { postId: string } }) {
 
   return (
     <div className="bg-background min-h-screen text-foreground">
-      <Header />
       <main className="max-w-3xl mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
         <Card className="shadow-sm overflow-hidden rounded-none sm:rounded-lg border">
             <CardContent className="p-0">

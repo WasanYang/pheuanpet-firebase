@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import Header from '@/components/Header';
 import { getUserById, getPetsByOwnerId, getExpertByUserId, type Expert } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -47,7 +46,6 @@ export default function UserProfilePage() {
 
   return (
     <div className="bg-background min-h-screen text-foreground">
-      <Header />
       <main className="max-w-4xl mx-auto py-4 px-4 animate-in fade-in duration-500">
         <Card className="overflow-hidden shadow-sm border bg-card/80 mb-4 rounded-lg">
           <CardContent className="p-4">

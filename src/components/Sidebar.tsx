@@ -1,6 +1,7 @@
+
 'use client';
 
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
+import { PawPrint, Home, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,28 +17,28 @@ export default function Sidebar() {
   const menuItems = [
     { href: '/', label: 'Home', icon: Home },
     { href: '/explore', label: 'Explore', icon: Compass },
-    { href: '/experts', label: 'Ask an Expert', icon: Stethoscope },
     { href: '/notifications', label: 'Notifications', icon: Bell },
     { href: '/messages', label: 'Messages', icon: MessageCircle },
-    { href: '/create', label: 'Create Post', icon: PlusSquare },
     { href: '/saved', label: 'Saved', icon: Bookmark },
+    { href: `/users/${user?.id}`, label: 'My Pets', icon: PawPrint },
+    { href: '/experts', label: 'Pet Friends', icon: Users },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-[calc(100vh-4rem)] sticky top-16 border-r bg-card p-4">
-      <div className="flex-1 overflow-y-auto">
-        <nav className="space-y-1">
+    <aside className="hidden md:flex flex-col w-64 h-[calc(100vh-4rem)] sticky top-16 bg-card">
+      <div className="flex-1 overflow-y-auto py-4">
+        <nav className="px-4 space-y-1">
           {menuItems.map((item) => (
             <Button
               key={item.href}
               variant={pathname === item.href ? 'secondary' : 'ghost'}
-              className="w-full justify-start h-10"
+              className="w-full justify-start h-12 text-base"
               asChild
             >
-              <Link href={item.href} className="flex items-center gap-3">
-                <item.icon className="h-5 w-5" />
-                {item.label}
+              <Link href={item.href} className="flex items-center gap-4">
+                <item.icon className="h-6 w-6" />
+                <span className="font-medium">{item.label}</span>
               </Link>
             </Button>
           ))}
@@ -45,13 +46,13 @@ export default function Sidebar() {
 
         <Separator className="my-4" />
 
-        <div className="space-y-2">
-          <h2 className="px-2 text-sm font-semibold text-muted-foreground">Your Pets</h2>
-          <div className="space-y-1">
+        <div className="px-4 space-y-2">
+          <h2 className="px-3 text-sm font-semibold text-muted-foreground tracking-wider uppercase">Your Pets</h2>
+          <div className="space-y-1 mt-2">
             {pets.map(pet => (
-              <Button variant="ghost" className="w-full justify-start h-10" asChild key={pet.id}>
-                <Link href={`/pets/${pet.id}`} className="flex items-center gap-3">
-                  <Avatar className="h-7 w-7">
+              <Button variant="ghost" className="w-full justify-start h-12 text-base" asChild key={pet.id}>
+                <Link href={`/pets/${pet.id}`} className="flex items-center gap-4">
+                  <Avatar className="h-8 w-8">
                     <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
                     <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -59,30 +60,17 @@ export default function Sidebar() {
                 </Link>
               </Button>
             ))}
-            <Button variant="ghost" className="w-full justify-start h-10" asChild>
-              <Link href="/create" className="flex items-center gap-3">
-                <PlusCircle className="h-5 w-5" />
+            <Button variant="ghost" className="w-full justify-start h-12 text-base" asChild>
+              <Link href="/create" className="flex items-center gap-4">
+                <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
+                  <PlusCircle className="h-6 w-6" />
+                </div>
                 <span className="font-medium">Add Pet</span>
               </Link>
             </Button>
           </div>
         </div>
       </div>
-      
-      {user && (
-        <div className="mt-4">
-            <Separator className="my-4" />
-            <Button variant="ghost" className="w-full justify-start h-10" asChild>
-                <Link href={`/users/${user.id}`} className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <span className="font-medium">{user.name}</span>
-                </Link>
-            </Button>
-        </div>
-      )}
     </aside>
   );
 }

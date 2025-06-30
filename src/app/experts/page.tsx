@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/Header';
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 import { getExperts, type Expert } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -48,7 +47,6 @@ export default function VetConnectDirectoryPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
       
       <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500 p-4">
         <div className="mb-4">

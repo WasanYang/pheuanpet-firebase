@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import RichTextEditor from '@/components/RichTextEditor';
@@ -81,7 +80,6 @@ export default function CreatePostPage() {
 
   return (
     <div className="bg-background min-h-screen text-foreground">
-      <Header />
       <main className="max-w-lg mx-auto py-4 px-0 sm:px-4 animate-in fade-in duration-500">
         <Card className="shadow-sm border bg-card/80 rounded-none sm:rounded-lg">
           <CardHeader className="p-4">
