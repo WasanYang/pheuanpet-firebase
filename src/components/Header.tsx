@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserById } from '@/lib/data';
 import { Input } from '@/components/ui/input';
 import { useChat } from '@/context/ChatProvider';
-import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
@@ -20,6 +19,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const Header = () => {
   const user = getUserById(1); // Mock logged-in user
@@ -91,55 +91,76 @@ const Header = () => {
   };
 
   return (
-    <>
+    <TooltipProvider>
       <header className="sticky top-0 z-40 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-        <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4">
-          <Link href="/" className="flex items-center space-x-2 mr-4 flex-shrink-0">
-            <PawPrint className="h-8 w-8 text-primary" />
-            <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
-          </Link>
+        <div className="container flex h-16 max-w-6xl items-center justify-between mx-auto px-4">
           
-          <div className="flex-1" />
-
-          <div className="flex items-center justify-end space-x-2 sm:space-x-4">
-            <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
-              <Button variant="ghost" size="icon" asChild>
-                <Link href="/" aria-label="Home">
-                  <Home className="h-5 w-5" />
-                </Link>
-              </Button>
-              <div className="relative">
-                <Button variant="ghost" size="icon" asChild>
-                  <Link href="/experts" aria-label="Ask an Expert">
-                    <Stethoscope className="h-5 w-5" />
-                  </Link>
-                </Button>
-                {openChats.length > 0 && (
-                  <div className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
-                  </div>
-                )}
-              </div>
-              <Button variant="ghost" size="icon" asChild>
-                <Link href="/create" aria-label="Create Post">
-                  <PlusSquare className="h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-            
-            <Button variant="ghost" size="icon" onClick={() => setIsSearchActive(true)}>
+          {/* Left Section */}
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center space-x-2 mr-2">
+              <PawPrint className="h-8 w-8 text-primary" />
+            </Link>
+            <Button variant="ghost" size="icon" className="h-10 w-10 bg-muted rounded-full" onClick={() => setIsSearchActive(true)}>
               <Search className="h-5 w-5" />
-               <span className="sr-only">Open Search</span>
+              <span className="sr-only">Open Search</span>
             </Button>
+          </div>
 
-            {user && (
-              <Link href={`/users/${user.id}`} aria-label="My Profile" className="hidden md:block">
+          {/* Center Section - Desktop Nav */}
+          <nav className="hidden md:flex items-center justify-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
+                    <Link href="/" aria-label="Home">
+                      <Home className="h-6 w-6" />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Home</p></TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="relative">
+                    <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
+                      <Link href="/experts" aria-label="Ask an Expert">
+                        <Stethoscope className="h-6 w-6" />
+                      </Link>
+                    </Button>
+                    {openChats.length > 0 && (
+                      <div className="absolute top-2 right-6 flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
+                      </div>
+                    )}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent><p>Ask an Expert</p></TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-12 w-24 rounded-lg" asChild>
+                    <Link href="/create" aria-label="Create Post">
+                      <PlusSquare className="h-6 w-6" />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Create Post</p></TooltipContent>
+              </Tooltip>
+          </nav>
+          
+          {/* Right Section */}
+          <div className="flex items-center justify-end gap-2">
+            {user ? (
+              <Link href={`/users/${user.id}`} aria-label="My Profile">
                 <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
                   <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                   <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                 </Avatar>
               </Link>
+            ) : (
+              <Button asChild><Link href="/login">Log In</Link></Button>
             )}
 
             <div className="md:hidden">
@@ -164,8 +185,8 @@ const Header = () => {
                     </SheetClose>
                   </SheetHeader>
                   
-                  <div className="p-4">
-                    {user && (
+                  {user && (
+                    <div className="p-4">
                       <SheetClose asChild>
                         <Link href={`/users/${user.id}`} className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                           <Avatar className="h-8 w-8 border-2 border-primary">
@@ -178,12 +199,24 @@ const Header = () => {
                           </div>
                         </Link>
                       </SheetClose>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   <Separator className="bg-border/50" />
 
                   <nav className="p-4 flex flex-col gap-2">
+                    <SheetClose asChild>
+                      <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                        <Home className="h-5 w-5 text-muted-foreground" />
+                        <span>Home</span>
+                      </Link>
+                    </SheetClose>
+                     <SheetClose asChild>
+                      <Link href="/experts" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                        <Stethoscope className="h-5 w-5 text-muted-foreground" />
+                        <span>Ask an Expert</span>
+                      </Link>
+                    </SheetClose>
                     <SheetClose asChild>
                       <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                         <PlusSquare className="h-5 w-5 text-muted-foreground" />
@@ -193,20 +226,23 @@ const Header = () => {
                   </nav>
 
                   <Separator className="bg-border/50" />
-                  <div className="p-4">
-                    <SheetClose asChild>
-                      <Link href="/login" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <LogIn className="h-5 w-5 text-muted-foreground" />
-                        <span>Log In</span>
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link href="/signup" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <UserPlus className="h-5 w-5 text-muted-foreground" />
-                        <span>Sign Up</span>
-                      </Link>
-                    </SheetClose>
-                  </div>
+
+                  {!user && (
+                    <div className="p-4">
+                      <SheetClose asChild>
+                        <Link href="/login" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                          <LogIn className="h-5 w-5 text-muted-foreground" />
+                          <span>Log In</span>
+                        </Link>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <Link href="/signup" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                          <UserPlus className="h-5 w-5 text-muted-foreground" />
+                          <span>Sign Up</span>
+                        </Link>
+                      </SheetClose>
+                    </div>
+                  )}
                 </SheetContent>
               </Sheet>
             </div>
@@ -268,7 +304,7 @@ const Header = () => {
           </div>
         </div>
       )}
-    </>
+    </TooltipProvider>
   );
 };
 
