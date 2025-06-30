@@ -184,25 +184,6 @@ const Header = () => {
 
                 <nav className="p-4 flex flex-col gap-2">
                   <SheetClose asChild>
-                    <Link href="/" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                      <Home className="h-5 w-5 text-muted-foreground" />
-                      <span>Home</span>
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                     <Link href="/experts" className="flex items-center justify-between rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <div className="flex items-center gap-3">
-                            <Stethoscope className="h-5 w-5 text-muted-foreground" />
-                            <span>Ask an Expert</span>
-                        </div>
-                        {openChats.length > 0 && (
-                          <div className="flex h-2.5 w-2.5">
-                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive"></span>
-                          </div>
-                        )}
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
                     <Link href="/create" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                       <PlusSquare className="h-5 w-5 text-muted-foreground" />
                       <span>Create Post</span>
