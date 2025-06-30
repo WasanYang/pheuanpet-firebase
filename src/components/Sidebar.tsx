@@ -39,7 +39,7 @@ const Sidebar = () => {
   return (
     <aside className="hidden md:flex flex-col w-64 bg-card h-screen sticky top-0">
       <div className="flex-1 overflow-y-auto">
-        <nav className="px-4 py-4 space-y-1 mt-4">
+        <div className="px-4 py-4 space-y-1 mt-4">
           {menuItems.map((item) => (
             <Button
               key={item.href}
@@ -56,7 +56,7 @@ const Sidebar = () => {
               </Link>
             </Button>
           ))}
-        </nav>
+        </div>
         
         <div className="px-4">
             <Separator className="my-2" />
