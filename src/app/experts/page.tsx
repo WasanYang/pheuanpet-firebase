@@ -1,132 +1,91 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Header from '@/components/Header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Package, SendHorizonal, Bot, User, X, Sparkles, AlertCircle } from 'lucide-react';
-import { expertChat, type ExpertChatInput } from '@/ai/flows/expert-chat-flow';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription } from '@/components/ui/alert-dialog';
+import { Input } from '@/components/ui/input';
+import { Package, Search, Sparkles, MessageSquare, Bot, Star } from 'lucide-react';
+import { useChat } from '@/context/ChatProvider';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { getPetsByOwnerId } from '@/lib/data';
+import { getExperts, type Expert } from '@/lib/data';
 
-type Message = {
-  role: 'user' | 'model';
-  content: string;
-};
+const ExpertCard = ({ expert, onConsult }: { expert: Expert, onConsult: (expert: Expert) => void }) => {
+  return (
+    <Card className="hover:border-primary transition-colors hover:shadow-lg w-full">
+      <CardContent className="p-4 flex flex-col sm:flex-row items-center gap-4">
+        <Avatar className="h-20 w-20 border">
+            <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint={expert.isAi ? 'robot doctor' : 'person doctor'} />
+            <AvatarFallback>{expert.isAi ? <Bot/> : expert.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+        <div className="flex-grow text-center sm:text-left">
+            <h3 className="font-bold text-lg">{expert.name}</h3>
+            <p className="text-primary font-semibold text-sm">{expert.specialty}</p>
+            <p className="text-muted-foreground text-xs mt-1">{expert.description}</p>
+            <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1 text-amber-500">
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                </div>
+                <span>(1,248 รีวิว)</span>
+            </div>
+        </div>
+        <div className="flex flex-col items-center gap-2 flex-shrink-0">
+             <Button onClick={() => onConsult(expert)} className="w-full sm:w-auto">
+                <MessageSquare className="mr-2 h-4 w-4"/>
+                ปรึกษาเลย
+            </Button>
+            <p className="text-xs font-semibold bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                {expert.isAi ? `${expert.costPerMessage} Token / คำถาม` : 'ออนไลน์'}
+            </p>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
 
-// Mock function to check if it's the first visit
-const useFirstVisit = () => {
-  const [isFirstVisit, setIsFirstVisit] = useState(false);
-
-  useEffect(() => {
-    // This check ensures localStorage is only accessed on the client side.
-    if (typeof window !== 'undefined') {
-      const visited = localStorage.getItem('pheuanpet-vetconnect-visited');
-      if (!visited) {
-        setIsFirstVisit(true);
-        localStorage.setItem('pheuanpet-vetconnect-visited', 'true');
-      }
-    }
-  }, []);
-
-  return isFirstVisit;
-};
-
-
-export default function VetConnectPage() {
+export default function VetConnectDirectoryPage() {
   const { toast } = useToast();
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: 'สวัสดีครับ! PheuanPet VetConnect ยินดีต้อนรับ มีอะไรให้ช่วยปรึกษาเกี่ยวกับสัตว์เลี้ยงของคุณบ้างครับ?' }
-  ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [tokens, setTokens] = useState(25); // Mock token count
-  const [selectedPetId, setSelectedPetId] = useState<string | undefined>();
-  
-  const isFirstVisit = useFirstVisit();
-  const [showDisclaimer, setShowDisclaimer] = useState(false);
-  
-  useEffect(() => {
-    setShowDisclaimer(isFirstVisit);
-  }, [isFirstVisit]);
+  const { tokens, addTokens, openChat } = useChat();
+  const [showTokenAlert, setShowTokenAlert] = useState(false);
+  const experts = getExperts();
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const userPets = getPetsByOwnerId(1); // Mocking user ID 1
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
-
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading || tokens <= 0) return;
-
-    const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    setInput('');
-    setIsLoading(true);
-    
-    // Mock token deduction
-    const tokenCost = Math.max(1, Math.min(5, Math.ceil(input.length / 50)));
-    if (tokens < tokenCost) {
-        toast({
-          variant: 'destructive',
-          title: 'Token ไม่เพียงพอ',
-          description: 'โปรดเติม Token เพื่อสนทนาต่อ',
-        });
-        setIsLoading(false);
-        setMessages(messages); // revert messages
-        return;
-    }
-
-    try {
-      const petContext = selectedPetId ? `\n(Context: This question is about my pet, ${userPets.find(p => p.id.toString() === selectedPetId)?.name}, a ${userPets.find(p => p.id.toString() === selectedPetId)?.breed}.)` : '';
-      const chatHistory: ExpertChatInput = { history: [...newMessages.slice(0, -1), { role: 'user', content: input + petContext }] };
-      const aiResponse = await expertChat(chatHistory);
-
-      setMessages(prev => [...prev, { role: 'model', content: aiResponse }]);
-      setTokens(prev => prev - tokenCost);
-    } catch (error) {
-      console.error("AI Error:", error);
-      toast({
-        variant: 'destructive',
-        title: 'AI Error',
-        description: 'ไม่สามารถเชื่อมต่อกับบริการได้ โปรดลองอีกครั้ง',
-      });
-      setMessages(messages); // Revert messages on error
-    } finally {
-      setIsLoading(false);
+  const handleConsult = (expert: Expert) => {
+    if (tokens > 0) {
+      openChat(expert);
+    } else {
+      setShowTokenAlert(true);
     }
   };
 
-  const getTokenColor = () => {
-    if (tokens <= 3) return 'text-red-500';
-    if (tokens <= 10) return 'text-yellow-500';
-    return 'text-green-500';
-  };
-  
-  const estimatedTokens = Math.max(1, Math.min(5, Math.ceil(input.length / 50)));
+  const handlePurchase = (amount: number, tokensToAdd: number) => {
+    addTokens(tokensToAdd);
+    toast({
+        title: "เติม Token สำเร็จ!",
+        description: `คุณได้รับ ${tokensToAdd} Token ใหม่`,
+    });
+  }
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
+    <div className="flex flex-col min-h-screen bg-muted/40 text-foreground">
       <Header />
       
-      <main className="flex-1 flex flex-col max-w-5xl w-full mx-auto animate-in fade-in duration-500">
+      <main className="flex-1 flex flex-col max-w-5xl w-full mx-auto animate-in fade-in duration-500 p-4">
         
         {/* Page Header */}
-        <div className="flex justify-between items-center p-4 border-b">
-            <h1 className="font-headline text-2xl md:text-3xl font-bold">ปรึกษาคุณหมอออนไลน์</h1>
+        <div className="flex justify-between items-center mb-4">
+            <h1 className="font-headline text-2xl md:text-3xl font-bold">ค้นหาสัตวแพทย์</h1>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" className={cn("font-bold text-lg", getTokenColor())}>
+                    <Button variant="outline" className={cn("font-bold text-lg", tokens > 10 ? 'text-green-600' : tokens > 3 ? 'text-yellow-500' : 'text-red-500')}>
                         <Sparkles className="mr-2 h-5 w-5"/>
                         <span className="hidden sm:inline">คงเหลือ:</span> {tokens} <span className="hidden sm:inline ml-1">Token</span>
                     </Button>
@@ -145,7 +104,9 @@ export default function VetConnectPage() {
                                     <h3 className="font-bold text-lg">20 Tokens</h3>
                                     <p className="text-muted-foreground">฿59</p>
                                 </div>
-                                <Button>ซื้อเลย</Button>
+                                <DialogClose asChild>
+                                    <Button onClick={() => handlePurchase(59, 20)}>ซื้อเลย</Button>
+                                </DialogClose>
                             </CardContent>
                         </Card>
                          <Card className="border-primary relative overflow-hidden hover:border-amber-500 transition-colors">
@@ -155,7 +116,9 @@ export default function VetConnectPage() {
                                     <h3 className="font-bold text-lg">50 Tokens</h3>
                                     <p className="text-muted-foreground">฿129</p>
                                 </div>
-                                <Button>ซื้อเลย</Button>
+                                 <DialogClose asChild>
+                                    <Button onClick={() => handlePurchase(129, 50)}>ซื้อเลย</Button>
+                                </DialogClose>
                             </CardContent>
                         </Card>
                          <Card className="hover:border-primary transition-colors">
@@ -164,7 +127,9 @@ export default function VetConnectPage() {
                                     <h3 className="font-bold text-lg">100 Tokens</h3>
                                     <p className="text-muted-foreground">฿249</p>
                                 </div>
-                                <Button>ซื้อเลย</Button>
+                                 <DialogClose asChild>
+                                    <Button onClick={() => handlePurchase(249, 100)}>ซื้อเลย</Button>
+                                </DialogClose>
                             </CardContent>
                         </Card>
                     </div>
@@ -172,167 +137,40 @@ export default function VetConnectPage() {
             </Dialog>
         </div>
 
-        {/* Disclaimer */}
-        {showDisclaimer && (
-          <Alert className="m-4 rounded-lg border-amber-400 bg-amber-50/50">
-            <AlertCircle className="h-4 w-4 text-amber-600" />
-            <AlertTitle className="font-bold text-amber-800">ยินดีต้อนรับสู่ PheuanPet VetConnect!</AlertTitle>
-            <AlertDescription className="text-amber-700 space-y-1">
-              <p>บริการนี้ออกแบบมาเพื่อการให้คำปรึกษาเบื้องต้นเท่านั้น</p>
-              <p className="font-semibold">คำเตือน: นี่ไม่ใช่การวินิจฉัยทางการแพทย์ โปรดไปพบสัตวแพทย์หากมีอาการฉุกเฉิน</p>
-            </AlertDescription>
-            <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => setShowDisclaimer(false)}>
-              <X className="h-4 w-4" />
-            </Button>
-          </Alert>
-        )}
-
-        {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {messages.map((message, index) => (
-            <div key={index} className={cn("flex items-end gap-3", message.role === 'user' ? 'justify-end' : 'justify-start')}>
-              {message.role === 'model' && (
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarImage src={'https://placehold.co/100x100.png'} alt="AI Vet" data-ai-hint="robot doctor"/>
-                  <AvatarFallback><Bot /></AvatarFallback>
-                </Avatar>
-              )}
-              <div className={cn(
-                "p-3 rounded-2xl max-w-md shadow-sm",
-                message.role === 'user' 
-                  ? 'bg-primary/20 text-foreground rounded-br-none' 
-                  : 'bg-muted text-foreground rounded-bl-none'
-              )}>
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-              </div>
-              {message.role === 'user' && (
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarImage src={
-                    selectedPetId 
-                    ? userPets.find(p => p.id.toString() === selectedPetId)?.avatarUrl 
-                    : 'https://placehold.co/100x100.png'
-                  } alt="User" data-ai-hint="person" />
-                  <AvatarFallback><User /></AvatarFallback>
-                </Avatar>
-              )}
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex items-end gap-3 justify-start">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={'https://placehold.co/100x100.png'} alt="AI Vet" data-ai-hint="robot doctor"/>
-                <AvatarFallback><Bot /></AvatarFallback>
-              </Avatar>
-              <div className="p-3 rounded-2xl bg-muted rounded-bl-none flex gap-1.5 items-center shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-muted-foreground animate-bounce [animation-delay:-0.3s]"></span>
-                <span className="h-2 w-2 rounded-full bg-muted-foreground animate-bounce [animation-delay:-0.15s]"></span>
-                <span className="h-2 w-2 rounded-full bg-muted-foreground animate-bounce"></span>
-              </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+        {/* Search Bar */}
+        <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input 
+                placeholder="ค้นหาสัตวแพทย์หรือคลินิก..."
+                className="pl-10 h-11 text-base"
+            />
         </div>
 
-        {/* Input Area */}
-        <div className="p-4 border-t bg-background/80 backdrop-blur sticky bottom-0">
-            {tokens <= 5 && tokens > 0 && (
-                <Alert variant="destructive" className="mb-3 bg-yellow-50 border-yellow-300 text-yellow-800">
-                    <AlertCircle className="h-4 w-4 !text-yellow-600"/>
-                    <AlertTitle>Token ใกล้หมดแล้ว!</AlertTitle>
-                    <AlertDescription>
-                       เติม Token เพื่อให้การสนทนาไม่สะดุด
-                    </AlertDescription>
-                </Alert>
-            )}
-             <form onSubmit={handleSendMessage} className="flex items-end gap-3">
-                <div className="flex-1 space-y-2">
-                     <div className="flex items-center gap-3">
-                        <Select onValueChange={setSelectedPetId} value={selectedPetId} disabled={isLoading || tokens <= 0}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="เลือกสัตว์เลี้ยง" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {userPets.map(pet => (
-                                    <SelectItem key={pet.id} value={String(pet.id)}>{pet.name}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Textarea
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder={tokens <= 0 ? "Token ของคุณหมดแล้ว" : "พิมพ์คำถามของคุณที่นี่..."}
-                            className="flex-1 resize-none"
-                            rows={1}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    handleSendMessage(e as any);
-                                }
-                            }}
-                            disabled={isLoading || tokens <= 0}
-                        />
-                     </div>
-                     <p className="text-xs text-muted-foreground h-4">
-                        {input && tokens > 0 ? `คำถามนี้จะใช้ประมาณ ${estimatedTokens} Token ในการตอบกลับ` : ''}
-                    </p>
-                </div>
-                {tokens > 0 ? (
-                    <Button type="submit" size="icon" className="h-10 w-10 flex-shrink-0" disabled={isLoading || !input.trim()}>
-                        <SendHorizonal className="h-5 w-5" />
-                        <span className="sr-only">Send</span>
-                    </Button>
-                ) : (
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="h-10 flex-shrink-0" variant="destructive">
-                                <Package className="mr-2 h-4 w-4" /> เติม Token
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle className="flex items-center gap-2"><Package className="h-6 w-6 text-primary"/>เลือกแพ็กเกจ Token</DialogTitle>
-                                 <DialogDescription>
-                                    เติม Token เพื่อให้คุณสามารถปรึกษาผู้เชี่ยวชาญของเราได้อย่างต่อเนื่อง
-                                </DialogDescription>
-                            </DialogHeader>
-                            <div className="space-y-4 py-4">
-                                <Card className="hover:border-primary transition-colors">
-                                    <CardContent className="p-4 flex justify-between items-center">
-                                        <div>
-                                            <h3 className="font-bold text-lg">20 Tokens</h3>
-                                            <p className="text-muted-foreground">฿59</p>
-                                        </div>
-                                        <Button>ซื้อเลย</Button>
-                                    </CardContent>
-                                </Card>
-                                 <Card className="border-primary relative overflow-hidden hover:border-amber-500 transition-colors">
-                                    <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg">คุ้มกว่า!</div>
-                                    <CardContent className="p-4 flex justify-between items-center">
-                                        <div>
-                                            <h3 className="font-bold text-lg">50 Tokens</h3>
-                                            <p className="text-muted-foreground">฿129</p>
-                                        </div>
-                                        <Button>ซื้อเลย</Button>
-                                    </CardContent>
-                                </Card>
-                                 <Card className="hover:border-primary transition-colors">
-                                    <CardContent className="p-4 flex justify-between items-center">
-                                        <div>
-                                            <h3 className="font-bold text-lg">100 Tokens</h3>
-                                            <p className="text-muted-foreground">฿249</p>
-                                        </div>
-                                        <Button>ซื้อเลย</Button>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </DialogContent>
-                    </Dialog>
-                )}
-            </form>
+        {/* Vet Listing */}
+        <div className="space-y-4">
+            {experts.map(expert => (
+                <ExpertCard key={expert.id} expert={expert} onConsult={handleConsult} />
+            ))}
         </div>
+        
+        <AlertDialog open={showTokenAlert} onOpenChange={setShowTokenAlert}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Token ไม่เพียงพอ</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        โปรดเติม Token เพื่อเริ่มต้นการสนทนา
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+                    {/* In a real app, this would open the token purchase dialog */}
+                    <AlertDialogAction onClick={() => toast({ title: "กรุณากดปุ่ม 'เติม Token' ที่มุมบนขวา" })}>
+                       เข้าใจแล้ว
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
       </main>
     </div>
   );
 }
-
-    

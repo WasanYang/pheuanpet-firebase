@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
@@ -11,6 +12,9 @@ interface ChatState {
   closeChat: (expertId: number) => void;
   setActiveChat: (expertId: number) => void;
   toggleMinimize: (expertId: number) => void;
+  tokens: number;
+  addTokens: (amount: number) => void;
+  deductTokens: (amount: number) => void;
 }
 
 const ChatContext = createContext<ChatState | undefined>(undefined);
@@ -19,6 +23,10 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   const [openChats, setOpenChats] = useState<Expert[]>([]);
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
   const [minimizedChats, setMinimizedChats] = useState<Set<number>>(new Set());
+  const [tokens, setTokens] = useState<number>(25);
+
+  const addTokens = (amount: number) => setTokens(prev => prev + amount);
+  const deductTokens = (amount: number) => setTokens(prev => Math.max(0, prev - amount));
 
   const openChat = (expert: Expert) => {
     // Bring to front if already open, otherwise add it
@@ -77,7 +85,18 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ChatContext.Provider value={{ openChats, activeChatId, minimizedChats, openChat, closeChat, setActiveChat, toggleMinimize }}>
+    <ChatContext.Provider value={{ 
+      openChats, 
+      activeChatId, 
+      minimizedChats, 
+      openChat, 
+      closeChat, 
+      setActiveChat, 
+      toggleMinimize,
+      tokens,
+      addTokens,
+      deductTokens
+    }}>
       {children}
     </ChatContext.Provider>
   );

@@ -1,3 +1,4 @@
+
 export interface User {
   id: number;
   name: string;
@@ -42,7 +43,9 @@ export interface Expert {
   avatarUrl: string;
   specialty: string;
   bio: string;
+  description: string;
   isAi: boolean;
+  costPerMessage: number;
 }
 
 const users: User[] = [
@@ -140,70 +143,48 @@ const posts: Post[] = [
 ];
 
 const comments: Comment[] = [
-  {
-    id: 1,
-    postId: 1,
-    userId: 2,
-    content: 'What a beautiful cat! So majestic.',
-    timestamp: '2 hours ago',
-  },
-  {
-    id: 2,
-    postId: 1,
-    userId: 1,
-    content: 'Thank you! She loves the camera.',
-    timestamp: '1 hour ago',
-  },
-  {
-    id: 3,
-    postId: 2,
-    userId: 1,
-    content: 'Such a happy dog!',
-    timestamp: '5 hours ago',
-  },
-  {
-    id: 4,
-    postId: 3,
-    userId: 2,
-    content: 'So much energy! I love it!',
-    timestamp: '1 day ago',
-  },
+  { id: 1, postId: 1, userId: 2, content: 'What a beautiful cat! So majestic.', timestamp: '2 hours ago' },
+  { id: 2, postId: 1, userId: 1, content: 'Thank you! She loves the camera.', timestamp: '1 hour ago' },
+  { id: 3, postId: 2, userId: 1, content: 'Such a happy dog!', timestamp: '5 hours ago' },
+  { id: 4, postId: 3, userId: 2, content: 'So much energy! I love it!', timestamp: '1 day ago' },
+  { id: 5, postId: 2, userId: 2, content: 'Looks like he is having a great time!', timestamp: '3 hours ago' },
+  { id: 6, postId: 3, userId: 1, content: 'She could play with that all day long!', timestamp: '22 hours ago' },
+  { id: 7, postId: 5, userId: 1, content: 'New friends are the best!', timestamp: '3 days ago' },
+  { id: 8, postId: 5, userId: 2, content: 'Hope they meet again soon!', timestamp: '3 days ago' },
 ];
 
 
 const experts: Expert[] = [
   {
     id: 100,
-    name: 'PheuanPet AI',
+    name: 'AI สัตวแพทย์ผู้ช่วย',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: '24/7 AI Assistant',
-    bio: 'Your AI-powered assistant for general pet care questions. For medical emergencies, please consult a veterinarian.',
+    specialty: 'คำปรึกษาทั่วไป 24 ชม.',
+    bio: 'ผู้ช่วย AI ของคุณสำหรับคำถามการดูแลสัตว์เลี้ยงทั่วไป สำหรับเหตุฉุกเฉินทางการแพทย์โปรดปรึกษาสัตวแพทย์',
+    description: 'รับคำตอบสำหรับคำถามทั่วไปเกี่ยวกับสุขภาพ, โภชนาการ, และพฤติกรรมของสัตว์เลี้ยงได้ทันที',
     isAi: true,
+    costPerMessage: 1,
   },
   {
     id: 1,
-    name: 'Dr. Anya Sharma',
+    name: 'คลินิกแมวเฉพาะทาง',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'Feline Veterinarian',
-    bio: 'Specializing in cat health and wellness for over 10 years. Passionate about preventative care and nutrition.',
+    specialty: 'น.สพ.ญ. อัญญา ชาร์มา',
+    bio: 'เชี่ยวชาญด้านสุขภาพและสุขภาวะของแมวมานานกว่า 10 ปี หลงใหลในการดูแลป้องกันและโภชนาการ',
+    description: 'ปรึกษาปัญหาเฉพาะทางสำหรับแมว ตั้งแต่โรคทั่วไปจนถึงการดูแลที่ซับซ้อน',
     isAi: false,
+    costPerMessage: 0, // For future use
   },
   {
     id: 2,
-    name: 'Dr. Ben Carter',
+    name: 'ผู้เชี่ยวชาญพฤติกรรมสุนัข',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'Canine Behaviorist',
-    bio: 'Certified behavior consultant helping dogs and their owners build stronger bonds through positive reinforcement training.',
+    specialty: 'คุณเบน คาร์เตอร์',
+    bio: 'ที่ปรึกษาด้านพฤติกรรมที่ได้รับการรับรอง ช่วยให้สุนัขและเจ้าของสร้างความสัมพันธ์ที่แน่นแฟ้นยิ่งขึ้น',
+    description: 'แก้ปัญหาพฤติกรรมสุนัข เช่น ความก้าวร้าว, ความวิตกกังวล, และการฝึกเข้าสังคม',
     isAi: false,
+    costPerMessage: 0, // For future use
   },
-  {
-    id: 3,
-    name: 'Dr. Chloe Davis',
-    avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'Exotic Pets Specialist',
-    bio: 'Expert in the care of reptiles, birds, and small mammals. Providing compassionate and knowledgeable advice.',
-    isAi: false,
-  }
 ];
 
 

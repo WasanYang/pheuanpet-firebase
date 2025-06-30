@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -23,7 +24,15 @@ interface ChatWidgetProps {
 
 export default function ChatWidget({ expert }: ChatWidgetProps) {
   const { toast } = useToast();
-  const { closeChat, setActiveChat, activeChatId, toggleMinimize, minimizedChats } = useChat();
+  const { 
+    closeChat, 
+    setActiveChat, 
+    activeChatId, 
+    toggleMinimize, 
+    minimizedChats,
+    tokens,
+    deductTokens,
+  } = useChat();
   
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -32,6 +41,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isMinimized = minimizedChats.has(expert.id);
   const isActive = activeChatId === expert.id;
+  const cannotAfford = expert.isAi && tokens < expert.costPerMessage;
 
   useEffect(() => {
     // Welcome message
@@ -50,7 +60,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
   
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || cannotAfford) return;
 
     const userMessage: Message = { role: 'user', content: input };
     const newMessages = [...messages, userMessage];
@@ -63,6 +73,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
         const chatHistory: ExpertChatInput = { history: newMessages };
         const aiResponse = await expertChat(chatHistory);
         setMessages(prev => [...prev, { role: 'model', content: aiResponse }]);
+        deductTokens(expert.costPerMessage);
       } catch (error) {
         console.error("AI Error:", error);
         toast({
@@ -70,11 +81,12 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
           title: 'AI Error',
           description: 'Could not get a response from the AI assistant. Please try again.',
         });
-        setMessages(newMessages); // Revert
+        setMessages(messages); // Revert on error, don't deduct tokens
       } finally {
         setIsLoading(false);
       }
     } else {
+      // Mock for human expert
       setTimeout(() => {
         setMessages(prev => [...prev, { role: 'model', content: "Thanks for your message! I'll get back to you as soon as possible." }]);
         setIsLoading(false);
@@ -165,7 +177,7 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
                 <Textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your message..."
+                    placeholder={cannotAfford ? "เติม Token เพื่อสนทนาต่อ" : "Type your message..."}
                     className="flex-1 resize-none"
                     rows={1}
                     onKeyDown={(e) => {
@@ -174,9 +186,9 @@ export default function ChatWidget({ expert }: ChatWidgetProps) {
                         handleSendMessage(e as any);
                     }
                     }}
-                    disabled={isLoading}
+                    disabled={isLoading || cannotAfford}
                 />
-                <Button type="submit" size="icon" className="h-9 w-9" disabled={isLoading || !input.trim()}>
+                <Button type="submit" size="icon" className="h-9 w-9" disabled={isLoading || !input.trim() || cannotAfford}>
                     <SendHorizonal className="h-4 w-4" />
                     <span className="sr-only">Send</span>
                 </Button>
