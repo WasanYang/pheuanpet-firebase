@@ -1,7 +1,8 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn, Clock, X } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -25,55 +26,82 @@ const Header = () => {
   const { openChats } = useChat();
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isSearchActive) {
-      // Focus the input when the search bar becomes active.
-      // A small timeout can help ensure the element is rendered and focusable.
+      document.body.style.overflow = 'hidden';
       setTimeout(() => inputRef.current?.focus(), 50);
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isSearchActive]);
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem('pheuanpet_search_history');
+    if (storedHistory) {
+      setSearchHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  const performSearch = (query: string) => {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery) {
+      const newHistory = [trimmedQuery, ...searchHistory.filter(item => item !== trimmedQuery)].slice(0, 10);
+      setSearchHistory(newHistory);
+      localStorage.setItem('pheuanpet_search_history', JSON.stringify(newHistory));
+      // In a real app, you would navigate to the search results page, e.g., router.push(`/search?q=${trimmedQuery}`)
+      console.log(`Searching for: ${trimmedQuery}`);
+      setIsSearchActive(false);
+      setSearchQuery('');
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    performSearch(searchQuery);
+  };
+
+  const handleHistoryClick = (query: string) => {
+    setSearchQuery(query);
+    performSearch(query);
+  };
+
+  const removeHistoryItem = (e: React.MouseEvent, itemToRemove: string) => {
+    e.stopPropagation();
+    const newHistory = searchHistory.filter(item => item !== itemToRemove);
+    setSearchHistory(newHistory);
+    localStorage.setItem('pheuanpet_search_history', JSON.stringify(newHistory));
+  };
+
+  const clearHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('pheuanpet_search_history');
+  };
 
   const handleCancel = (e?: React.MouseEvent) => {
     e?.preventDefault();
-    if (inputRef.current) {
-        inputRef.current.value = '';
-    }
     setIsSearchActive(false);
+    setSearchQuery('');
   };
-  
-  const handleBlur = () => {
-    // We add a small delay because a click on the 'cancel' button's onMouseDown event
-    // would trigger blur before the click is registered. This ensures we don't close prematurely.
-     setTimeout(() => {
-      // Check if another element has gained focus. If the body has focus, it means the user clicked outside.
-      if (document.activeElement === document.body) {
-        handleCancel();
-      }
-    }, 200);
-  }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4 overflow-hidden">
-        
-        {/* Logo and regular nav items */}
-        <div className={cn(
-          "flex items-center w-full transition-opacity duration-300",
-          isSearchActive ? "opacity-0 pointer-events-none" : "opacity-100"
-        )}>
-          {/* Logo */}
+    <>
+      <header className="sticky top-0 z-40 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
+        <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4">
           <Link href="/" className="flex items-center space-x-2 mr-4 flex-shrink-0">
             <PawPrint className="h-8 w-8 text-primary" />
             <span className="font-headline text-2xl font-bold hidden sm:inline-block">PheuanPet</span>
           </Link>
           
-          <div className="flex-1" /> {/* Spacer */}
+          <div className="flex-1" />
 
-          {/* Action Buttons */}
           <div className="flex items-center justify-end space-x-2 sm:space-x-4">
-            {/* Desktop nav actions */}
             <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
               <Button variant="ghost" size="icon" asChild>
                 <Link href="/" aria-label="Home">
@@ -100,13 +128,11 @@ const Header = () => {
               </Button>
             </div>
             
-            {/* Universal Search Trigger */}
             <Button variant="ghost" size="icon" onClick={() => setIsSearchActive(true)}>
               <Search className="h-5 w-5" />
                <span className="sr-only">Open Search</span>
             </Button>
 
-            {/* User profile avatar for Desktop */}
             {user && (
               <Link href={`/users/${user.id}`} aria-label="My Profile" className="hidden md:block">
                 <Avatar className="h-9 w-9 border-2 border-transparent hover:border-primary transition-colors">
@@ -116,7 +142,6 @@ const Header = () => {
               </Link>
             )}
 
-            {/* Hamburger Menu Trigger for mobile */}
             <div className="md:hidden">
               <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <SheetTrigger asChild>
@@ -187,33 +212,63 @@ const Header = () => {
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Search Bar and its wrapper (Overlay) */}
-        <div className={cn(
-            "absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out bg-card",
-            isSearchActive 
-              ? "z-10 opacity-100" 
-              : "z-[-1] opacity-0 pointer-events-none"
-        )}>
-            <div className="w-full max-w-4xl flex items-center gap-2 px-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-                  <Input
-                      ref={inputRef}
-                      type="search"
-                      className="w-full pl-9"
-                      onBlur={handleBlur}
-                      placeholder="Search PheuanPet..."
-                  />
-                </div>
-                {/* Use onMouseDown to prevent the input's onBlur from firing first and closing the search */}
-                <button onMouseDown={handleCancel} className="text-sm text-primary font-medium">
-                    Cancel
-                </button>
+      {isSearchActive && (
+        <div className="fixed inset-0 z-50 bg-background animate-in fade-in duration-200">
+          <div className="container max-w-4xl mx-auto px-4 h-full flex flex-col">
+            <div className="flex items-center h-16 gap-2 border-b">
+              <form onSubmit={handleSearchSubmit} className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  ref={inputRef}
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9"
+                  placeholder="Search PheuanPet..."
+                />
+              </form>
+              <button onClick={handleCancel} className="text-sm text-primary font-medium shrink-0">
+                Cancel
+              </button>
             </div>
+            
+            <div className="py-4 overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-semibold text-base">Recent</h3>
+                  {searchHistory.length > 0 && (
+                    <Button variant="link" size="sm" className="text-primary p-0 h-auto" onClick={clearHistory}>
+                      Clear
+                    </Button>
+                  )}
+              </div>
+              {searchHistory.length > 0 ? (
+                <ul className="space-y-1">
+                  {searchHistory.map((item, index) => (
+                    <li key={index} className="flex items-center justify-between group rounded-md hover:bg-muted">
+                      <button className="flex items-center gap-4 py-2 px-2 w-full text-left" onClick={() => handleHistoryClick(item)}>
+                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                        <span className="flex-1">{item}</span>
+                      </button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 mr-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => removeHistoryItem(e, item)}>
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-center py-16">
+                  <p className="text-muted-foreground">No recent searches.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    </header>
+      )}
+    </>
   );
 };
 
