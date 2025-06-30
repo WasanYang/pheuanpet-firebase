@@ -5,6 +5,8 @@ import './globals.css';
 import { ChatProvider } from '@/context/ChatProvider';
 import ChatContainer from '@/components/ChatContainer';
 import { cn } from '@/lib/utils';
+import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -27,8 +29,16 @@ export default function RootLayout({
       </head>
       <body className={cn("font-body antialiased", inter.variable)}>
         <ChatProvider>
-          {children}
-          <ChatContainer />
+          <div className="bg-background min-h-screen">
+            <Header />
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1 w-full">
+                {children}
+              </div>
+            </div>
+            <ChatContainer />
+          </div>
         </ChatProvider>
         <Toaster />
       </body>
