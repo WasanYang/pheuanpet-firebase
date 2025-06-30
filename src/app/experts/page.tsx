@@ -3,8 +3,6 @@
 
 import Header from '@/components/Header';
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
 import { getExperts, type Expert } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
@@ -44,13 +42,6 @@ export default function VetConnectDirectoryPage() {
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 พบกับผู้เชี่ยวชาญและสัตวแพทย์ที่พร้อมให้คำปรึกษา คลิกที่โปรไฟล์เพื่อดูข้อมูลเพิ่มเติมและโพสต์ต่างๆ
             </p>
-            <div className="relative mt-6 max-w-lg mx-auto w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input 
-                    placeholder="ค้นหาสัตวแพทย์หรือคลินิก..."
-                    className="pl-10 h-11 text-base"
-                />
-            </div>
         </div>
       </div>
 
