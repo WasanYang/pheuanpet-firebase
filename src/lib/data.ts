@@ -39,6 +39,7 @@ export interface Comment {
 
 export interface Expert {
   id: number;
+  userId: number;
   name: string;
   avatarUrl: string;
   specialty: string;
@@ -51,6 +52,8 @@ export interface Expert {
 const users: User[] = [
   { id: 1, name: 'Malee', avatarUrl: 'https://placehold.co/100x100.png' },
   { id: 2, name: 'Somsak', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 3, name: 'น.สพ.ญ. อัญญา ชาร์มา', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 4, name: 'คุณเบน คาร์เตอร์', avatarUrl: 'https://placehold.co/100x100.png' },
 ];
 
 const pets: Pet[] = [
@@ -157,6 +160,7 @@ const comments: Comment[] = [
 const experts: Expert[] = [
   {
     id: 100,
+    userId: -1,
     name: 'AI สัตวแพทย์ผู้ช่วย',
     avatarUrl: 'https://placehold.co/100x100.png',
     specialty: 'คำปรึกษาทั่วไป 24 ชม.',
@@ -167,9 +171,10 @@ const experts: Expert[] = [
   },
   {
     id: 1,
-    name: 'คลินิกแมวเฉพาะทาง',
+    userId: 3,
+    name: 'น.สพ.ญ. อัญญา ชาร์มา',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'น.สพ.ญ. อัญญา ชาร์มา',
+    specialty: 'คลินิกแมวเฉพาะทาง',
     bio: 'เชี่ยวชาญด้านสุขภาพและสุขภาวะของแมวมานานกว่า 10 ปี หลงใหลในการดูแลป้องกันและโภชนาการ',
     description: 'ปรึกษาปัญหาเฉพาะทางสำหรับแมว ตั้งแต่โรคทั่วไปจนถึงการดูแลที่ซับซ้อน',
     isAi: false,
@@ -177,9 +182,10 @@ const experts: Expert[] = [
   },
   {
     id: 2,
-    name: 'ผู้เชี่ยวชาญพฤติกรรมสุนัข',
+    userId: 4,
+    name: 'คุณเบน คาร์เตอร์',
     avatarUrl: 'https://placehold.co/100x100.png',
-    specialty: 'คุณเบน คาร์เตอร์',
+    specialty: 'ผู้เชี่ยวชาญพฤติกรรมสุนัข',
     bio: 'ที่ปรึกษาด้านพฤติกรรมที่ได้รับการรับรอง ช่วยให้สุนัขและเจ้าของสร้างความสัมพันธ์ที่แน่นแฟ้นยิ่งขึ้น',
     description: 'แก้ปัญหาพฤติกรรมสุนัข เช่น ความก้าวร้าว, ความวิตกกังวล, และการฝึกเข้าสังคม',
     isAi: false,
@@ -203,3 +209,4 @@ export const getCommentsByPostId = (postId: number): Comment[] => comments.filte
 
 export const getExperts = (): Expert[] => experts;
 export const getExpertById = (id: number): Expert | undefined => experts.find(e => e.id === id);
+export const getExpertByUserId = (userId: number): Expert | undefined => experts.find(e => e.userId === userId);
