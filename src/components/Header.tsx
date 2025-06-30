@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus } from 'lucide-react';
+import { PawPrint, Home, PlusSquare, Search, Stethoscope, Menu, UserPlus, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -55,7 +55,7 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4 overflow-hidden sm:overflow-visible">
+      <div className="container relative flex h-16 max-w-4xl items-center justify-between mx-auto px-4 overflow-hidden md:overflow-visible">
         
         {/* Logo */}
         <div className={cn(
@@ -150,36 +150,31 @@ const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[280px] p-0 bg-card">
-                <SheetHeader className="sr-only">
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription>
+                 <SheetHeader className="p-4 border-b">
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetDescription className="sr-only">
                     Main navigation menu for the PheuanPet application.
                   </SheetDescription>
+                  <SheetClose asChild>
+                    <Link href="/" className="flex items-center gap-3">
+                        <PawPrint className="h-8 w-8 text-primary" />
+                        <span className="font-headline text-2xl font-bold">PheuanPet</span>
+                    </Link>
+                  </SheetClose>
                 </SheetHeader>
-                <SheetClose asChild>
-                  <Link href="/" className="p-4 flex items-center gap-3">
-                    <Avatar className="h-10 w-10 border-2 border-primary">
-                      <AvatarImage src={user?.avatarUrl} alt={user?.name} data-ai-hint="person portrait" />
-                      <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                        <p className="font-bold">{user?.name}</p>
-                        <p className="text-xs text-muted-foreground">Go to Homepage</p>
-                    </div>
-                  </Link>
-                </SheetClose>
                 
-                <Separator className="bg-border/50" />
-
                 <div className="p-4">
                   {user && (
                     <SheetClose asChild>
                       <Link href={`/users/${user.id}`} className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
-                        <Avatar className="h-6 w-6">
+                        <Avatar className="h-8 w-8 border-2 border-primary">
                             <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                             <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <span>View Profile</span>
+                        <div>
+                            <p className="font-bold">{user.name}</p>
+                            <p className="text-xs text-muted-foreground">View Profile</p>
+                        </div>
                       </Link>
                     </SheetClose>
                   )}
@@ -217,6 +212,12 @@ const Header = () => {
 
                 <Separator className="bg-border/50" />
                 <div className="p-4">
+                  <SheetClose asChild>
+                    <Link href="/login" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
+                      <LogIn className="h-5 w-5 text-muted-foreground" />
+                      <span>Log In</span>
+                    </Link>
+                  </SheetClose>
                   <SheetClose asChild>
                     <Link href="/signup" className="flex items-center gap-3 rounded-md p-3 text-base font-medium hover:bg-accent hover:text-accent-foreground">
                       <UserPlus className="h-5 w-5 text-muted-foreground" />
