@@ -1,4 +1,3 @@
-
 'use client';
 
 import Header from '@/components/Header';
@@ -32,20 +31,10 @@ export default function VetConnectDirectoryPage() {
   const experts = getExperts().filter(expert => !expert.isAi);
 
   return (
-    <div className="flex flex-col min-h-screen bg-muted/40 text-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       
-      {/* Page Header Section */}
-      <div className="bg-card border-b animate-in fade-in duration-500">
-        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center">
-            <h1 className="font-headline text-3xl md:text-4xl font-bold">ค้นหาสัตวแพทย์</h1>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                พบกับผู้เชี่ยวชาญและสัตวแพทย์ที่พร้อมให้คำปรึกษา คลิกที่โปรไฟล์เพื่อดูข้อมูลเพิ่มเติมและโพสต์ต่างๆ
-            </p>
-        </div>
-      </div>
-
-      <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 animate-in fade-in duration-500 delay-100">
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 animate-in fade-in duration-500">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} />
