@@ -12,7 +12,7 @@ import { MapPin } from 'lucide-react';
 const ExpertCard = ({ expert }: { expert: Expert }) => {
   return (
     <Link href={`/users/${expert.userId}`} className="group block h-full">
-      <Card className="h-full transition-all duration-300 hover:shadow-xl hover:border-primary/50 flex flex-col rounded-none">
+      <Card className="h-full transition-all duration-300 hover:shadow-xl flex flex-col rounded-none border-none">
         <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
           <Avatar className="h-24 w-24 mb-4 border-4 border-transparent group-hover:border-primary transition-colors">
               <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint="person doctor" />
