@@ -35,7 +35,7 @@ export default function VetConnectDirectoryPage() {
       <Header />
       
       <main className="flex-1 max-w-6xl w-full mx-auto animate-in fade-in duration-500">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0.5">
             {experts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} />
             ))}

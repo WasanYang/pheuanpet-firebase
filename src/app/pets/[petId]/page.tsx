@@ -189,7 +189,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                 </TabsList>
                 <div className="p-0.5 sm:p-4">
                 <TabsContent value="posts" className="mt-0">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-0.5">
                     {posts.map(post => (
                         <Card key={post.id} className="overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg rounded-none sm:rounded-lg">
                             <CardContent className="p-4 flex flex-col sm:flex-row gap-6">
@@ -224,7 +224,7 @@ export default function PetProfilePage({ params }: { params: { petId: string } }
                 </TabsContent>
 
                 <TabsContent value="media" className="mt-0">
-                    <div className="grid grid-cols-2 sm:grid-cols-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-0.5">
                     {allMedia.map((media, index) => (
                         <Link href={`/posts/${media.postId}`} key={`${media.url}-${index}`} className="group block">
                         <div className="relative aspect-square w-full bg-muted overflow-hidden rounded-md">
