@@ -36,7 +36,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 border-r bg-card fixed h-full z-50">
+    <aside className="hidden md:flex flex-col w-64 border-r bg-card h-screen sticky top-0">
       <div className="p-4 flex items-center h-16 border-b">
         <Link href="/" className="flex items-center space-x-2">
             <PawPrint className="h-8 w-8 text-primary" />

@@ -24,9 +24,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ChatProvider>
-          <div className="min-h-screen bg-background">
+          <div className="flex min-h-screen bg-background">
             <Sidebar />
-            <div className="md:pl-64">
+            <div className="flex-1 w-0">
                 {children}
             </div>
           </div>
