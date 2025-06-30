@@ -37,23 +37,24 @@ export default function VetConnectDirectoryPage() {
     <div className="flex flex-col min-h-screen bg-muted/40 text-foreground">
       <Header />
       
-      <main className="flex-1 flex flex-col max-w-6xl w-full mx-auto animate-in fade-in duration-500 p-4">
-        
-        <div className="text-center mb-8">
+      {/* Page Header Section */}
+      <div className="bg-card border-b animate-in fade-in duration-500">
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center">
             <h1 className="font-headline text-3xl md:text-4xl font-bold">ค้นหาสัตวแพทย์</h1>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 พบกับผู้เชี่ยวชาญและสัตวแพทย์ที่พร้อมให้คำปรึกษา คลิกที่โปรไฟล์เพื่อดูข้อมูลเพิ่มเติมและโพสต์ต่างๆ
             </p>
+            <div className="relative mt-6 max-w-lg mx-auto w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input 
+                    placeholder="ค้นหาสัตวแพทย์หรือคลินิก..."
+                    className="pl-10 h-11 text-base"
+                />
+            </div>
         </div>
+      </div>
 
-        <div className="relative mb-8 max-w-lg mx-auto w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input 
-                placeholder="ค้นหาสัตวแพทย์หรือคลินิก..."
-                className="pl-10 h-11 text-base"
-            />
-        </div>
-
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 animate-in fade-in duration-500 delay-100">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experts.map(expert => (
                 <ExpertCard key={expert.id} expert={expert} />
