@@ -116,16 +116,16 @@ function ExploreContent() {
 
       <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="for-you" className="flex-1">
+          <TabsTrigger value="for-you" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Sparkles className="mr-2 h-4 w-4" /> For You
           </TabsTrigger>
-          <TabsTrigger value="trending" className="flex-1">
+          <TabsTrigger value="trending" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Flame className="mr-2 h-4 w-4" /> Trending
           </TabsTrigger>
-          <TabsTrigger value="breeds" className="flex-1">
+          <TabsTrigger value="breeds" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Dog className="mr-2 h-4 w-4" /> Breeds
           </TabsTrigger>
-          <TabsTrigger value="vet-connect" className="flex-1">
+          <TabsTrigger value="vet-connect" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
             <Hospital className="mr-2 h-4 w-4" /> VetConnect
           </TabsTrigger>
         </TabsList>
@@ -148,10 +148,10 @@ function ExploreContent() {
         </TabsContent>
         
         <TabsContent value="trending" className="mt-4">
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
-              <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
-              <div className="rounded-lg border">
+              <h3 className="text-xl font-bold mb-4">Top Pets This Week</h3>
+              <div className="flex flex-col">
                 {trendingPets.map((pet, index) => (
                     <React.Fragment key={pet.id}>
                         <PetRow pet={pet} />
@@ -161,8 +161,8 @@ function ExploreContent() {
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-3">Newest Members</h3>
-              <div className="rounded-lg border">
+              <h3 className="text-xl font-bold mb-4">Newest Members</h3>
+              <div className="flex flex-col">
                 {newPets.map((pet, index) => (
                     <React.Fragment key={pet.id}>
                         <PetRow pet={pet} />
