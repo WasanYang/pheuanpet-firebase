@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun } from 'lucide-react';
@@ -9,6 +8,9 @@ import { getUserById, getPetsByOwnerId } from '@/lib/data';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
@@ -44,6 +46,12 @@ const Header = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] p-0 bg-card border-r">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Menu</SheetTitle>
+                  <SheetDescription>
+                    Main navigation menu for the PheuanPet application.
+                  </SheetDescription>
+                </SheetHeader>
                 <div className="p-4 border-b">
                     <SheetClose asChild>
                         <Link href="/" className="flex items-center gap-3">
