@@ -122,14 +122,14 @@ export default function ExplorePage() {
         </div>
 
         <Tabs defaultValue="for-you" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="for-you" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsList className="flex w-full">
+            <TabsTrigger value="for-you" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Sparkles className="mr-2 h-4 w-4" /> For You
             </TabsTrigger>
-            <TabsTrigger value="trending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="trending" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Flame className="mr-2 h-4 w-4" /> Trending
             </TabsTrigger>
-            <TabsTrigger value="breeds" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="breeds" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Dog className="mr-2 h-4 w-4" /> Breeds
             </TabsTrigger>
           </TabsList>
