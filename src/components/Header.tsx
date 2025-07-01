@@ -42,6 +42,29 @@ const Header = () => {
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
+  const desktopIcons = (
+    <div className="flex items-center justify-end gap-1">
+        <Button variant="ghost" size="icon" className="md:inline-flex">
+            <Bell className="h-5 w-5" />
+            <span className="sr-only">Notifications</span>
+        </Button>
+        <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+          {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+        {user && (
+            <Button variant="ghost" className="p-1 h-auto md:inline-flex" asChild>
+                <Link href={`/users/${user?.id}`}>
+                    <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person" />
+                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                </Link>
+            </Button>
+        )}
+    </div>
+  );
+
   const mobileMenuSheet = (
       <Sheet>
         <SheetTrigger asChild>
@@ -133,38 +156,28 @@ const Header = () => {
 
       {/* Desktop Header */}
       <div className="hidden md:flex container max-w-screen-2xl mx-auto h-16 items-center justify-center gap-x-6">
+        
         {/* Left Aligner */}
         <div className="w-64 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-3 px-4">
-            <PawPrint className="h-8 w-8 text-primary" />
-            <span className="font-headline text-2xl font-bold">PheuanPet</span>
-          </Link>
+          <div className="px-4">
+            <Link href="/" className="flex items-center space-x-3">
+              <PawPrint className="h-8 w-8 text-primary" />
+              <span className="font-headline text-2xl font-bold">PheuanPet</span>
+            </Link>
+          </div>
         </div>
         
-        {/* Center Aligner (matches main content width) */}
-        <div className="w-full max-w-[738px]" />
+        {/* Center Aligner (contains icons on medium screens) */}
+        <div className="w-full max-w-[606px] md:max-w-[738px] flex justify-end items-center">
+          <div className="px-4 xl:hidden">
+            {desktopIcons}
+          </div>
+        </div>
 
-        {/* Right Aligner (matches right sidebar width) */}
-        <div className="w-80 flex-shrink-0">
-          <div className="flex items-center justify-end gap-1 px-4">
-            <Button variant="ghost" size="icon" className="md:inline-flex">
-                <Bell className="h-5 w-5" />
-                <span className="sr-only">Notifications</span>
-            </Button>
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-              {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-            {user && (
-                <Button variant="ghost" className="p-1 h-auto md:inline-flex" asChild>
-                    <Link href={`/users/${user?.id}`}>
-                        <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person" />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                    </Link>
-                </Button>
-            )}
+        {/* Right Aligner (contains icons on large screens) */}
+        <div className="w-80 flex-shrink-0 hidden xl:flex items-center">
+           <div className="px-4 w-full">
+            {desktopIcons}
           </div>
         </div>
       </div>
