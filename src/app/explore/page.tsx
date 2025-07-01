@@ -134,7 +134,7 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="columns-1 sm:columns-2 gap-4 space-y-4">
+            <div className="columns-1 sm:columns-2 gap-2 space-y-2">
               {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -159,7 +159,7 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
-             <div className="columns-1 sm:columns-2 gap-4 space-y-4">
+             <div className="columns-1 sm:columns-2 gap-2 space-y-2">
                 {breeds.map(breed => (
                     <BreedCard key={breed.name} breed={breed} />
                 ))}
