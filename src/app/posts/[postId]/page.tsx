@@ -1,7 +1,7 @@
 'use client';
 
 import { getPostById, getPetById, getUserById, getCommentsByPostId } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -100,7 +100,8 @@ const MediaDisplay = ({ media, petName, caption }: { media: Media[], petName: st
 };
 
 
-export default function PostPage({ params }: { params: { postId: string } }) {
+export default function PostPage() {
+  const params = useParams<{ postId: string }>();
   const post = getPostById(Number(params.postId));
 
   if (!post) {
