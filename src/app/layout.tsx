@@ -39,7 +39,7 @@ export default function RootLayout({
           <ChatProvider>
             <div className="bg-background min-h-screen">
               <Header />
-              <div className="container max-w-screen-2xl mx-auto flex gap-x-6 px-4">
+              <div className="container max-w-screen-2xl mx-auto flex justify-center gap-x-6 px-4">
 
                 {/* Left Sidebar */}
                 <div className="w-64 flex-shrink-0 hidden md:block">
@@ -49,8 +49,8 @@ export default function RootLayout({
                 </div>
                 
                 {/* Middle Content */}
-                <div className="flex-1 min-w-0">
-                  <main className="max-w-[606px] md:max-w-[738px] w-full mx-auto py-6">
+                <div className="min-w-0">
+                  <main className="w-full max-w-[606px] md:max-w-[738px] py-6">
                     {children}
                   </main>
                 </div>
