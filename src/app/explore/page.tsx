@@ -28,7 +28,7 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 );
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
-    <Link href="#" className="group block">
+    <Link href="#" className="group block break-inside-avoid">
         <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border flex flex-col">
             <div className="relative w-full aspect-[16/10] bg-muted">
                 <Image
@@ -55,7 +55,7 @@ const PostCard = ({ post }: { post: Post }) => {
     const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
-      <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg">
+      <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg break-inside-avoid">
         <Link href={`/posts/${post.id}`} className="block">
           <div className="relative aspect-[4/5] w-full bg-muted overflow-hidden">
             <Image
@@ -134,7 +134,7 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+            <div className="columns-1 sm:columns-2 gap-4 space-y-4">
               {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -159,7 +159,7 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+             <div className="columns-1 sm:columns-2 gap-4 space-y-4">
                 {breeds.map(breed => (
                     <BreedCard key={breed.name} breed={breed} />
                 ))}
