@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Heart, MessageCircle, Flame, Sparkles, Dog } from 'lucide-react';
+import { Search, Heart, MessageCircle, Flame, Sparkles, Dog, PlayCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, type Pet, type Breed, type Post } from '@/lib/data';
 import Link from 'next/link';
@@ -49,6 +49,7 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
 const PostCard = ({ post }: { post: Post }) => {
     const pet = getPetById(post.petId);
     if (!pet) return null;
+    const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
       <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg">
@@ -61,6 +62,11 @@ const PostCard = ({ post }: { post: Post }) => {
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={pet.breed}
             />
+             {hasVideo && (
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <PlayCircle className="h-12 w-12 text-white/80" />
+                </div>
+            )}
           </div>
         </Link>
         <CardContent className="p-3 flex flex-col flex-grow">

@@ -136,7 +136,7 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
         </Link>
         
         <div className="p-4">
-            <div className="flex items-center gap-1 mb-2">
+            <div className="flex items-center -ml-2">
                 <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
                     <Heart className="h-6 w-6 group-hover/heart:fill-current" />
                 </Button>
@@ -149,7 +149,7 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
                     <Share2 className="h-6 w-6" />
                 </Button>
             </div>
-            <p className="font-bold text-sm mb-1">{post.likes.toLocaleString()} likes</p>
+            <p className="font-bold text-sm mt-2 mb-1">{post.likes.toLocaleString()} likes</p>
 
             {post.comments > 0 && (
                 <Link href={`/posts/${post.id}#comments`} className="text-sm text-muted-foreground hover:underline mt-1 block">
