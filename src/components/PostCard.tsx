@@ -11,8 +11,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { useState, useEffect } from 'react';
@@ -146,12 +144,6 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
                 </div>
                 <p className="font-bold text-sm">{post.likes.toLocaleString()} likes</p>
             </div>
-
-            {post.comments > 0 && (
-                <Link href={`/posts/${post.id}#comments`} className="text-sm text-muted-foreground hover:underline mt-2 block">
-                    View all {post.comments} comments
-                </Link>
-            )}
         </div>
     </Card>
   );
