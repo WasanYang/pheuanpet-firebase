@@ -69,7 +69,7 @@ const Header = () => {
             <span className="sr-only">Open menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-[300px] p-0 bg-card border-l">
+        <SheetContent side="right" className="p-0 bg-card border-l">
             <SheetHeader className="p-4 border-b">
               <SheetTitle className="sr-only">Menu</SheetTitle>
               <SheetDescription className="sr-only">Main navigation</SheetDescription>

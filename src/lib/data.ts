@@ -183,6 +183,26 @@ const posts: Post[] = [
     likes: 345,
     comments: 1,
   },
+  {
+    id: 9,
+    petId: 3,
+    media: [
+       { type: 'image', url: 'https://placehold.co/800x600.png' },
+    ],
+    caption: 'Just a quick nap before dinner.',
+    likes: 99,
+    comments: 0,
+  },
+  {
+    id: 10,
+    petId: 3,
+    media: [
+       { type: 'image', url: 'https://placehold.co/800x600.png' },
+    ],
+    caption: 'Thinking about all the treats I am going to get today. Life is good.',
+    likes: 150,
+    comments: 0,
+  },
 ];
 
 const comments: Comment[] = [
