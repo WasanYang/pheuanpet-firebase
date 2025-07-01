@@ -29,8 +29,8 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
     <Link href="#" className="group block break-inside-avoid">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border flex flex-col">
-            <div className="relative w-full aspect-[16/10] bg-muted">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col border-0">
+            <div className="relative w-full aspect-square bg-muted">
                 <Image
                 src={breed.imageUrl}
                 alt={breed.name}
@@ -55,9 +55,9 @@ const PostCard = ({ post }: { post: Post }) => {
     const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
-      <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg break-inside-avoid">
+      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg break-inside-avoid border-0">
         <Link href={`/posts/${post.id}`} className="block">
-          <div className="relative aspect-[4/5] w-full bg-muted overflow-hidden">
+          <div className="relative aspect-square w-full bg-muted overflow-hidden">
             <Image
               src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
               alt={post.caption?.replace(/<[^>]+>/g, '') || `Post by ${pet.name}`}
@@ -134,7 +134,7 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="columns-1 sm:columns-2 gap-2 space-y-2">
+            <div className="columns-2 gap-2 space-y-2">
               {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -142,7 +142,7 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="trending" className="mt-4">
-            <div className="space-y-8">
+            <div className="space-y-4">
               <div className="space-y-2">
                   <h2 className="text-xl font-bold">Top Pets This Week</h2>
                   {trendingPets.map(pet => (
@@ -159,7 +159,7 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
-             <div className="columns-1 sm:columns-2 gap-2 space-y-2">
+             <div className="columns-2 gap-2 space-y-2">
                 {breeds.map(breed => (
                     <BreedCard key={breed.name} breed={breed} />
                 ))}
