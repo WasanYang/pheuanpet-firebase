@@ -13,7 +13,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
+import { useState, useEffect } from 'react';
 
 interface PostCardProps {
   post: Post;
@@ -23,6 +25,23 @@ interface PostCardProps {
 
 const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, caption: string | null }) => {
     const video = media.find(m => m.type === 'video');
+    const [api, setApi] = useState<CarouselApi>()
+    const [current, setCurrent] = useState(0)
+    const [count, setCount] = useState(0)
+ 
+    useEffect(() => {
+        if (!api) {
+            return
+        }
+    
+        setCount(api.scrollSnapList().length)
+        setCurrent(api.selectedScrollSnap() + 1)
+    
+        api.on("select", () => {
+            setCurrent(api.selectedScrollSnap() + 1)
+        })
+    }, [api])
+
     if (video) {
         return (
             <div className="w-full bg-black relative group aspect-video">
@@ -49,29 +68,36 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
     }
     
     return (
-        <Carousel className="w-full bg-muted relative group">
-            <CarouselContent>
-                {allImages.map((image, index) => (
-                    <CarouselItem key={index}>
-                       <div className="relative aspect-[4/3] w-full">
-                         <Image
-                            src={image.url}
-                            alt={`${caption?.replace(/<[^>]+>/g, '') || `A photo of ${pet.name}`} (${index + 1})`}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={`${pet.breed} playing`}
-                        />
-                       </div>
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-            {allImages.length > 1 && (
-                <>
-                    <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </>
+        <div className="relative">
+            <Carousel setApi={setApi} className="w-full bg-muted relative group">
+                <CarouselContent>
+                    {allImages.map((image, index) => (
+                        <CarouselItem key={index}>
+                           <div className="relative aspect-[4/3] w-full">
+                             <Image
+                                src={image.url}
+                                alt={`${caption?.replace(/<[^>]+>/g, '') || `A photo of ${pet.name}`} (${index + 1})`}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={`${pet.breed} playing`}
+                            />
+                           </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                {allImages.length > 1 && (
+                    <>
+                        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </>
+                )}
+            </Carousel>
+             {count > 1 && (
+                <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-semibold px-2 py-1 rounded-full pointer-events-none flex items-center gap-1">
+                    {current}/{count}
+                </div>
             )}
-        </Carousel>
+        </div>
     );
 };
 
