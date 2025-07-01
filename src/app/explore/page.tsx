@@ -32,7 +32,7 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
     <Link href="#" className="group block h-full">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start border-0 h-full">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start h-full shadow-sm">
             <div className="relative w-full aspect-square bg-muted">
                 <Image
                 src={breed.imageUrl}
@@ -58,7 +58,7 @@ const PostCard = ({ post }: { post: Post }) => {
     const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
-      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg items-start border-0 h-full">
+      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg items-start h-full border">
         <div className="block">
           <div className="relative aspect-square w-full bg-muted overflow-hidden">
             <Image
@@ -176,7 +176,7 @@ function ExploreContent() {
         </TabsList>
         
         <TabsContent value="for-you" className="mt-4">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-4">
             {filteredPosts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
@@ -187,17 +187,23 @@ function ExploreContent() {
           <div className="space-y-4">
             <div>
               <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
-              <div className="divide-y rounded-lg border">
-                {trendingPets.map((pet) => (
-                    <PetRow key={pet.id} pet={pet} />
+              <div className="rounded-lg border">
+                {trendingPets.map((pet, index) => (
+                    <React.Fragment key={pet.id}>
+                        <PetRow pet={pet} />
+                        {index < trendingPets.length - 1 && <div className="border-b" />}
+                    </React.Fragment>
                 ))}
               </div>
             </div>
             <div>
               <h3 className="text-xl font-bold mb-3">Newest Members</h3>
-              <div className="divide-y rounded-lg border">
-                {newPets.map((pet) => (
-                    <PetRow key={pet.id} pet={pet} />
+              <div className="rounded-lg border">
+                {newPets.map((pet, index) => (
+                    <React.Fragment key={pet.id}>
+                        <PetRow pet={pet} />
+                        {index < newPets.length - 1 && <div className="border-b" />}
+                    </React.Fragment>
                 ))}
               </div>
             </div>
@@ -205,7 +211,7 @@ function ExploreContent() {
         </TabsContent>
         
         <TabsContent value="breeds" className="mt-4">
-           <div className="grid grid-cols-2 gap-2">
+           <div className="grid grid-cols-2 gap-4">
               {breeds.map(breed => (
                   <BreedCard key={breed.name} breed={breed} />
               ))}
