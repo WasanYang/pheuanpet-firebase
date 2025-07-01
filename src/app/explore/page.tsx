@@ -143,24 +143,20 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="trending" className="mt-4">
-            <Card>
-                <CardContent className="p-4">
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <h2 className="text-xl font-bold">Top Pets This Week</h2>
-                            {trendingPets.map(pet => (
-                                <PetRow key={pet.id} pet={pet} />
-                            ))}
-                        </div>
-                        <div className="space-y-2">
-                            <h2 className="text-xl font-bold">Newest Members</h2>
-                            {newPets.map(pet => (
-                                <PetRow key={pet.id} pet={pet} />
-                            ))}
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <h2 className="text-xl font-bold">Top Pets This Week</h2>
+                    {trendingPets.map(pet => (
+                        <PetRow key={pet.id} pet={pet} />
+                    ))}
+                </div>
+                <div className="space-y-2">
+                    <h2 className="text-xl font-bold">Newest Members</h2>
+                    {newPets.map(pet => (
+                        <PetRow key={pet.id} pet={pet} />
+                    ))}
+                </div>
+            </div>
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
