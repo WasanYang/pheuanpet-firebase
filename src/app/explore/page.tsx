@@ -1,16 +1,18 @@
 
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Search, Heart, Flame, Sparkles, Dog, PlayCircle } from 'lucide-react';
+import { Search, Heart, Flame, Sparkles, Dog, PlayCircle, Hospital, MapPin } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, type Pet, type Breed, type Post } from '@/lib/data';
+import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, getExperts, type Pet, type Breed, type Post, type Expert } from '@/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const PetRow = ({ pet }: { pet: Pet }) => (
   <div className="flex items-center justify-between gap-4 p-2 rounded-lg hover:bg-muted">
@@ -97,77 +99,151 @@ const PostCard = ({ post }: { post: Post }) => {
     );
 }
 
-export default function ExplorePage() {
+const ExpertCard = ({ expert }: { expert: Expert }) => {
+  return (
+    <Link href={`/users/${expert.userId}`} className="group block h-full">
+      <Card className="h-full transition-shadow duration-300 hover:shadow-lg flex flex-col rounded-lg border shadow-sm">
+        <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
+          <Avatar className="h-24 w-24 mb-4 border-4 border-transparent group-hover:border-primary transition-colors">
+              <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint="person doctor" />
+              <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">{expert.name}</CardTitle>
+          <p className="text-primary font-semibold text-sm mt-1">{expert.specialty}</p>
+          <CardDescription className="mt-2 text-sm line-clamp-3 flex-grow">
+            {expert.bio}
+          </CardDescription>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
+
+function ExploreContent() {
+  const searchParams = useSearchParams();
+  const defaultTab = searchParams.get('tab') || 'for-you';
+  
   const [searchTerm, setSearchTerm] = useState('');
   const allPosts = getPosts();
   const trendingPets = getTrendingPets();
   const newPets = getPets().slice(0, 5); // Get first 5 as "new"
   const breeds = getBreeds();
+  const experts = getExperts().filter(expert => !expert.isAi);
+  const [location, setLocation] = useState('all');
+
+  const locations = [
+    { value: 'all', label: 'ทั่วประเทศ' },
+    { value: 'bangkok', label: 'กรุงเทพมหานคร' },
+    { value: 'chiangmai', label: 'เชียงใหม่' },
+    { value: 'phuket', label: 'ภูเก็ต' },
+    { value: 'khonkaen', label: 'ขอนแก่น' },
+  ];
+
+  // In a real app, you would filter experts based on the selected location.
+  // For now, we'll just display all of them.
+  const filteredExperts = experts;
 
   // In a real app, search would filter the results
   const filteredPosts = allPosts; 
 
   return (
-    <div className="w-full animate-in fade-in duration-500">
-      <div className="space-y-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search for pets, breeds, or users..."
-            className="w-full pl-10"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <Tabs defaultValue="for-you" className="w-full">
-          <TabsList className="flex w-full">
-            <TabsTrigger value="for-you" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Sparkles className="mr-2 h-4 w-4" /> For You
-            </TabsTrigger>
-            <TabsTrigger value="trending" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Flame className="mr-2 h-4 w-4" /> Trending
-            </TabsTrigger>
-            <TabsTrigger value="breeds" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <Dog className="mr-2 h-4 w-4" /> Breeds
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="for-you" className="mt-4">
-            <div className="columns-2 gap-2 space-y-2">
-              {filteredPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="trending" className="mt-4">
-            <div className="space-y-6">
-                <div className="space-y-2">
-                    <h2 className="text-xl font-bold">Top Pets This Week</h2>
-                    {trendingPets.map(pet => (
-                        <PetRow key={pet.id} pet={pet} />
-                    ))}
-                </div>
-                <div className="space-y-2">
-                    <h2 className="text-xl font-bold">Newest Members</h2>
-                    {newPets.map(pet => (
-                        <PetRow key={pet.id} pet={pet} />
-                    ))}
-                </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="breeds" className="mt-4">
-             <div className="columns-2 gap-2 space-y-2">
-                {breeds.map(breed => (
-                    <BreedCard key={breed.name} breed={breed} />
-                ))}
-             </div>
-          </TabsContent>
-        </Tabs>
+    <div className="space-y-6">
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input
+          type="search"
+          placeholder="Search for pets, breeds, or experts..."
+          className="w-full pl-10"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
+
+      <Tabs defaultValue={defaultTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="for-you" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Sparkles className="mr-2 h-4 w-4" /> For You
+          </TabsTrigger>
+          <TabsTrigger value="trending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Flame className="mr-2 h-4 w-4" /> Trending
+          </TabsTrigger>
+          <TabsTrigger value="breeds" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Dog className="mr-2 h-4 w-4" /> Breeds
+          </TabsTrigger>
+          <TabsTrigger value="vet-connect" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <Hospital className="mr-2 h-4 w-4" /> VetConnect
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="for-you" className="mt-4">
+          <div className="columns-2 gap-2 space-y-2">
+            {filteredPosts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="trending" className="mt-4">
+          <div className="space-y-6">
+              <div className="space-y-2">
+                  <h2 className="text-xl font-bold">Top Pets This Week</h2>
+                  {trendingPets.map(pet => (
+                      <PetRow key={pet.id} pet={pet} />
+                  ))}
+              </div>
+              <div className="space-y-2">
+                  <h2 className="text-xl font-bold">Newest Members</h2>
+                  {newPets.map(pet => (
+                      <PetRow key={pet.id} pet={pet} />
+                  ))}
+              </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="breeds" className="mt-4">
+           <div className="columns-2 gap-2 space-y-2">
+              {breeds.map(breed => (
+                  <BreedCard key={breed.name} breed={breed} />
+              ))}
+           </div>
+        </TabsContent>
+
+        <TabsContent value="vet-connect" className="mt-4">
+          <div className="mb-4">
+            <div className="flex items-center gap-3">
+              <MapPin className="h-5 w-5 text-muted-foreground" />
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger className="w-full sm:w-[280px]">
+                  <SelectValue placeholder="เลือกตำแหน่ง" />
+                </SelectTrigger>
+                <SelectContent>
+                  {locations.map((loc) => (
+                    <SelectItem key={loc.value} value={loc.value}>
+                      {loc.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredExperts.map(expert => (
+                  <ExpertCard key={expert.id} expert={expert} />
+              ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+export default function ExplorePage() {
+  return (
+    <div className="w-full animate-in fade-in duration-500">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ExploreContent />
+      </Suspense>
     </div>
   );
 }

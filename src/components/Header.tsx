@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun, Moon } from 'lucide-react';
@@ -38,7 +39,7 @@ const Header = () => {
     { href: '/messages', label: 'Messages', icon: MessageCircle },
     { href: '/saved', label: 'Saved', icon: Bookmark },
     { href: `/users/${user?.id}`, label: 'My Pets', icon: PawPrint },
-    { href: '/experts', label: 'Pet Friends', icon: Users },
+    { href: '/explore?tab=vet-connect', label: 'Pet Friends', icon: Users },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
