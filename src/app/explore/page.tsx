@@ -11,7 +11,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardTitle, CardDescription, CardHeader } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const PetRow = ({ pet }: { pet: Pet }) => (
@@ -184,19 +184,27 @@ function ExploreContent() {
         </TabsContent>
         
         <TabsContent value="trending" className="mt-4">
-          <div className="space-y-6">
-              <div className="space-y-2">
-                  <h2 className="text-xl font-bold">Top Pets This Week</h2>
-                  {trendingPets.map(pet => (
-                      <PetRow key={pet.id} pet={pet} />
-                  ))}
-              </div>
-              <div className="space-y-2">
-                  <h2 className="text-xl font-bold">Newest Members</h2>
-                  {newPets.map(pet => (
-                      <PetRow key={pet.id} pet={pet} />
-                  ))}
-              </div>
+           <div className="space-y-4">
+            <Card className="shadow-sm border bg-card/80">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold">Top Pets This Week</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {trendingPets.map(pet => (
+                  <PetRow key={pet.id} pet={pet} />
+                ))}
+              </CardContent>
+            </Card>
+            <Card className="shadow-sm border bg-card/80">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold">Newest Members</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {newPets.map(pet => (
+                  <PetRow key={pet.id} pet={pet} />
+                ))}
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
         
