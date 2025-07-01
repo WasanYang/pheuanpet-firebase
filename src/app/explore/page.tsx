@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -122,13 +123,13 @@ export default function ExplorePage() {
 
         <Tabs defaultValue="for-you" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="for-you">
+            <TabsTrigger value="for-you" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Sparkles className="mr-2 h-4 w-4" /> For You
             </TabsTrigger>
-            <TabsTrigger value="trending">
+            <TabsTrigger value="trending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Flame className="mr-2 h-4 w-4" /> Trending
             </TabsTrigger>
-            <TabsTrigger value="breeds">
+            <TabsTrigger value="breeds" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Dog className="mr-2 h-4 w-4" /> Breeds
             </TabsTrigger>
           </TabsList>
@@ -142,20 +143,24 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="trending" className="mt-4">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                  <h2 className="text-xl font-bold">Top Pets This Week</h2>
-                  {trendingPets.map(pet => (
-                      <PetRow key={pet.id} pet={pet} />
-                  ))}
-              </div>
-               <div className="space-y-2">
-                  <h2 className="text-xl font-bold">Newest Members</h2>
-                  {newPets.map(pet => (
-                      <PetRow key={pet.id} pet={pet} />
-                  ))}
-              </div>
-            </div>
+            <Card>
+                <CardContent className="p-4">
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <h2 className="text-xl font-bold">Top Pets This Week</h2>
+                            {trendingPets.map(pet => (
+                                <PetRow key={pet.id} pet={pet} />
+                            ))}
+                        </div>
+                        <div className="space-y-2">
+                            <h2 className="text-xl font-bold">Newest Members</h2>
+                            {newPets.map(pet => (
+                                <PetRow key={pet.id} pet={pet} />
+                            ))}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
