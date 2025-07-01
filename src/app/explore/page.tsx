@@ -56,7 +56,7 @@ const PostCard = ({ post }: { post: Post }) => {
           <div className="relative aspect-[4/5] w-full bg-muted overflow-hidden">
             <Image
               src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
-              alt={post.caption || `Post by ${pet.name}`}
+              alt={post.caption?.replace(/<[^>]+>/g, '') || `Post by ${pet.name}`}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={pet.breed}

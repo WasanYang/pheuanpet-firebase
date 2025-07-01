@@ -39,7 +39,7 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
              <div className="relative aspect-[4/3] w-full bg-muted">
                 <Image
                     src={allImages[0].url}
-                    alt={caption || `A photo of ${pet.name}`}
+                    alt={caption?.replace(/<[^>]+>/g, '') || `A photo of ${pet.name}`}
                     fill
                     className="object-cover"
                     data-ai-hint={`${pet.breed} playing`}
@@ -56,7 +56,7 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
                        <div className="relative aspect-[4/3] w-full">
                          <Image
                             src={image.url}
-                            alt={`${caption || `A photo of ${pet.name}`} (${index + 1})`}
+                            alt={`${caption?.replace(/<[^>]+>/g, '') || `A photo of ${pet.name}`} (${index + 1})`}
                             fill
                             className="object-cover"
                             data-ai-hint={`${pet.breed} playing`}
