@@ -6,13 +6,15 @@ import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Search, Heart, Flame, Sparkles, Dog, PlayCircle, Hospital, MapPin } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, getExperts, type Pet, type Breed, type Post, type Expert } from '@/lib/data';
+import { getPosts, getPets, getPetById, getUserById, getTrendingPets, getBreeds, getExperts, type Pet, type Breed, type Post, type Expert } from '@/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle, CardDescription, CardHeader } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PostCard from '@/components/PostCard';
+
 
 const PetRow = ({ pet }: { pet: Pet }) => (
   <div className="flex items-center justify-between gap-4 p-4 transition-colors hover:bg-muted/50">
@@ -32,7 +34,7 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
     <Link href="#" className="group block h-full">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start h-full shadow-sm">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start h-full shadow-sm border-0 bg-card/80 hover:bg-card">
             <div className="relative w-full aspect-square bg-muted">
                 <Image
                 src={breed.imageUrl}
@@ -51,53 +53,6 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
         </Card>
     </Link>
 )
-
-const PostCard = ({ post }: { post: Post }) => {
-    const pet = getPetById(post.petId);
-    if (!pet) return null;
-    const hasVideo = post.media.some(m => m.type === 'video');
-
-    return (
-      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg items-start h-full border">
-        <div className="block">
-          <div className="relative aspect-square w-full bg-muted overflow-hidden">
-            <Image
-              src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
-              alt={post.caption?.replace(/<[^>]+>/g, '') || `Post by ${pet.name}`}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              data-ai-hint={pet.breed}
-            />
-             {hasVideo && (
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <PlayCircle className="h-12 w-12 text-white/80" />
-                </div>
-            )}
-          </div>
-        </div>
-        <CardContent className="p-3 flex flex-col flex-grow">
-          {post.caption && (
-            <div className="text-sm font-medium text-foreground/90 line-clamp-3 mb-3">
-                {post.caption?.replace(/<[^>]+>/g, '')}
-            </div>
-          )}
-          <div className="flex items-center justify-between text-muted-foreground mt-auto">
-            <Link href={`/pets/${pet.id}`} className="flex items-center gap-2 group/avatar flex-1 min-w-0">
-              <Avatar className="h-7 w-7">
-                <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
-                <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <span className="text-xs font-semibold group-hover/avatar:underline truncate">{pet.name}</span>
-            </Link>
-            <div className="flex items-center flex-shrink-0 gap-1.5 text-xs">
-              <Heart className="h-4 w-4" />
-              <span className="font-medium">{post.likes}</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-}
 
 const ExpertCard = ({ expert }: { expert: Expert }) => {
   return (
@@ -161,30 +116,39 @@ function ExploreContent() {
 
       <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="for-you" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1">
+          <TabsTrigger value="for-you" className="flex-1">
             <Sparkles className="mr-2 h-4 w-4" /> For You
           </TabsTrigger>
-          <TabsTrigger value="trending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1">
+          <TabsTrigger value="trending" className="flex-1">
             <Flame className="mr-2 h-4 w-4" /> Trending
           </TabsTrigger>
-          <TabsTrigger value="breeds" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1">
+          <TabsTrigger value="breeds" className="flex-1">
             <Dog className="mr-2 h-4 w-4" /> Breeds
           </TabsTrigger>
-          <TabsTrigger value="vet-connect" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1">
+          <TabsTrigger value="vet-connect" className="flex-1">
             <Hospital className="mr-2 h-4 w-4" /> VetConnect
           </TabsTrigger>
         </TabsList>
         
         <TabsContent value="for-you" className="mt-4">
-          <div className="grid grid-cols-2 gap-4">
-            {filteredPosts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
+            <div className="columns-2 gap-4 space-y-4">
+                {filteredPosts.map((post) => {
+                    const pet = getPetById(post.petId);
+                    const user = pet ? getUserById(pet.ownerId) : null;
+                    if (!pet || !user) {
+                        return null;
+                    }
+                    return (
+                        <div key={post.id} className="break-inside-avoid">
+                           <PostCard post={post} pet={pet} user={user} />
+                        </div>
+                    );
+                })}
+            </div>
         </TabsContent>
         
         <TabsContent value="trending" className="mt-4">
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
               <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
               <div className="rounded-lg border">

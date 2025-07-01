@@ -122,7 +122,7 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
   }, [plainCaption, isExpanded]);
 
   return (
-    <Card className="rounded-lg shadow-sm border overflow-hidden bg-card flex flex-col h-full">
+    <Card className="rounded-lg shadow-sm border overflow-hidden bg-card flex flex-col">
         <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <div>
