@@ -33,7 +33,7 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-card">
-      <div className="container flex h-16 max-w-screen-xl items-center justify-between mx-auto px-4">
+      <div className="container flex h-16 max-w-screen-2xl items-center justify-between mx-auto px-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
           <Sheet>
