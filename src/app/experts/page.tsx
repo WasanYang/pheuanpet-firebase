@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -11,15 +12,15 @@ import { MapPin } from 'lucide-react';
 const ExpertCard = ({ expert }: { expert: Expert }) => {
   return (
     <Link href={`/users/${expert.userId}`} className="group block h-full">
-      <Card className="h-full transition-shadow duration-300 hover:shadow-lg flex flex-col rounded-lg border shadow-sm">
+      <Card className="h-full flex flex-col rounded-lg shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 bg-card/80 hover:bg-card">
         <CardContent className="p-6 flex flex-col items-center text-center flex-grow">
-          <Avatar className="h-24 w-24 mb-4 border-4 border-transparent group-hover:border-primary transition-colors">
+          <Avatar className="h-24 w-24 mb-4 border-4 border-primary/20 group-hover:border-primary transition-colors duration-300">
               <AvatarImage src={expert.avatarUrl} alt={expert.name} data-ai-hint="person doctor" />
               <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
           </Avatar>
-          <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">{expert.name}</CardTitle>
+          <CardTitle className="font-headline text-xl">{expert.name}</CardTitle>
           <p className="text-primary font-semibold text-sm mt-1">{expert.specialty}</p>
-          <CardDescription className="mt-2 text-sm line-clamp-3 flex-grow">
+          <CardDescription className="mt-3 text-sm line-clamp-3 flex-grow text-muted-foreground/90">
             {expert.bio}
           </CardDescription>
         </CardContent>
