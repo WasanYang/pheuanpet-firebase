@@ -69,7 +69,7 @@ const Header = () => {
             <span className="sr-only">Open menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="p-0 bg-card border-l">
+        <SheetContent side="right" className="p-0 bg-card border-l w-3/4">
             <SheetHeader className="p-4 border-b">
               <SheetTitle className="sr-only">Menu</SheetTitle>
               <SheetDescription className="sr-only">Main navigation</SheetDescription>
@@ -151,7 +151,7 @@ const Header = () => {
         <div className="hidden md:flex h-16 items-center justify-center gap-x-6">
           
           {/* Left Aligner - Mirrors left sidebar */}
-          <div className="w-56 flex-shrink-0">
+          <div className="w-48 flex-shrink-0">
             <div className="px-4">
               <Link href="/" className="flex items-center space-x-3">
                 <PawPrint className="h-8 w-8 text-primary" />
@@ -161,7 +161,7 @@ const Header = () => {
           </div>
           
           {/* Middle Content Aligner - Mirrors main content */}
-          <div className="w-full max-w-[606px] md:max-w-[770px]">
+          <div className="w-full max-w-[606px] md:max-w-[802px]">
              {/* Icons for Medium Screens (when right sidebar is hidden) */}
              <div className="flex w-full justify-end items-center px-4 xl:hidden">
               {desktopIcons}

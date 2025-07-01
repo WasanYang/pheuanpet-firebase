@@ -42,7 +42,7 @@ export default function RootLayout({
               <div className="container max-w-screen-2xl mx-auto flex justify-center gap-x-6">
 
                 {/* Left Sidebar */}
-                <div className="w-56 flex-shrink-0 hidden md:block">
+                <div className="w-48 flex-shrink-0 hidden md:block">
                   <aside className="sticky top-20 h-[calc(100vh-5rem)] px-4">
                     <Sidebar />
                   </aside>
@@ -50,7 +50,7 @@ export default function RootLayout({
                 
                 {/* Middle Content */}
                 <div className="min-w-0">
-                  <main className="w-full max-w-[606px] md:max-w-[770px] py-6 px-4">
+                  <main className="w-full max-w-[606px] md:max-w-[802px] py-6 px-4">
                     {children}
                   </main>
                 </div>
