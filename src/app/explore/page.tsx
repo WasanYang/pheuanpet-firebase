@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search, Heart, MessageCircle, Flame, Sparkles, Dog } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, type Pet, type Breed } from '@/lib/data';
+import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, type Pet, type Breed, type Post } from '@/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -45,6 +45,47 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
         </Card>
     </Link>
 )
+
+const PostCard = ({ post }: { post: Post }) => {
+    const pet = getPetById(post.petId);
+    if (!pet) return null;
+
+    return (
+      <Card className="overflow-hidden flex flex-col group border shadow-sm">
+        <Link href={`/posts/${post.id}`} className="block">
+          <div className="relative aspect-[4/3] w-full bg-muted overflow-hidden">
+            <Image
+              src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
+              alt={post.caption || `Post by ${pet.name}`}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              data-ai-hint={pet.breed}
+            />
+          </div>
+        </Link>
+        <CardContent className="p-3 flex flex-col flex-grow">
+          {post.caption && (
+            <p className="text-sm font-medium text-foreground/90 line-clamp-3 flex-grow mb-3">
+                {post.caption?.replace(/<[^>]+>/g, '')}
+            </p>
+          )}
+          <div className="flex items-center justify-between text-muted-foreground mt-auto">
+            <Link href={`/pets/${pet.id}`} className="flex items-center gap-2 group/avatar flex-1 min-w-0">
+              <Avatar className="h-7 w-7">
+                <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
+                <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <span className="text-xs font-semibold group-hover/avatar:underline truncate">{pet.name}</span>
+            </Link>
+            <div className="flex items-center flex-shrink-0 gap-1.5 text-xs">
+              <Heart className="h-4 w-4" />
+              <span className="font-medium">{post.likes}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+}
 
 export default function ExplorePage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -89,33 +130,10 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
-              {filteredPosts.map((post) => {
-                const pet = getPetById(post.petId);
-                return (
-                  <Link href={`/posts/${post.id}`} key={post.id} className="group relative block aspect-square">
-                    <Image
-                      src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x400.png'}
-                      alt={`Post by ${pet?.name || 'a pet'}`}
-                      fill
-                      className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
-                      data-ai-hint={pet?.breed}
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 rounded-md">
-                      <div className="flex items-center gap-4 text-white">
-                        <div className="flex items-center gap-1.5">
-                          <Heart className="h-5 w-5" />
-                          <span className="font-bold text-sm">{post.likes}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <MessageCircle className="h-5 w-5" />
-                          <span className="font-bold text-sm">{post.comments}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {filteredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
             </div>
           </TabsContent>
           
