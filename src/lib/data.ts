@@ -54,6 +54,12 @@ export interface Breed {
     imageUrl: string;
 }
 
+export interface KnowledgeTip {
+  id: number;
+  title: string;
+  content: string;
+}
+
 const users: User[] = [
   { id: 1, name: 'Malee', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop' },
   { id: 2, name: 'Somsak', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop' },
@@ -112,7 +118,7 @@ const posts: Post[] = [
       { type: 'image', url: 'https://images.unsplash.com/photo-1605034313761-93a0c6347143?q=80&w=800&auto=format&fit=crop' },
       { type: 'image', url: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?q=80&w=800&auto=format&fit=crop' },
     ],
-    caption: '<h2>Ready for our evening walk!</h2><p>This is my favorite part of the day. We always go to the big park where I can see all my friends.</p>',
+    caption: 'Ready for our evening walk!',
     likes: 256,
     comments: 1,
   },
@@ -136,7 +142,7 @@ const posts: Post[] = [
       { type: 'image', url: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?q=80&w=800&auto=format&fit=crop' },
       { type: 'image', url: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=800&auto=format&fit=crop' },
     ],
-    caption: '<h2>A collection of my best napping poses.</h2><p>Which one is your favorite? I\'m personally a fan of the "pretzel" and the "classic loaf".</p>',
+    caption: 'A collection of my best napping poses.',
     likes: 302,
     comments: 0,
   },
@@ -307,6 +313,25 @@ const breedsData: Breed[] = [
     { name: 'Poodle', imageUrl: 'https://images.unsplash.com/photo-1587764379873-9781a9495979?q=80&w=400&auto=format&fit=crop' },
 ];
 
+const knowledgeTips: KnowledgeTip[] = [
+  {
+    id: 1,
+    title: 'Dental Health for Dogs',
+    content: 'Did you know that regular brushing of your dog\'s teeth can prevent serious dental diseases? Vets recommend brushing 2-3 times a week with a toothpaste formulated for dogs. Human toothpaste can be toxic to them! Start slowly and make it a positive experience with lots of praise and treats. Healthy teeth lead to a healthier, happier dog overall.',
+  },
+  {
+    id: 2,
+    title: 'Understanding Cat Body Language',
+    content: 'A cat\'s tail tells a story. A tail held high means they are confident and happy to see you. A twitching tail can indicate excitement or anxiety. A puffed-up tail is a clear sign of fear or aggression. Paying attention to these subtle cues can help you understand your feline friend much better and strengthen your bond.',
+  },
+  {
+    id: 3,
+    title: 'The Importance of Hydration',
+    content: 'Proper hydration is crucial for all pets. It aids in digestion, nutrient absorption, and circulation. Always ensure fresh, clean water is available. For pets that don\'t drink much, consider a water fountain, as the moving water can be more appealing. Wet food is also a great way to increase water intake, especially for cats.',
+  },
+];
+
+
 export const getUsers = (): User[] => users;
 export const getUserById = (id: number): User | undefined => users.find(u => u.id === id);
 
@@ -327,3 +352,44 @@ export const getExpertByUserId = (userId: number): Expert | undefined => experts
 export const getTrendingPets = (): Pet[] => trendingPetsData.map(p => ({...p, age: 3, personality: 'A very popular pet!', ownerId: 0}));
 
 export const getBreeds = (): Breed[] => breedsData;
+
+export const getKnowledgeTips = (): KnowledgeTip[] => knowledgeTips;
+
+// Combined Feed Logic
+export type FeedItem = 
+  | { type: 'post'; data: { post: Post; pet: Pet; user: User } }
+  | { type: 'knowledge'; data: KnowledgeTip }
+  | { type: 'expert'; data: Expert };
+
+export const getHomePageFeed = (): FeedItem[] => {
+  const allPosts = getPosts().map(post => {
+    const pet = getPetById(post.petId);
+    const user = pet ? getUserById(pet.ownerId) : null;
+    if (!pet || !user) return null;
+    return { post, pet, user };
+  }).filter(Boolean) as { post: Post; pet: Pet; user: User }[];
+
+  const allExperts = getExperts().filter(e => !e.isAi);
+  const allTips = getKnowledgeTips();
+
+  const feed: FeedItem[] = [];
+
+  // 1. Add a random knowledge tip at the top
+  const randomTip = allTips[Math.floor(Math.random() * allTips.length)];
+  if (randomTip) {
+    feed.push({ type: 'knowledge', data: randomTip });
+  }
+
+  // 2. Add all posts, converting them to the FeedItem type
+  allPosts.forEach(postData => {
+    feed.push({ type: 'post', data: postData });
+  });
+
+  // 3. Insert a random expert spotlight after the 2nd post (at index 3)
+  const randomExpert = allExperts[Math.floor(Math.random() * allExperts.length)];
+  if (randomExpert && feed.length > 3) {
+    feed.splice(3, 0, { type: 'expert', data: randomExpert });
+  }
+
+  return feed;
+}
