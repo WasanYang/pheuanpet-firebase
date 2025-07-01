@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Heart, MessageCircle, Flame, Sparkles, Dog, PlayCircle } from 'lucide-react';
+import { Search, Heart, Flame, Sparkles, Dog, PlayCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getPosts, getPets, getPetById, getTrendingPets, getBreeds, type Pet, type Breed, type Post } from '@/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 
 const PetRow = ({ pet }: { pet: Pet }) => (
   <div className="flex items-center justify-between gap-4 p-2 rounded-lg hover:bg-muted">
@@ -28,9 +28,9 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 );
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
-    <Link href="#" className="group block">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border">
-            <div className="relative w-full aspect-square bg-muted">
+    <Link href="#" className="group block h-full">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border flex flex-col h-full">
+            <div className="relative w-full aspect-[16/10] bg-muted">
                 <Image
                 src={breed.imageUrl}
                 alt={breed.name}
@@ -39,8 +39,11 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
                 data-ai-hint={breed.name}
                 />
             </div>
-            <CardContent className="p-3">
-                <CardTitle className="text-base font-bold group-hover:text-primary transition-colors truncate">{breed.name}</CardTitle>
+            <CardContent className="p-4 flex-grow">
+                <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">{breed.name}</CardTitle>
+                <CardDescription className="mt-2 text-sm line-clamp-3">
+                    {breed.description}
+                </CardDescription>
             </CardContent>
         </Card>
     </Link>
@@ -106,11 +109,6 @@ export default function ExplorePage() {
   return (
     <div className="w-full animate-in fade-in duration-500">
       <div className="space-y-6">
-        <div>
-          <h1 className="font-headline text-3xl md:text-4xl font-bold tracking-tight">Explore the Universe</h1>
-          <p className="text-muted-foreground mt-1">Discover new pets, friends, and communities.</p>
-        </div>
-        
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
@@ -159,7 +157,7 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
-             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {breeds.map(breed => (
                     <BreedCard key={breed.name} breed={breed} />
                 ))}

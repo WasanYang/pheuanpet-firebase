@@ -52,6 +52,7 @@ export interface Expert {
 export interface Breed {
     name: string;
     imageUrl: string;
+    description: string;
 }
 
 export interface KnowledgeTip {
@@ -303,14 +304,14 @@ const trendingPetsData: Omit<Pet, 'age' | 'personality' | 'ownerId'>[] = [
 ];
 
 const breedsData: Breed[] = [
-    { name: 'Golden Retriever', imageUrl: 'https://images.unsplash.com/photo-1590212151088-e9394a459253?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Siamese Cat', imageUrl: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=400&auto=format&fit=crop' },
-    { name: 'French Bulldog', imageUrl: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Thai Ridgeback', imageUrl: 'https://images.unsplash.com/photo-1605034313761-93a0c6347143?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Maine Coon', imageUrl: 'https://images.unsplash.com/photo-1598372620244-7764a7a85703?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Beagle', imageUrl: 'https://images.unsplash.com/photo-1517423440428-a5a003da8b33?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Persian Cat', imageUrl: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=400&auto=format&fit=crop' },
-    { name: 'Poodle', imageUrl: 'https://images.unsplash.com/photo-1587764379873-9781a9495979?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Golden Retriever', imageUrl: 'https://images.unsplash.com/photo-1590212151088-e9394a459253?q=80&w=400&auto=format&fit=crop', description: 'Friendly, intelligent, and devoted. Golden Retrievers are great family pets, known for their patient and playful nature.' },
+    { name: 'Siamese Cat', imageUrl: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=400&auto=format&fit=crop', description: 'Vocal, affectionate, and intelligent. Siamese cats are known for their striking blue eyes and love to be the center of attention.' },
+    { name: 'French Bulldog', imageUrl: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=400&auto=format&fit=crop', description: 'Adaptable, playful, and smart. French Bulldogs have a charming and easygoing personality, making them great city companions.' },
+    { name: 'Thai Ridgeback', imageUrl: 'https://images.unsplash.com/photo-1605034313761-93a0c6347143?q=80&w=400&auto=format&fit=crop', description: 'An independent and protective breed, the Thai Ridgeback is known for the unique ridge of hair running along its back.' },
+    { name: 'Maine Coon', imageUrl: 'https://images.unsplash.com/photo-1598372620244-7764a7a85703?q=80&w=400&auto=format&fit=crop', description: 'Known as the "gentle giants" of the cat world, Maine Coons are large, friendly cats with a shaggy coat and tufted ears.' },
+    { name: 'Beagle', imageUrl: 'https://images.unsplash.com/photo-1517423440428-a5a003da8b33?q=80&w=400&auto=format&fit=crop', description: 'Curious, friendly, and merry. Beagles are scent hounds who love to explore and follow their noses wherever they may lead.' },
+    { name: 'Persian Cat', imageUrl: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=400&auto=format&fit=crop', description: 'Quiet and sweet, Persian cats are famous for their long, luxurious coats and calm, docile temperament.' },
+    { name: 'Poodle', imageUrl: 'https://images.unsplash.com/photo-1587764379873-9781a9495979?q=80&w=400&auto=format&fit=crop', description: 'Proud, intelligent, and elegant. Poodles are highly trainable and come in three sizes, known for their hypoallergenic coats.' },
 ];
 
 const knowledgeTips: KnowledgeTip[] = [
