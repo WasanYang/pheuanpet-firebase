@@ -95,7 +95,7 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 
 export default function PostCard({ post, pet, user }: PostCardProps) {
   return (
-    <Card className="rounded-lg shadow-sm border overflow-hidden bg-card">
+    <Card className="rounded-lg shadow-sm border overflow-hidden bg-card flex flex-col h-full">
         <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <Link href={`/pets/${pet.id}`}>
@@ -119,30 +119,34 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
         
         {post.caption && (
             <div className="px-4 pb-3">
-                 <p className="text-sm text-foreground/90 line-clamp-3">{post.caption.replace(/<[^>]+>/g, '')}</p>
+                 <Link href={`/posts/${post.id}`} className="block">
+                    <p className="text-sm text-foreground/90 line-clamp-3 hover:underline">{post.caption.replace(/<[^>]+>/g, '')}</p>
+                 </Link>
             </div>
         )}
 
-        <Link href={`/posts/${post.id}`} className="block">
-            <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
-        </Link>
-        
-        <div className="p-4">
-            <div className="flex justify-between items-center">
-                <div className="flex items-center -ml-2">
-                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
-                        <Heart className="h-6 w-6 group-hover/heart:fill-current" />
-                    </Button>
-                    <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
-                        <Link href={`/posts/${post.id}#comments`}>
-                            <MessageCircle className="h-6 w-6" />
-                        </Link>
-                    </Button>
-                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                        <Share2 className="h-6 w-6" />
-                    </Button>
+        <div className="mt-auto">
+            <Link href={`/posts/${post.id}`} className="block">
+                <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
+            </Link>
+            
+            <div className="p-4">
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center -ml-2">
+                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
+                            <Heart className="h-6 w-6 group-hover/heart:fill-current" />
+                        </Button>
+                        <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
+                            <Link href={`/posts/${post.id}#comments`}>
+                                <MessageCircle className="h-6 w-6" />
+                            </Link>
+                        </Button>
+                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                            <Share2 className="h-6 w-6" />
+                        </Button>
+                    </div>
+                    <p className="font-bold text-sm">{post.likes.toLocaleString()} likes</p>
                 </div>
-                <p className="font-bold text-sm">{post.likes.toLocaleString()} likes</p>
             </div>
         </div>
     </Card>
