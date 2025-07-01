@@ -107,7 +107,7 @@ const posts: Post[] = [
     media: [
       { type: 'image', url: 'https://images.unsplash.com/photo-1574158622682-e40e69841006?q=80&w=800&auto=format&fit=crop' },
     ],
-    caption: '<h2>Enjoying the afternoon sun. ☀️</h2><p>I love naps and this is my favorite spot. It gets the perfect amount of warmth without being too hot. My human sometimes joins me, but mostly it\'s just me and my thoughts.</p>',
+    caption: '<h2>Enjoying the afternoon sun. ☀️</h2><p>This is my absolute favorite spot in the entire house. The sunbeam hits just right around 2 PM, and it warms up the floor perfectly. I could lie here for hours, just soaking it all in. My human calls it my "solar panel charging station," and I guess they\'re not wrong!</p><p>Sometimes, a little bird comes to visit the window right in front of me. I like to watch it, my tail twitching just a little bit. I\'m a fierce hunter in my dreams, you know. But for now, I\'m content just to watch from my warm, comfy spot. It\'s a tough life being this adorable, but someone has to do it.</p><p>Later, I might grace my human with a request for a chin scratch or perhaps a tasty treat. They are usually quite obliging. For now, though, it\'s nap time. Do not disturb the queen on her throne.</p>',
     likes: 124,
     comments: 2,
   },
@@ -195,7 +195,7 @@ const posts: Post[] = [
     media: [
        { type: 'image', url: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=800&auto=format&fit=crop' },
     ],
-    caption: 'Just a quick nap before dinner.',
+    caption: 'Just a quick nap before dinner. A very short caption.',
     likes: 99,
     comments: 0,
   },
@@ -205,7 +205,7 @@ const posts: Post[] = [
     media: [
        { type: 'image', url: 'https://images.unsplash.com/photo-1546238232-20216dec9f72?q=80&w=800&auto=format&fit=crop' },
     ],
-    caption: 'Thinking about all the treats I am going to get today. Life is good.',
+    caption: 'Thinking about all the treats I am going to get today. Life is good. This is a medium length caption, a bit longer than the one above just to test things out.',
     likes: 150,
     comments: 0,
   },
