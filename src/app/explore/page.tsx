@@ -28,8 +28,8 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 );
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
-    <Link href="#" className="group block h-full">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border flex flex-col h-full">
+    <Link href="#" className="group block">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg border flex flex-col">
             <div className="relative w-full aspect-[16/10] bg-muted">
                 <Image
                 src={breed.imageUrl}
@@ -39,7 +39,7 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
                 data-ai-hint={breed.name}
                 />
             </div>
-            <CardContent className="p-4 flex-grow">
+            <CardContent className="p-4">
                 <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">{breed.name}</CardTitle>
                 <CardDescription className="mt-2 text-sm line-clamp-3">
                     {breed.description}
@@ -72,9 +72,9 @@ const PostCard = ({ post }: { post: Post }) => {
             )}
           </div>
         </Link>
-        <CardContent className="p-3 flex flex-col flex-grow">
+        <CardContent className="p-3 flex flex-col">
           {post.caption && (
-            <div className="text-sm font-medium text-foreground/90 line-clamp-3 flex-grow mb-3">
+            <div className="text-sm font-medium text-foreground/90 line-clamp-3 mb-3">
                 {post.caption?.replace(/<[^>]+>/g, '')}
             </div>
           )}
@@ -134,7 +134,7 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
               {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -142,22 +142,24 @@ export default function ExplorePage() {
           </TabsContent>
           
           <TabsContent value="trending" className="mt-4">
-            <div className="space-y-2">
-                <h2 className="text-xl font-bold">Top Pets This Week</h2>
-                {trendingPets.map(pet => (
-                    <PetRow key={pet.id} pet={pet} />
-                ))}
-            </div>
-             <div className="space-y-2 mt-8">
-                <h2 className="text-xl font-bold">Newest Members</h2>
-                {newPets.map(pet => (
-                    <PetRow key={pet.id} pet={pet} />
-                ))}
+            <div className="space-y-8">
+              <div className="space-y-2">
+                  <h2 className="text-xl font-bold">Top Pets This Week</h2>
+                  {trendingPets.map(pet => (
+                      <PetRow key={pet.id} pet={pet} />
+                  ))}
+              </div>
+               <div className="space-y-2">
+                  <h2 className="text-xl font-bold">Newest Members</h2>
+                  {newPets.map(pet => (
+                      <PetRow key={pet.id} pet={pet} />
+                  ))}
+              </div>
             </div>
           </TabsContent>
           
           <TabsContent value="breeds" className="mt-4">
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
                 {breeds.map(breed => (
                     <BreedCard key={breed.name} breed={breed} />
                 ))}
