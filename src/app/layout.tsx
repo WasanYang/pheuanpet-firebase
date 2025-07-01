@@ -32,9 +32,9 @@ export default function RootLayout({
         <ChatProvider>
           <div className="bg-background min-h-screen">
             <Header />
-            <div className="container max-w-screen-xl mx-auto flex gap-8 px-4">
+            <div className="container max-w-screen-2xl mx-auto flex justify-center gap-8 px-4">
               <Sidebar />
-              <main className="flex-1 w-full py-6">
+              <main className="w-full max-w-[738px] py-6">
                 {children}
               </main>
               <RightSidebar />
