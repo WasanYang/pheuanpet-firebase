@@ -15,7 +15,7 @@ import { Card, CardContent, CardTitle, CardDescription, CardHeader } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const PetRow = ({ pet }: { pet: Pet }) => (
-  <div className="flex items-center justify-between gap-4 p-2 rounded-lg hover:bg-muted">
+  <div className="flex items-center justify-between gap-4">
     <Link href={`/pets/${pet.id}`} className="flex items-center gap-3 group flex-1 min-w-0">
       <Avatar className="h-12 w-12 flex-shrink-0">
         <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
@@ -189,20 +189,28 @@ function ExploreContent() {
               <CardHeader>
                 <CardTitle className="text-xl font-bold">Top Pets This Week</CardTitle>
               </CardHeader>
-              <CardContent>
-                {trendingPets.map(pet => (
-                  <PetRow key={pet.id} pet={pet} />
-                ))}
+              <CardContent className="p-0">
+                <div className="divide-y divide-border">
+                  {trendingPets.map(pet => (
+                    <div key={pet.id} className="p-4 hover:bg-muted/50 transition-colors">
+                      <PetRow pet={pet} />
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
             <Card className="shadow-sm border bg-card/80">
               <CardHeader>
                 <CardTitle className="text-xl font-bold">Newest Members</CardTitle>
               </CardHeader>
-              <CardContent>
-                {newPets.map(pet => (
-                  <PetRow key={pet.id} pet={pet} />
-                ))}
+              <CardContent className="p-0">
+                <div className="divide-y divide-border">
+                  {newPets.map(pet => (
+                     <div key={pet.id} className="p-4 hover:bg-muted/50 transition-colors">
+                      <PetRow pet={pet} />
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
