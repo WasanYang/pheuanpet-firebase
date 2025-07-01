@@ -1,7 +1,7 @@
 
 'use client';
 
-import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun } from 'lucide-react';
+import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun, Moon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -18,11 +18,19 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const user = getUserById(1);
   const pets = user ? getPetsByOwnerId(user.id) : [];
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const menuItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -48,20 +56,19 @@ const Header = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] p-0 bg-card border-r">
-                <SheetHeader className="sr-only">
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription>
-                    Main navigation menu for the PheuanPet application.
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="p-4 border-b">
+                <SheetHeader className="p-4 border-b">
+                  <SheetTitle>
                     <SheetClose asChild>
                         <Link href="/" className="flex items-center gap-3">
                             <PawPrint className="h-8 w-8 text-primary" />
                             <span className="font-headline text-2xl font-bold">PheuanPet</span>
                         </Link>
                     </SheetClose>
-                </div>
+                  </SheetTitle>
+                  <SheetDescription className="sr-only">
+                    Main navigation menu for the PheuanPet application.
+                  </SheetDescription>
+                </SheetHeader>
                 <div className="flex-1 overflow-y-auto py-4">
                     <div className="px-4 space-y-1">
                     {menuItems.map((item) => (
@@ -126,9 +133,9 @@ const Header = () => {
                 <Bell className="h-5 w-5" />
                 <span className="sr-only">Notifications</span>
             </Button>
-            <Button variant="ghost" size="icon">
-                <Sun className="h-5 w-5" />
-                <span className="sr-only">Toggle theme</span>
+            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+              {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
+              <span className="sr-only">Toggle theme</span>
             </Button>
             {user && (
                 <Button variant="ghost" className="p-1 h-auto" asChild>
