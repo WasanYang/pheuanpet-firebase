@@ -17,19 +17,19 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+// import { useTheme } from 'next-themes';
+// import { useEffect, useState } from 'react';
 
 const Header = () => {
   const user = getUserById(1);
   const pets = user ? getPetsByOwnerId(user.id) : [];
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const { theme, setTheme } = useTheme();
+  // const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   const menuItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -150,7 +150,7 @@ const Header = () => {
         {/* Desktop Header */}
         <div className="hidden md:flex h-16 items-center justify-center gap-x-6">
           
-          {/* Left Aligner */}
+          {/* Left Aligner - Mirrors left sidebar */}
           <div className="w-64 flex-shrink-0">
             <div className="px-4">
               <Link href="/" className="flex items-center space-x-3">
@@ -160,18 +160,19 @@ const Header = () => {
             </div>
           </div>
           
-          {/* Center Aligner (contains icons on medium screens) */}
-          <div className="flex-1 min-w-0 flex justify-end items-center">
-            <div className="px-4 xl:hidden">
+          {/* Middle Content Aligner - Mirrors main content */}
+          <div className="w-full max-w-[606px] md:max-w-[738px]">
+             {/* Icons for Medium Screens (when right sidebar is hidden) */}
+             <div className="flex w-full justify-end items-center px-4 xl:hidden">
               {desktopIcons}
             </div>
           </div>
 
-          {/* Right Aligner (contains icons on large screens) */}
-          <div className="w-80 flex-shrink-0 hidden xl:flex items-center">
-            <div className="px-4 w-full">
-              {desktopIcons}
-            </div>
+          {/* Right Aligner - Mirrors right sidebar */}
+          <div className="w-80 flex-shrink-0 hidden xl:flex">
+             <div className="w-full flex justify-end items-center px-4">
+                {desktopIcons}
+             </div>
           </div>
         </div>
       </div>
