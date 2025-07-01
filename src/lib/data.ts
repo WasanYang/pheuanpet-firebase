@@ -55,13 +55,13 @@ export interface Breed {
 }
 
 const users: User[] = [
-  { id: 1, name: 'Malee', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 2, name: 'Somsak', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 3, name: 'น.สพ.ญ. อัญญา ชาร์มา', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 4, name: 'คุณเบน คาร์เตอร์', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 5, name: 'น.สพ. โคลอี้ เดวิส', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 6, name: 'น.สพ. เคนจิ ทานากะ', avatarUrl: 'https://placehold.co/100x100.png' },
-  { id: 7, name: 'น.สพ.ญ. อิซาเบลลา รอสซี', avatarUrl: 'https://placehold.co/100x100.png' },
+  { id: 1, name: 'Malee', avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop' },
+  { id: 2, name: 'Somsak', avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop' },
+  { id: 3, name: 'น.สพ.ญ. อัญญา ชาร์มา', avatarUrl: 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?q=80&w=400&auto=format&fit=crop' },
+  { id: 4, name: 'คุณเบน คาร์เตอร์', avatarUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop' },
+  { id: 5, name: 'น.สพ. โคลอี้ เดวิส', avatarUrl: 'https://images.unsplash.com/photo-1581093452445-0a75b39414ce?q=80&w=400&auto=format&fit=crop' },
+  { id: 6, name: 'น.สพ. เคนจิ ทานากะ', avatarUrl: 'https://images.unsplash.com/photo-1534184241259-24be2a9d701d?q=80&w=400&auto=format&fit=crop' },
+  { id: 7, name: 'น.สพ.ญ. อิซาเบลลา รอสซี', avatarUrl: 'https://images.unsplash.com/photo-1580894908361-967195033215?q=80&w=400&auto=format&fit=crop' },
 ];
 
 const pets: Pet[] = [
@@ -71,7 +71,7 @@ const pets: Pet[] = [
     breed: 'Siamese Cat',
     age: 3,
     personality: 'A regal and affectionate cat who loves sunbathing and chasing laser pointers.',
-    avatarUrl: 'https://placehold.co/400x400.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?q=80&w=400&auto=format&fit=crop',
     ownerId: 1,
   },
   {
@@ -80,7 +80,7 @@ const pets: Pet[] = [
     breed: 'Thai Ridgeback',
     age: 5,
     personality: 'Loyal and energetic, Chao enjoys long walks in the park and playing fetch.',
-    avatarUrl: 'https://placehold.co/400x400.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1519278297049-7c8a665259da?q=80&w=400&auto=format&fit=crop',
     ownerId: 2,
   },
   {
@@ -89,7 +89,7 @@ const pets: Pet[] = [
     breed: 'Golden Retriever',
     age: 2,
     personality: 'A friendly and playful pup who has never met a stranger.',
-    avatarUrl: 'https://placehold.co/400x400.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1588022274482-13075591434b?q=80&w=400&auto=format&fit=crop',
     ownerId: 1,
   },
 ];
@@ -99,7 +99,7 @@ const posts: Post[] = [
     id: 1,
     petId: 1,
     media: [
-      { type: 'image', url: 'https://placehold.co/800x600.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1574158622682-e40e69841006?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h2>Enjoying the afternoon sun. ☀️</h2><p>I love naps and this is my favorite spot. It gets the perfect amount of warmth without being too hot. My human sometimes joins me, but mostly it\'s just me and my thoughts.</p>',
     likes: 124,
@@ -109,8 +109,8 @@ const posts: Post[] = [
     id: 2,
     petId: 2,
     media: [
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1605034313761-93a0c6347143?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h2>Ready for our evening walk!</h2><p>This is my favorite part of the day. We always go to the big park where I can see all my friends.</p>',
     likes: 256,
@@ -121,7 +121,7 @@ const posts: Post[] = [
     petId: 3,
     media: [
       { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
-      { type: 'image', url: 'https://placehold.co/800x600.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1611250282006-44824e44f23e?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<p>My favorite toy! I could chase this for hours. My human says I\'m obsessed, but I call it dedication. #doglife #playtime</p>',
     likes: 431,
@@ -131,10 +131,10 @@ const posts: Post[] = [
     id: 4,
     petId: 1,
     media: [
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
-      { type: 'image', url: 'https://placehold.co/400x300.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1494256997604-768d1f6089b3?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1516283024872-91c636155490?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h2>A collection of my best napping poses.</h2><p>Which one is your favorite? I\'m personally a fan of the "pretzel" and the "classic loaf".</p>',
     likes: 302,
@@ -144,9 +144,9 @@ const posts: Post[] = [
     id: 5,
     petId: 2,
     media: [
-      { type: 'image', url: 'https://placehold.co/600x400.png' },
-      { type: 'image', url: 'https://placehold.co/300x400.png' },
-      { type: 'image', url: 'https://placehold.co/300x400.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-15917682b4352-d61b7d598e8c?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=800&auto=format&fit=crop' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1547407139-3c921a66005c?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<p>Met a new friend today! We sniffed, we ran, we conquered the dog park. Can\'t wait for our next adventure.</p>',
     likes: 189,
@@ -156,7 +156,7 @@ const posts: Post[] = [
     id: 6,
     petId: 3,
     media: [
-      { type: 'image', url: 'https://placehold.co/800x600.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1590212151088-e9394a459253?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h3>Just got back from the groomer!</h3><p>Feeling fresh and fabulous. Look at this shiny coat!</p>',
     likes: 512,
@@ -167,7 +167,7 @@ const posts: Post[] = [
     petId: 1,
     media: [
       { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
-      { type: 'image', url: 'https://placehold.co/800x600.png' },
+      { type: 'image', url: 'https://images.unsplash.com/photo-1513245543132-31f50741b26b?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h1>My hunting skills are top-notch.</h1><p>This feather didn\'t stand a chance. It\'s important to stay sharp.</p>',
     likes: 215,
@@ -177,7 +177,7 @@ const posts: Post[] = [
     id: 8,
     petId: 2,
     media: [
-       { type: 'image', url: 'https://placehold.co/600x800.png' },
+       { type: 'image', url: 'https://images.unsplash.com/photo-1541410921752-1b64e529a434?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: '<h2>Patiently waiting for dinner.</h2><p>I\'ve been a very good boy today. I think I deserve an extra treat, don\'t you?</p>',
     likes: 345,
@@ -187,7 +187,7 @@ const posts: Post[] = [
     id: 9,
     petId: 3,
     media: [
-       { type: 'image', url: 'https://placehold.co/800x600.png' },
+       { type: 'image', url: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: 'Just a quick nap before dinner.',
     likes: 99,
@@ -197,7 +197,7 @@ const posts: Post[] = [
     id: 10,
     petId: 3,
     media: [
-       { type: 'image', url: 'https://placehold.co/800x600.png' },
+       { type: 'image', url: 'https://images.unsplash.com/photo-1546238232-20216dec9f72?q=80&w=800&auto=format&fit=crop' },
     ],
     caption: 'Thinking about all the treats I am going to get today. Life is good.',
     likes: 150,
@@ -225,7 +225,7 @@ const experts: Expert[] = [
     id: 100,
     userId: -1,
     name: 'AI สัตวแพทย์ผู้ช่วย',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=400&auto=format&fit=crop',
     specialty: 'คำปรึกษาทั่วไป 24 ชม.',
     bio: 'ผู้ช่วย AI ของคุณสำหรับคำถามการดูแลสัตว์เลี้ยงทั่วไป สำหรับเหตุฉุกเฉินทางการแพทย์โปรดปรึกษาสัตวแพทย์',
     description: 'รับคำตอบสำหรับคำถามทั่วไปเกี่ยวกับสุขภาพ, โภชนาการ, และพฤติกรรมของสัตว์เลี้ยงได้ทันที',
@@ -236,7 +236,7 @@ const experts: Expert[] = [
     id: 1,
     userId: 3,
     name: 'น.สพ.ญ. อัญญา ชาร์มา',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?q=80&w=400&auto=format&fit=crop',
     specialty: 'คลินิกแมวเฉพาะทาง',
     bio: 'เชี่ยวชาญด้านสุขภาพและสุขภาวะของแมวมานานกว่า 10 ปี หลงใหลในการดูแลป้องกันและโภชนาการ',
     description: 'ปรึกษาปัญหาเฉพาะทางสำหรับแมว ตั้งแต่โรคทั่วไปจนถึงการดูแลที่ซับซ้อน',
@@ -247,7 +247,7 @@ const experts: Expert[] = [
     id: 2,
     userId: 4,
     name: 'คุณเบน คาร์เตอร์',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop',
     specialty: 'ผู้เชี่ยวชาญพฤติกรรมสุนัข',
     bio: 'ที่ปรึกษาด้านพฤติกรรมที่ได้รับการรับรอง ช่วยให้สุนัขและเจ้าของสร้างความสัมพันธ์ที่แน่นแฟ้นยิ่งขึ้น',
     description: 'แก้ปัญหาพฤติกรรมสุนัข เช่น ความก้าวร้าว, ความวิตกกังวล, และการฝึกเข้าสังคม',
@@ -258,7 +258,7 @@ const experts: Expert[] = [
     id: 3,
     userId: 5,
     name: 'น.สพ. โคลอี้ เดวิส',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1581093452445-0a75b39414ce?q=80&w=400&auto=format&fit=crop',
     specialty: 'ผู้เชี่ยวชาญสัตว์เลี้ยงชนิดพิเศษ',
     bio: 'สัตวแพทย์ผู้มีประสบการณ์ในการรักษาสัตว์เลื้อยคลาน นก และสัตว์เลี้ยงลูกด้วยนมขนาดเล็ก',
     description: 'ให้คำปรึกษาการดูแล, โภชนาการ, และการป้องกันโรคสำหรับสัตว์เลี้ยงชนิดพิเศษ',
@@ -269,7 +269,7 @@ const experts: Expert[] = [
     id: 4,
     userId: 6,
     name: 'น.สพ. เคนจิ ทานากะ',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1534184241259-24be2a9d701d?q=80&w=400&auto=format&fit=crop',
     specialty: 'นักโภชนาการสัตวแพทย์',
     bio: 'เชี่ยวชาญในการวางแผนอาหารที่เหมาะกับความต้องการของสัตว์เลี้ยงแต่ละตัว โดยเฉพาะสัตว์เลี้ยงที่มีภาวะป่วย',
     description: 'วางแผนโภชนาการเพื่อจัดการน้ำหนัก, ภูมิแพ้, และภาวะสุขภาพอื่นๆ',
@@ -280,7 +280,7 @@ const experts: Expert[] = [
     id: 5,
     userId: 7,
     name: 'น.สพ.ญ. อิซาเบลลา รอสซี',
-    avatarUrl: 'https://placehold.co/100x100.png',
+    avatarUrl: 'https://images.unsplash.com/photo-1580894908361-967195033215?q=80&w=400&auto=format&fit=crop',
     specialty: 'ผู้เชี่ยวชาญการดูแลสัตว์เลี้ยงสูงวัย',
     bio: 'อุทิศตนเพื่อพัฒนาคุณภาพชีวิตของสัตว์เลี้ยงสูงวัยผ่านการจัดการความเจ็บปวดและการดูแลแบบประคับประคอง',
     description: 'ปรึกษาเรื่องการดูแลสัตว์เลี้ยงสูงวัย, โรคข้ออักเสบ, และการดูแลในช่วงท้ายของชีวิต',
@@ -290,21 +290,21 @@ const experts: Expert[] = [
 ];
 
 const trendingPetsData: Omit<Pet, 'age' | 'personality' | 'ownerId'>[] = [
-    { id: 101, name: 'Charlie', breed: 'French Bulldog', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 102, name: 'Bella', breed: 'Siamese Cat', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 103, name: 'Cooper', breed: 'Golden Retriever', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 104, name: 'Luna', breed: 'Maine Coon', avatarUrl: 'https://placehold.co/100x100.png' },
+    { id: 101, name: 'Charlie', breed: 'French Bulldog', avatarUrl: 'https://images.unsplash.com/photo-1588053612448-71343a411a7f?q=80&w=400&auto=format&fit=crop' },
+    { id: 102, name: 'Bella', breed: 'Siamese Cat', avatarUrl: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?q=80&w=400&auto=format&fit=crop' },
+    { id: 103, name: 'Cooper', breed: 'Golden Retriever', avatarUrl: 'https://images.unsplash.com/photo-1568572933382-74d440642117?q=80&w=400&auto=format&fit=crop' },
+    { id: 104, name: 'Luna', breed: 'Maine Coon', avatarUrl: 'https://images.unsplash.com/photo-1615789591457-74a63395c990?q=80&w=400&auto=format&fit=crop' },
 ];
 
 const breedsData: Breed[] = [
-    { name: 'Golden Retriever', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Siamese Cat', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'French Bulldog', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Thai Ridgeback', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Maine Coon', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Beagle', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Persian Cat', imageUrl: 'https://placehold.co/200x200.png' },
-    { name: 'Poodle', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Golden Retriever', imageUrl: 'https://images.unsplash.com/photo-1590212151088-e9394a459253?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Siamese Cat', imageUrl: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=400&auto=format&fit=crop' },
+    { name: 'French Bulldog', imageUrl: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Thai Ridgeback', imageUrl: 'https://images.unsplash.com/photo-1605034313761-93a0c6347143?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Maine Coon', imageUrl: 'https://images.unsplash.com/photo-1598372620244-7764a7a85703?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Beagle', imageUrl: 'https://images.unsplash.com/photo-1517423440428-a5a003da8b33?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Persian Cat', imageUrl: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=400&auto=format&fit=crop' },
+    { name: 'Poodle', imageUrl: 'https://images.unsplash.com/photo-1587764379873-9781a9495979?q=80&w=400&auto=format&fit=crop' },
 ];
 
 export const getUsers = (): User[] => users;
