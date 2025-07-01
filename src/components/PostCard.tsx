@@ -85,12 +85,6 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                {allImages.length > 1 && (
-                    <>
-                        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </>
-                )}
             </Carousel>
              {count > 1 && (
                 <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-semibold px-2 py-1 rounded-full pointer-events-none flex items-center gap-1">
@@ -136,23 +130,25 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
         </Link>
         
         <div className="p-4">
-            <div className="flex items-center -ml-2">
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
-                    <Heart className="h-6 w-6 group-hover/heart:fill-current" />
-                </Button>
-                <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
-                    <Link href={`/posts/${post.id}#comments`}>
-                        <MessageCircle className="h-6 w-6" />
-                    </Link>
-                </Button>
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                    <Share2 className="h-6 w-6" />
-                </Button>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center -ml-2">
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
+                        <Heart className="h-6 w-6 group-hover/heart:fill-current" />
+                    </Button>
+                    <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
+                        <Link href={`/posts/${post.id}#comments`}>
+                            <MessageCircle className="h-6 w-6" />
+                        </Link>
+                    </Button>
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                        <Share2 className="h-6 w-6" />
+                    </Button>
+                </div>
+                <p className="font-bold text-sm">{post.likes.toLocaleString()} likes</p>
             </div>
-            <p className="font-bold text-sm mt-2 mb-1">{post.likes.toLocaleString()} likes</p>
 
             {post.comments > 0 && (
-                <Link href={`/posts/${post.id}#comments`} className="text-sm text-muted-foreground hover:underline mt-1 block">
+                <Link href={`/posts/${post.id}#comments`} className="text-sm text-muted-foreground hover:underline mt-2 block">
                     View all {post.comments} comments
                 </Link>
             )}

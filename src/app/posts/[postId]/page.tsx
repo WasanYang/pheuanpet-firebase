@@ -83,12 +83,6 @@ const MediaDisplay = ({ media, petName, caption }: { media: Media[], petName: st
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                {allImages.length > 1 && (
-                    <>
-                        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </>
-                )}
             </Carousel>
             {count > 1 && (
                 <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-semibold px-2 py-1 rounded-full pointer-events-none flex items-center gap-1">
