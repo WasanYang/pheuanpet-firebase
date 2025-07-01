@@ -51,7 +51,7 @@ const PostCard = ({ post }: { post: Post }) => {
     if (!pet) return null;
 
     return (
-      <Card className="overflow-hidden flex flex-col group border shadow-sm">
+      <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg">
         <Link href={`/posts/${post.id}`} className="block">
           <div className="relative aspect-[4/3] w-full bg-muted overflow-hidden">
             <Image
@@ -65,9 +65,9 @@ const PostCard = ({ post }: { post: Post }) => {
         </Link>
         <CardContent className="p-3 flex flex-col flex-grow">
           {post.caption && (
-            <p className="text-sm font-medium text-foreground/90 line-clamp-3 flex-grow mb-3">
+            <div className="text-sm font-medium text-foreground/90 line-clamp-3 flex-grow mb-3">
                 {post.caption?.replace(/<[^>]+>/g, '')}
-            </p>
+            </div>
           )}
           <div className="flex items-center justify-between text-muted-foreground mt-auto">
             <Link href={`/pets/${pet.id}`} className="flex items-center gap-2 group/avatar flex-1 min-w-0">
@@ -130,7 +130,7 @@ export default function ExplorePage() {
           </TabsList>
           
           <TabsContent value="for-you" className="mt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
