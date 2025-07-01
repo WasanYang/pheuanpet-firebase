@@ -8,8 +8,8 @@ import { getUserById, getPetsByOwnerId } from '@/lib/data';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
+  SheetDescription,
   SheetTitle,
   SheetTrigger,
   SheetClose,
@@ -51,18 +51,16 @@ const Header = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-[300px] p-0 bg-card border-l">
-            <SheetHeader className="p-4 border-b sr-only">
-              <SheetTitle>Menu</SheetTitle>
-              <SheetDescription>Main navigation</SheetDescription>
-            </SheetHeader>
-            <div className="p-4">
+            <SheetHeader className="p-4 border-b">
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <SheetDescription className="sr-only">Main navigation</SheetDescription>
               <SheetClose asChild>
-                  <Link href="/" className="flex items-center gap-3 mb-4">
+                  <Link href="/" className="flex items-center gap-3">
                       <PawPrint className="h-8 w-8 text-primary" />
                       <span className="font-headline text-2xl font-bold">PheuanPet</span>
                   </Link>
               </SheetClose>
-            </div>
+            </SheetHeader>
             <div className="flex-1 overflow-y-auto py-4">
                 <div className="px-4 space-y-1">
                 {menuItems.map((item) => (
@@ -124,20 +122,20 @@ const Header = () => {
           <PawPrint className="h-8 w-8 text-primary" />
           <span className="font-headline text-2xl font-bold">PheuanPet</span>
         </Link>
-        <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-                {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
-                <span className="sr-only">Toggle theme</span>
-            </Button>
-            {mobileMenuSheet}
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+            {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+          {mobileMenuSheet}
         </div>
       </div>
 
       {/* Desktop Header */}
-      <div className="hidden md:flex container max-w-screen-2xl mx-auto h-16 items-center justify-center gap-x-6 px-4">
+      <div className="hidden md:flex container max-w-screen-2xl mx-auto h-16 items-center justify-center gap-x-6">
         {/* Left Aligner */}
         <div className="w-64 flex-shrink-0">
-          <Link href="/" className="flex items-center space-x-3">
+          <Link href="/" className="flex items-center space-x-3 px-4">
             <PawPrint className="h-8 w-8 text-primary" />
             <span className="font-headline text-2xl font-bold">PheuanPet</span>
           </Link>
@@ -148,8 +146,8 @@ const Header = () => {
 
         {/* Right Aligner (matches right sidebar width) */}
         <div className="w-80 flex-shrink-0">
-          <div className="flex items-center justify-end gap-1">
-            <Button variant="ghost" size="icon" className="hidden md:inline-flex">
+          <div className="flex items-center justify-end gap-1 px-4">
+            <Button variant="ghost" size="icon" className="md:inline-flex">
                 <Bell className="h-5 w-5" />
                 <span className="sr-only">Notifications</span>
             </Button>
@@ -158,8 +156,8 @@ const Header = () => {
               <span className="sr-only">Toggle theme</span>
             </Button>
             {user && (
-                <Button variant="ghost" className="p-1 h-auto hidden md:inline-flex" asChild>
-                    <Link href={`/users/${user.id}`}>
+                <Button variant="ghost" className="p-1 h-auto md:inline-flex" asChild>
+                    <Link href={`/users/${user?.id}`}>
                         <Avatar className="h-8 w-8">
                         <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person" />
                         <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
