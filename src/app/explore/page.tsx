@@ -59,7 +59,7 @@ const PostCard = ({ post }: { post: Post }) => {
 
     return (
       <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg break-inside-avoid border-0">
-        <Link href={`/posts/${post.id}`} className="block">
+        <div className="block">
           <div className="relative aspect-square w-full bg-muted overflow-hidden">
             <Image
               src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
@@ -74,7 +74,7 @@ const PostCard = ({ post }: { post: Post }) => {
                 </div>
             )}
           </div>
-        </Link>
+        </div>
         <CardContent className="p-3 flex flex-col">
           {post.caption && (
             <div className="text-sm font-medium text-foreground/90 line-clamp-3 mb-3">
@@ -184,35 +184,23 @@ function ExploreContent() {
         </TabsContent>
         
         <TabsContent value="trending" className="mt-4">
-           <div className="space-y-4">
-            <Card className="shadow-sm border bg-card/80">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold">Top Pets This Week</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="divide-y divide-border">
-                  {trendingPets.map(pet => (
-                    <div key={pet.id} className="p-4 hover:bg-muted/50 transition-colors">
-                      <PetRow pet={pet} />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="shadow-sm border bg-card/80">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold">Newest Members</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="divide-y divide-border">
-                  {newPets.map(pet => (
-                     <div key={pet.id} className="p-4 hover:bg-muted/50 transition-colors">
-                      <PetRow pet={pet} />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
+              <div className="flex flex-col gap-4">
+                {trendingPets.map(pet => (
+                  <PetRow key={pet.id} pet={pet} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-3">Newest Members</h3>
+              <div className="flex flex-col gap-4">
+                {newPets.map(pet => (
+                  <PetRow key={pet.id} pet={pet} />
+                ))}
+              </div>
+            </div>
           </div>
         </TabsContent>
         
