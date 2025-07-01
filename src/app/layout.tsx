@@ -32,22 +32,29 @@ export default function RootLayout({
         <ChatProvider>
           <div className="bg-background min-h-screen">
             <Header />
-            <div className="container max-w-screen-2xl mx-auto px-4 relative">
-              
-              <div className="absolute top-0 left-4 h-full hidden lg:block pt-6">
-                <Sidebar />
-              </div>
+            <div className="container max-w-screen-2xl mx-auto flex gap-x-6 px-4">
 
-              <div className="flex justify-center">
-                <main className="w-full max-w-[738px] py-6">
+              {/* Left Sidebar */}
+              <div className="w-64 flex-shrink-0 hidden lg:block">
+                <aside className="sticky top-20 h-[calc(100vh-5rem)]">
+                  <Sidebar />
+                </aside>
+              </div>
+              
+              {/* Middle Content */}
+              <div className="flex-1 min-w-0">
+                <main className="max-w-[738px] w-full mx-auto py-6">
                   {children}
                 </main>
               </div>
 
-              <div className="absolute top-0 right-4 h-full hidden xl:block pt-6">
-                <RightSidebar />
+              {/* Right Sidebar */}
+              <div className="w-80 flex-shrink-0 hidden xl:block">
+                <aside className="sticky top-20 h-[calc(100vh-5rem)]">
+                  <RightSidebar />
+                </aside>
               </div>
-
+              
             </div>
             <ChatContainer />
           </div>
