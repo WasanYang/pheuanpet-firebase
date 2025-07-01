@@ -48,10 +48,6 @@ const Header = () => {
             <Bell className="h-5 w-5" />
             <span className="sr-only">Notifications</span>
         </Button>
-        <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-          {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
-          <span className="sr-only">Toggle theme</span>
-        </Button>
         {user && (
             <Button variant="ghost" className="p-1 h-auto md:inline-flex" asChild>
                 <Link href={`/users/${user?.id}`}>
@@ -139,45 +135,43 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-card">
-      {/* Mobile Header */}
-      <div className="md:hidden container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-3">
-          <PawPrint className="h-8 w-8 text-primary" />
-          <span className="font-headline text-2xl font-bold">PheuanPet</span>
-        </Link>
-        <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-            {mounted ? (theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-          {mobileMenuSheet}
-        </div>
-      </div>
-
-      {/* Desktop Header */}
-      <div className="hidden md:flex container max-w-screen-2xl mx-auto h-16 items-center justify-center gap-x-6">
-        
-        {/* Left Aligner */}
-        <div className="w-64 flex-shrink-0">
-          <div className="px-4">
-            <Link href="/" className="flex items-center space-x-3">
-              <PawPrint className="h-8 w-8 text-primary" />
-              <span className="font-headline text-2xl font-bold">PheuanPet</span>
-            </Link>
-          </div>
-        </div>
-        
-        {/* Center Aligner (contains icons on medium screens) */}
-        <div className="w-full max-w-[606px] md:max-w-[738px] flex justify-end items-center">
-          <div className="px-4 xl:hidden">
-            {desktopIcons}
+      <div className="container max-w-screen-2xl mx-auto">
+        {/* Mobile Header */}
+        <div className="md:hidden flex h-16 items-center justify-between px-4">
+          <Link href="/" className="flex items-center space-x-3">
+            <PawPrint className="h-8 w-8 text-primary" />
+            <span className="font-headline text-2xl font-bold">PheuanPet</span>
+          </Link>
+          <div className="flex items-center gap-1">
+            {mobileMenuSheet}
           </div>
         </div>
 
-        {/* Right Aligner (contains icons on large screens) */}
-        <div className="w-80 flex-shrink-0 hidden xl:flex items-center">
-           <div className="px-4 w-full">
-            {desktopIcons}
+        {/* Desktop Header */}
+        <div className="hidden md:flex h-16 items-center justify-center gap-x-6">
+          
+          {/* Left Aligner */}
+          <div className="w-64 flex-shrink-0">
+            <div className="px-4">
+              <Link href="/" className="flex items-center space-x-3">
+                <PawPrint className="h-8 w-8 text-primary" />
+                <span className="font-headline text-2xl font-bold">PheuanPet</span>
+              </Link>
+            </div>
+          </div>
+          
+          {/* Center Aligner (contains icons on medium screens) */}
+          <div className="flex-1 min-w-0 flex justify-end items-center">
+            <div className="px-4 xl:hidden">
+              {desktopIcons}
+            </div>
+          </div>
+
+          {/* Right Aligner (contains icons on large screens) */}
+          <div className="w-80 flex-shrink-0 hidden xl:flex items-center">
+            <div className="px-4 w-full">
+              {desktopIcons}
+            </div>
           </div>
         </div>
       </div>

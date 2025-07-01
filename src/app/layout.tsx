@@ -32,8 +32,8 @@ export default function RootLayout({
       <body className={cn("font-body antialiased", inter.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          forcedTheme="light"
           disableTransitionOnChange
         >
           <ChatProvider>
@@ -43,7 +43,7 @@ export default function RootLayout({
 
                 {/* Left Sidebar */}
                 <div className="w-64 flex-shrink-0 hidden md:block">
-                  <aside className="sticky top-20 h-[calc(100vh-5rem)]">
+                  <aside className="sticky top-20 h-[calc(100vh-5rem)] px-4">
                     <Sidebar />
                   </aside>
                 </div>
@@ -57,7 +57,7 @@ export default function RootLayout({
 
                 {/* Right Sidebar */}
                 <div className="w-80 flex-shrink-0 hidden xl:block">
-                  <aside className="sticky top-20 h-[calc(100vh-5rem)]">
+                  <aside className="sticky top-20 h-[calc(100vh-5rem)] px-4">
                     <RightSidebar />
                   </aside>
                 </div>
