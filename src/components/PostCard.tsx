@@ -1,7 +1,6 @@
 'use client';
 
 import type { Post, Pet, User, Media } from '@/lib/data';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,6 +13,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { useState, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 interface PostCardProps {
   post: Post;
@@ -96,33 +96,46 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 export default function PostCard({ post, pet, user }: PostCardProps) {
   const captionRef = useRef<HTMLParagraphElement>(null);
   const [isClamped, setIsClamped] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const plainCaption = post.caption?.replace(/<[^>]+>/g, '') || '';
 
   useEffect(() => {
-    const element = captionRef.current;
-    if (element) {
-      const hasOverflow = element.scrollHeight > element.clientHeight;
-      if (hasOverflow !== isClamped) {
+    // This function checks if the text is overflowing.
+    const checkClamping = () => {
+      if (captionRef.current) {
+        // If the text is expanded, we don't need to check for clamping.
+        if (isExpanded) {
+            // Ensure the button is visible to allow collapsing.
+            setIsClamped(true);
+            return;
+        }
+        const hasOverflow = captionRef.current.scrollHeight > captionRef.current.clientHeight;
         setIsClamped(hasOverflow);
       }
-    }
-  }, [plainCaption, isClamped]);
+    };
+    
+    checkClamping();
+
+    // Re-check on window resize
+    window.addEventListener('resize', checkClamping);
+    return () => window.removeEventListener('resize', checkClamping);
+  }, [plainCaption, isExpanded]);
 
   return (
     <Card className="rounded-lg shadow-sm border overflow-hidden bg-card flex flex-col h-full">
         <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-                <Link href={`/pets/${pet.id}`}>
-                    <Avatar className="h-10 w-10 border-2 border-transparent hover:border-primary transition-colors">
+                <div>
+                    <Avatar className="h-10 w-10 border-2 border-transparent">
                         <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
                         <AvatarFallback>{pet.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                </Link>
+                </div>
                 <div>
-                     <Link href={`/pets/${pet.id}`} className="font-bold text-foreground hover:underline">
+                     <p className="font-bold text-foreground">
                         {pet.name}
-                    </Link>
-                    <p className="text-xs text-muted-foreground">by <Link href={`/users/${user.id}`} className="hover:underline">{user.name}</Link></p>
+                    </p>
+                    <p className="text-xs text-muted-foreground">by <span>{user.name}</span></p>
                 </div>
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -134,22 +147,22 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
         {post.caption && (
             <div className="px-4 pb-3">
                  <div className="text-sm text-foreground/90">
-                    <p ref={captionRef} className="line-clamp-3">
+                    <p ref={captionRef} className={cn(!isExpanded && "line-clamp-3")}>
                       {plainCaption}
                     </p>
-                    {isClamped && (
-                      <Link href={`/posts/${post.id}`} className="text-sm font-semibold text-primary hover:underline">
-                        view more
-                      </Link>
+                    {(isClamped || isExpanded) && (
+                      <button onClick={() => setIsExpanded(!isExpanded)} className="text-sm font-semibold text-primary hover:underline">
+                        {isExpanded ? 'show less' : 'view more'}
+                      </button>
                     )}
                  </div>
             </div>
         )}
 
         <div className="mt-auto">
-            <Link href={`/posts/${post.id}`} className="block">
+            <div>
                 <MediaDisplay media={post.media} pet={pet} caption={post.caption} />
-            </Link>
+            </div>
             
             <div className="p-4">
                 <div className="flex justify-between items-center">
@@ -157,10 +170,8 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
                         <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500 group/heart">
                             <Heart className="h-6 w-6 group-hover/heart:fill-current" />
                         </Button>
-                        <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
-                            <Link href={`/posts/${post.id}#comments`}>
-                                <MessageCircle className="h-6 w-6" />
-                            </Link>
+                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                            <MessageCircle className="h-6 w-6" />
                         </Button>
                         <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
                             <Share2 className="h-6 w-6" />
