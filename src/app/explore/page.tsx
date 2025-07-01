@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Suspense, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Search, Heart, Flame, Sparkles, Dog, PlayCircle, Hospital, MapPin } from 'lucide-react';
@@ -32,7 +32,7 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
     <Link href="#" className="group block break-inside-avoid">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col border-0">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start border-0">
             <div className="relative w-full aspect-square bg-muted">
                 <Image
                 src={breed.imageUrl}
@@ -58,7 +58,7 @@ const PostCard = ({ post }: { post: Post }) => {
     const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
-      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg break-inside-avoid border-0">
+      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg break-inside-avoid items-start border-0">
         <div className="block">
           <div className="relative aspect-square w-full bg-muted overflow-hidden">
             <Image
@@ -189,10 +189,10 @@ function ExploreContent() {
                 <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
                 <div className="flex flex-col rounded-lg border">
                     {trendingPets.map((pet, index) => (
-                    <>
-                        <PetRow key={pet.id} pet={pet} />
+                    <React.Fragment key={pet.id}>
+                        <PetRow pet={pet} />
                         {index < trendingPets.length - 1 && <div className="border-b" />}
-                    </>
+                    </React.Fragment>
                     ))}
                 </div>
             </div>
@@ -200,10 +200,10 @@ function ExploreContent() {
                 <h3 className="text-xl font-bold mb-3">Newest Members</h3>
                 <div className="flex flex-col rounded-lg border">
                     {newPets.map((pet, index) => (
-                    <>
-                        <PetRow key={pet.id} pet={pet} />
+                    <React.Fragment key={pet.id}>
+                        <PetRow pet={pet} />
                         {index < newPets.length - 1 && <div className="border-b" />}
-                    </>
+                    </React.Fragment>
                     ))}
                 </div>
             </div>
