@@ -15,7 +15,7 @@ import { Card, CardContent, CardTitle, CardDescription, CardHeader } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const PetRow = ({ pet }: { pet: Pet }) => (
-  <div className="flex items-center justify-between gap-4">
+  <div className="flex items-center justify-between gap-4 p-4 transition-colors hover:bg-muted/50">
     <Link href={`/pets/${pet.id}`} className="flex items-center gap-3 group flex-1 min-w-0">
       <Avatar className="h-12 w-12 flex-shrink-0">
         <AvatarImage src={pet.avatarUrl} alt={pet.name} data-ai-hint={pet.breed} />
@@ -110,7 +110,7 @@ const ExpertCard = ({ expert }: { expert: Expert }) => {
           </Avatar>
           <CardTitle className="font-headline text-xl">{expert.name}</CardTitle>
           <p className="text-primary font-semibold text-sm mt-1">{expert.specialty}</p>
-          <CardDescription className="mt-3 text-sm line-clamp-3 flex-grow text-muted-foreground/90">
+          <CardDescription className="mt-3 text-sm line-clamp-3 text-muted-foreground/90">
             {expert.bio}
           </CardDescription>
         </CardContent>
@@ -186,20 +186,26 @@ function ExploreContent() {
         <TabsContent value="trending" className="mt-4">
           <div className="space-y-6">
             <div>
-              <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
-              <div className="flex flex-col gap-4">
-                {trendingPets.map(pet => (
-                  <PetRow key={pet.id} pet={pet} />
-                ))}
-              </div>
+                <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
+                <div className="flex flex-col rounded-lg border">
+                    {trendingPets.map((pet, index) => (
+                    <>
+                        <PetRow key={pet.id} pet={pet} />
+                        {index < trendingPets.length - 1 && <div className="border-b" />}
+                    </>
+                    ))}
+                </div>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-3">Newest Members</h3>
-              <div className="flex flex-col gap-4">
-                {newPets.map(pet => (
-                  <PetRow key={pet.id} pet={pet} />
-                ))}
-              </div>
+                <h3 className="text-xl font-bold mb-3">Newest Members</h3>
+                <div className="flex flex-col rounded-lg border">
+                    {newPets.map((pet, index) => (
+                    <>
+                        <PetRow key={pet.id} pet={pet} />
+                        {index < newPets.length - 1 && <div className="border-b" />}
+                    </>
+                    ))}
+                </div>
             </div>
           </div>
         </TabsContent>
@@ -231,7 +237,7 @@ function ExploreContent() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
               {filteredExperts.map(expert => (
                   <ExpertCard key={expert.id} expert={expert} />
               ))}

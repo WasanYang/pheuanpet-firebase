@@ -20,7 +20,7 @@ const ExpertCard = ({ expert }: { expert: Expert }) => {
           </Avatar>
           <CardTitle className="font-headline text-xl">{expert.name}</CardTitle>
           <p className="text-primary font-semibold text-sm mt-1">{expert.specialty}</p>
-          <CardDescription className="mt-3 text-sm line-clamp-3 flex-grow text-muted-foreground/90">
+          <CardDescription className="mt-3 text-sm line-clamp-3 text-muted-foreground/90">
             {expert.bio}
           </CardDescription>
         </CardContent>
