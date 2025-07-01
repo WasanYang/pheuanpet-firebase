@@ -184,26 +184,20 @@ function ExploreContent() {
         </TabsContent>
         
         <TabsContent value="trending" className="mt-4">
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
               <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
-              <div className="flex flex-col rounded-lg border">
-                {trendingPets.map((pet, index) => (
-                  <React.Fragment key={pet.id}>
-                    <PetRow pet={pet} />
-                    {index < trendingPets.length - 1 && <div className="border-b" />}
-                  </React.Fragment>
+              <div className="divide-y rounded-lg border">
+                {trendingPets.map((pet) => (
+                    <PetRow key={pet.id} pet={pet} />
                 ))}
               </div>
             </div>
             <div>
               <h3 className="text-xl font-bold mb-3">Newest Members</h3>
-              <div className="flex flex-col rounded-lg border">
-                {newPets.map((pet, index) => (
-                  <React.Fragment key={pet.id}>
-                    <PetRow pet={pet} />
-                    {index < newPets.length - 1 && <div className="border-b" />}
-                  </React.Fragment>
+              <div className="divide-y rounded-lg border">
+                {newPets.map((pet) => (
+                    <PetRow key={pet.id} pet={pet} />
                 ))}
               </div>
             </div>
