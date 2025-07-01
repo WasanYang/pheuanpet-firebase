@@ -13,7 +13,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface PostCardProps {
   post: Post;
@@ -94,6 +94,20 @@ const MediaDisplay = ({ media, pet, caption }: { media: Media[], pet: Pet, capti
 };
 
 export default function PostCard({ post, pet, user }: PostCardProps) {
+  const captionRef = useRef<HTMLParagraphElement>(null);
+  const [isClamped, setIsClamped] = useState(false);
+  const plainCaption = post.caption?.replace(/<[^>]+>/g, '') || '';
+
+  useEffect(() => {
+    const element = captionRef.current;
+    if (element) {
+      const hasOverflow = element.scrollHeight > element.clientHeight;
+      if (hasOverflow !== isClamped) {
+        setIsClamped(hasOverflow);
+      }
+    }
+  }, [plainCaption, isClamped]);
+
   return (
     <Card className="rounded-lg shadow-sm border overflow-hidden bg-card flex flex-col h-full">
         <div className="p-4 flex items-center justify-between">
@@ -119,9 +133,16 @@ export default function PostCard({ post, pet, user }: PostCardProps) {
         
         {post.caption && (
             <div className="px-4 pb-3">
-                 <Link href={`/posts/${post.id}`} className="block">
-                    <p className="text-sm text-foreground/90 line-clamp-3 hover:underline">{post.caption.replace(/<[^>]+>/g, '')}</p>
-                 </Link>
+                 <div className="text-sm text-foreground/90">
+                    <p ref={captionRef} className="line-clamp-3">
+                      {plainCaption}
+                    </p>
+                    {isClamped && (
+                      <Link href={`/posts/${post.id}`} className="text-sm font-semibold text-primary hover:underline">
+                        view more
+                      </Link>
+                    )}
+                 </div>
             </div>
         )}
 
