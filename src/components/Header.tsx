@@ -161,7 +161,7 @@ const Header = () => {
           </div>
           
           {/* Middle Content Aligner - Mirrors main content */}
-          <div className="w-full max-w-[606px] md:max-w-[802px]">
+          <div className="w-full max-w-[600px]">
              {/* Icons for Medium Screens (when right sidebar is hidden) */}
              <div className="flex w-full justify-end items-center px-4 xl:hidden">
               {desktopIcons}

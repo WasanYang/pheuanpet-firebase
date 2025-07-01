@@ -50,7 +50,7 @@ export default function RootLayout({
                 
                 {/* Middle Content */}
                 <div className="min-w-0">
-                  <main className="w-full max-w-[606px] md:max-w-[802px] py-6 px-4">
+                  <main className="w-full max-w-[600px] py-6 px-4">
                     {children}
                   </main>
                 </div>
