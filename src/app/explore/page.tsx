@@ -31,8 +31,8 @@ const PetRow = ({ pet }: { pet: Pet }) => (
 );
 
 const BreedCard = ({ breed }: { breed: Breed }) => (
-    <Link href="#" className="group block break-inside-avoid">
-        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start border-0">
+    <Link href="#" className="group block h-full">
+        <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg rounded-lg flex flex-col items-start border-0 h-full">
             <div className="relative w-full aspect-square bg-muted">
                 <Image
                 src={breed.imageUrl}
@@ -42,7 +42,7 @@ const BreedCard = ({ breed }: { breed: Breed }) => (
                 data-ai-hint={breed.name}
                 />
             </div>
-            <CardContent className="p-4">
+            <CardContent className="p-4 flex flex-col flex-grow">
                 <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">{breed.name}</CardTitle>
                 <CardDescription className="mt-2 text-sm line-clamp-3">
                     {breed.description}
@@ -58,7 +58,7 @@ const PostCard = ({ post }: { post: Post }) => {
     const hasVideo = post.media.some(m => m.type === 'video');
 
     return (
-      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg break-inside-avoid items-start border-0">
+      <Card className="overflow-hidden flex flex-col group shadow-sm rounded-lg items-start border-0 h-full">
         <div className="block">
           <div className="relative aspect-square w-full bg-muted overflow-hidden">
             <Image
@@ -75,7 +75,7 @@ const PostCard = ({ post }: { post: Post }) => {
             )}
           </div>
         </div>
-        <CardContent className="p-3 flex flex-col">
+        <CardContent className="p-3 flex flex-col flex-grow">
           {post.caption && (
             <div className="text-sm font-medium text-foreground/90 line-clamp-3 mb-3">
                 {post.caption?.replace(/<[^>]+>/g, '')}
@@ -176,7 +176,7 @@ function ExploreContent() {
         </TabsList>
         
         <TabsContent value="for-you" className="mt-4">
-          <div className="columns-2 gap-2 space-y-2">
+          <div className="grid grid-cols-2 gap-2">
             {filteredPosts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
@@ -186,32 +186,32 @@ function ExploreContent() {
         <TabsContent value="trending" className="mt-4">
           <div className="space-y-6">
             <div>
-                <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
-                <div className="flex flex-col rounded-lg border">
-                    {trendingPets.map((pet, index) => (
-                    <React.Fragment key={pet.id}>
-                        <PetRow pet={pet} />
-                        {index < trendingPets.length - 1 && <div className="border-b" />}
-                    </React.Fragment>
-                    ))}
-                </div>
+              <h3 className="text-xl font-bold mb-3">Top Pets This Week</h3>
+              <div className="flex flex-col rounded-lg border">
+                {trendingPets.map((pet, index) => (
+                  <React.Fragment key={pet.id}>
+                    <PetRow pet={pet} />
+                    {index < trendingPets.length - 1 && <div className="border-b" />}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
             <div>
-                <h3 className="text-xl font-bold mb-3">Newest Members</h3>
-                <div className="flex flex-col rounded-lg border">
-                    {newPets.map((pet, index) => (
-                    <React.Fragment key={pet.id}>
-                        <PetRow pet={pet} />
-                        {index < newPets.length - 1 && <div className="border-b" />}
-                    </React.Fragment>
-                    ))}
-                </div>
+              <h3 className="text-xl font-bold mb-3">Newest Members</h3>
+              <div className="flex flex-col rounded-lg border">
+                {newPets.map((pet, index) => (
+                  <React.Fragment key={pet.id}>
+                    <PetRow pet={pet} />
+                    {index < newPets.length - 1 && <div className="border-b" />}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
         </TabsContent>
         
         <TabsContent value="breeds" className="mt-4">
-           <div className="columns-2 gap-2 space-y-2">
+           <div className="grid grid-cols-2 gap-2">
               {breeds.map(breed => (
                   <BreedCard key={breed.name} breed={breed} />
               ))}
