@@ -35,7 +35,7 @@ export default function RootLayout({
             <div className="container max-w-screen-2xl mx-auto flex gap-x-6 px-4">
 
               {/* Left Sidebar */}
-              <div className="w-64 flex-shrink-0 hidden lg:block">
+              <div className="w-64 flex-shrink-0 hidden md:block">
                 <aside className="sticky top-20 h-[calc(100vh-5rem)]">
                   <Sidebar />
                 </aside>
