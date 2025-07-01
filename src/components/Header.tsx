@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PawPrint, Home, Menu, Compass, Bell, MessageCircle, Bookmark, Users, Settings, PlusCircle, Sun } from 'lucide-react';
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const user = getUserById(1);
@@ -34,8 +36,8 @@ const Header = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-card">
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between mx-auto px-4">
+    <header className="sticky top-0 z-40 border-b bg-card">
+      <div className="container max-w-screen-2xl mx-auto flex h-16 items-center justify-between">
         {/* Left side */}
         <div className="flex items-center gap-2">
           <Sheet>
@@ -61,7 +63,7 @@ const Header = () => {
                     </SheetClose>
                 </div>
                 <div className="flex-1 overflow-y-auto py-4">
-                    <nav className="px-4 space-y-1">
+                    <div className="px-4 space-y-1">
                     {menuItems.map((item) => (
                         <SheetClose asChild key={item.href}>
                             <Button
@@ -76,7 +78,7 @@ const Header = () => {
                             </Button>
                         </SheetClose>
                     ))}
-                    </nav>
+                    </div>
 
                     <Separator className="my-4" />
 
