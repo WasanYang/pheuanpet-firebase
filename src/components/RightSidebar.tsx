@@ -25,7 +25,7 @@ export default function RightSidebar() {
   const trendingPets = getTrendingPets();
 
   return (
-    <aside className="w-80 sticky top-20 h-fit">
+    <aside className="sticky top-20 h-fit">
         <div className="space-y-6">
             <Card>
                 <CardHeader className="p-4 pb-2">

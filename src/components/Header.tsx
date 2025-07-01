@@ -151,7 +151,7 @@ const Header = () => {
         <div className="hidden md:flex h-16 items-center justify-center gap-x-6">
           
           {/* Left Aligner - Mirrors left sidebar */}
-          <div className="w-64 flex-shrink-0">
+          <div className="w-56 flex-shrink-0">
             <div className="px-4">
               <Link href="/" className="flex items-center space-x-3">
                 <PawPrint className="h-8 w-8 text-primary" />
@@ -161,7 +161,7 @@ const Header = () => {
           </div>
           
           {/* Middle Content Aligner - Mirrors main content */}
-          <div className="w-full max-w-[606px] md:max-w-[738px]">
+          <div className="w-full max-w-[606px] md:max-w-[770px]">
              {/* Icons for Medium Screens (when right sidebar is hidden) */}
              <div className="flex w-full justify-end items-center px-4 xl:hidden">
               {desktopIcons}
