@@ -49,6 +49,11 @@ export interface Expert {
   costPerMessage: number;
 }
 
+export interface Breed {
+    name: string;
+    imageUrl: string;
+}
+
 const users: User[] = [
   { id: 1, name: 'Malee', avatarUrl: 'https://placehold.co/100x100.png' },
   { id: 2, name: 'Somsak', avatarUrl: 'https://placehold.co/100x100.png' },
@@ -116,6 +121,7 @@ const posts: Post[] = [
     petId: 3,
     media: [
       { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+      { type: 'image', url: 'https://placehold.co/800x600.png' },
     ],
     caption: '<p>My favorite toy! I could chase this for hours. My human says I\'m obsessed, but I call it dedication. #doglife #playtime</p>',
     likes: 431,
@@ -161,6 +167,7 @@ const posts: Post[] = [
     petId: 1,
     media: [
       { type: 'video', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+      { type: 'image', url: 'https://placehold.co/800x600.png' },
     ],
     caption: '<h1>My hunting skills are top-notch.</h1><p>This feather didn\'t stand a chance. It\'s important to stay sharp.</p>',
     likes: 215,
@@ -262,6 +269,23 @@ const experts: Expert[] = [
   },
 ];
 
+const trendingPetsData: Omit<Pet, 'age' | 'personality' | 'ownerId'>[] = [
+    { id: 101, name: 'Charlie', breed: 'French Bulldog', avatarUrl: 'https://placehold.co/100x100.png' },
+    { id: 102, name: 'Bella', breed: 'Siamese Cat', avatarUrl: 'https://placehold.co/100x100.png' },
+    { id: 103, name: 'Cooper', breed: 'Golden Retriever', avatarUrl: 'https://placehold.co/100x100.png' },
+    { id: 104, name: 'Luna', breed: 'Maine Coon', avatarUrl: 'https://placehold.co/100x100.png' },
+];
+
+const breedsData: Breed[] = [
+    { name: 'Golden Retriever', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Siamese Cat', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'French Bulldog', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Thai Ridgeback', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Maine Coon', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Beagle', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Persian Cat', imageUrl: 'https://placehold.co/200x200.png' },
+    { name: 'Poodle', imageUrl: 'https://placehold.co/200x200.png' },
+];
 
 export const getUsers = (): User[] => users;
 export const getUserById = (id: number): User | undefined => users.find(u => u.id === id);
@@ -279,3 +303,7 @@ export const getCommentsByPostId = (postId: number): Comment[] => comments.filte
 export const getExperts = (): Expert[] => experts;
 export const getExpertById = (id: number): Expert | undefined => experts.find(e => e.id === id);
 export const getExpertByUserId = (userId: number): Expert | undefined => experts.find(e => e.userId === userId);
+
+export const getTrendingPets = (): Pet[] => trendingPetsData.map(p => ({...p, age: 3, personality: 'A very popular pet!', ownerId: 0}));
+
+export const getBreeds = (): Breed[] => breedsData;

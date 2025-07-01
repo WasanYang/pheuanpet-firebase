@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pet } from "@/lib/data";
+import { Pet, getTrendingPets } from "@/lib/data";
 import { TrendingUp } from "lucide-react";
 import Link from "next/link";
 
@@ -21,15 +21,8 @@ const TrendingPetItem = ({ pet }: { pet: Pet }) => (
   </div>
 );
 
-const trendingPetsData: Omit<Pet, 'age' | 'personality' | 'ownerId'>[] = [
-    { id: 101, name: 'Charlie', breed: 'French Bulldog', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 102, name: 'Bella', breed: 'Siamese Cat', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 103, name: 'Cooper', breed: 'Golden Retriever', avatarUrl: 'https://placehold.co/100x100.png' },
-    { id: 104, name: 'Luna', breed: 'Maine Coon', avatarUrl: 'https://placehold.co/100x100.png' },
-];
-
 export default function RightSidebar() {
-  const trendingPets: Pet[] = trendingPetsData.map(p => ({...p, age: 3, personality: '', ownerId: 0}));
+  const trendingPets = getTrendingPets();
 
   return (
     <aside className="w-80 sticky top-20 h-fit">
