@@ -53,7 +53,7 @@ const PostCard = ({ post }: { post: Post }) => {
     return (
       <Card className="overflow-hidden flex flex-col group border shadow-sm rounded-lg">
         <Link href={`/posts/${post.id}`} className="block">
-          <div className="relative aspect-[4/3] w-full bg-muted overflow-hidden">
+          <div className="relative aspect-[4/5] w-full bg-muted overflow-hidden">
             <Image
               src={post.media.find(m => m.type === 'image')?.url || 'https://placehold.co/400x300.png'}
               alt={post.caption || `Post by ${pet.name}`}
